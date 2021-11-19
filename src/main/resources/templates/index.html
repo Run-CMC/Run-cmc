@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security" lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>Run//CMC</title>
+</head>
+<body>
+	<h1>Run//CMC</h1>
+	<div>
+		Run//CMC is an online community centered around sharing and discussing one's favorite albums in the topster format.
+		Feel free to explore user profiles, topsters, and discussions, but the full Run//CMC experience won't be open to you until you register and log in.
+	</div>
+
+<!--	Login -->
+	<h1>Log In</h1>
+	<div th:if="${param.error}">
+		Invalid Username and Password.
+	</div>
+	<div th:if="${param.logout}">
+		You have been logged out.
+	</div>
+	<div>
+		<form th:action="@{/login}" method="post">
+			<label for="username">Username</label>
+			<input id="username" name="username" type="text" />
+			<label for="password">Password</label>
+			<input id="password" name="password" type="password" />
+			<input type="submit" value="Log In" />
+		</form>
+	</div>
+	<div>
+		<a th:href="register"><button>Register</button></a>
+	</div>
+</body>
+</html>
