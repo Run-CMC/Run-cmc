@@ -34,25 +34,44 @@ public class User {
             inverseJoinColumns = { @JoinColumn(name = "topster_id") })
     private List<Topster> favoritedTopsters;
 
-    public User(String username, String email, String password) {
+    public User(String username, String email, String password, String bio) {
         this.username = username;
         this.email = email;
         this.password = password;
+        this.bio= bio;
     }
 
-    public User(long id, String username, String email, String password) {
+    public User(long id, String username, String email, String password, String bio) {
         this.id = id;
         this.username = username;
         this.email = email;
         this.password = password;
+        this.bio = bio;
     }
     public User(){}
 
     public User(User user){
         this.id = user.getId();
         this.email = user.getEmail();
+        this.bio = user.getBio();
         this.username = user.getUsername();
         this.password = user.getPassword();
+    }
+
+    public String getBio() {
+        return bio;
+    }
+
+    public List<Topster> getFavoritedTopsters() {
+        return favoritedTopsters;
+    }
+
+    public void setFavoritedTopsters(List<Topster> favoritedTopsters) {
+        this.favoritedTopsters = favoritedTopsters;
+    }
+
+    public void setBio(String bio) {
+        this.bio = bio;
     }
 
     public long getId() {
