@@ -15,7 +15,7 @@ public class TopsterContent {
     @JoinColumn(name="topster_id")
     private Topster topster;
 
-    @Column
+    @Column (name= "spotify_album_id")
     private long spotifyAlbumID;
 
     @Column

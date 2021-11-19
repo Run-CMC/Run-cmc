@@ -19,11 +19,20 @@ public class User {
     @Column
     private String password;
 
+    @Column
+    private String bio;
+
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "user")
     private List<Topster> topsters;
 
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "user")
     private List<Comment> comments;
+
+    @ManyToMany
+    @JoinTable(name = "favorites",
+            joinColumns = { @JoinColumn(name = "user_id") },
+            inverseJoinColumns = { @JoinColumn(name = "topster_id") })
+    private List<Topster> favoritedTopsters;
 
     public User(String username, String email, String password) {
         this.username = username;

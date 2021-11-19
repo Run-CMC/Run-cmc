@@ -20,11 +20,11 @@ public class Topster {
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "topster")
     private List<TopsterContent> albums; //each 'TopsterContent' is essentially an album. Maybe this is more confusing?
 
-//    @ManyToMany
-//    @JoinTable(name = "favorites",
-//            joinColumns = { @JoinColumn(name = "fk_topster") },
-//            inverseJoinColumns = { @JoinColumn(name = "fk_user") })
-//    private User  = new HashSet<Product>();
+    @ManyToMany
+    @JoinTable(name = "favorites",
+            joinColumns = { @JoinColumn(name = "topster_id") },
+            inverseJoinColumns = { @JoinColumn(name = "user_id") })
+    private List<User> usersWhoFavorited;
 
     @Column
     private String title;
