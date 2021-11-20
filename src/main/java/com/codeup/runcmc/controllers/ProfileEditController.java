@@ -10,9 +10,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 public class ProfileEditController {
 
     @GetMapping("/profile-edit")
-    @ResponseBody // might not need this annotation
     public String profileEdit() {
-        return "/profile-edit.html";
+        return "/user/profile-edit.html";
     }
 }
-//

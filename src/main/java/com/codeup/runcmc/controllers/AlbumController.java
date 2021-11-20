@@ -8,7 +8,6 @@ import org.springframework.web.bind.annotation.ResponseBody;
 public class AlbumController {
 
     @GetMapping("/album")
-    @ResponseBody
     public String album() {
         return "/album.html";
     }
