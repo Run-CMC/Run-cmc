@@ -10,4 +10,6 @@ public class TopsterController {
     public String showIndividualTopsterPage(){
         return "/topster.html";
     }
+
+
 }
