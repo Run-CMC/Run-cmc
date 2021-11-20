@@ -13,3 +13,4 @@ public class AlbumController {
         return "/album.html";
     }
 }
+//
