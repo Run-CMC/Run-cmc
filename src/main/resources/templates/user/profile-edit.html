@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Edit your User Profile!</title>
+</head>
+<body>
+    <h1>Edit your User Profile!</h1>
+    <div>
+        <form th:action="@{/profile-edit}" method="POST">
+            <label for="username">Username</label>
+            <input id="username" name="username" type="text" />
+            <br>
+            <br>
+            <label for="email">Email</label>
+             <input id="email" name="email" type="text" />
+            <br>
+            <br>
+            <label for="password">Password</label>
+            <input id="password" name="password" type="password" /> <!--if I set type to password, the input is "hidden"-->
+            <br>
+            <br>
+            <label for="bio">Bio</label>
+            <input id="bio" name="bio" type="text" /> <!--how do I get a textarea?-->
+        </form>
+    </div>
+    <br>
+    <div>
+        <input value="Submit edits" type="submit" />
+    </div>
+</body>
+</html>
