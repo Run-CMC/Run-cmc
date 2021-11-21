@@ -12,4 +12,9 @@ public class UserController {
         model.addAttribute("user", new User());
         return "/register.html";
     }
+
+    @GetMapping("/profile")
+	String showProfile(){
+    	return "/user/profile.html";
+    }
 }
