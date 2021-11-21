@@ -15,6 +15,6 @@ public class UserController {
 
     @GetMapping("/profile")
 	String showProfile(){
-    	return "/user/profile.html";
+    	return "user/profile.html";
     }
 }
