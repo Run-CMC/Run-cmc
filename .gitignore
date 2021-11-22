@@ -31,4 +31,7 @@ build/
 
 ### VS Code ###
 .vscode/
+
+### Application Properties ###
 src/main/resources/application.properties
+src/main/java/com/codeup/runcmc/services/RestTemplateTokenRequester.java
