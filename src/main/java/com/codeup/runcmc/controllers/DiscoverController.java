@@ -9,6 +9,6 @@ public class DiscoverController {
 
     @GetMapping("/discover")
     public String landingPage() {
-        return "/discover.html";
+        return "discover.html";
     }
 }

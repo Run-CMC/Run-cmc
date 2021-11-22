@@ -11,6 +11,6 @@ public class ProfileEditController {
 
     @GetMapping("/profile-edit")
     public String profileEdit() {
-        return "/user/profile-edit.html";
+        return "user/profile-edit.html";
     }
 }

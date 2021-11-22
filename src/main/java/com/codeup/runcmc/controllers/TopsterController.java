@@ -8,6 +8,6 @@ public class TopsterController {
 
     @GetMapping("discover/topster/{id}")
     public String showIndividualTopsterPage(){
-        return "/topster.html";
+        return "topster.html";
     }
 }
