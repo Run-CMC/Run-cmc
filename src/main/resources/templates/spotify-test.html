@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+
+<textarea id="results"></textarea><br>
+<input id="search-bar" type="text">
+<button id="search-button">Search</button>
+
+<script>
+'use strict';
+let client_id = ""; //will remove from github so the API key police don't come for me
+let client_secret = "";
+
+const searchBar = $("#search-bar");
+const searchButton = $("#search-button");
+const searchResults = $("#results");
+
+searchButton.click(function (){
+    console.log(searchBar.val());
+    let options = {
+        method: "Get",
+        Content_Type: 'application/json',
+        Authorization: access_token,
+        Host: "api.spotify.com"
+    };
+    fetch("https://api.spotify.com/v1/search?type=album,artist&q="+ searchBar.val(), options)
+        .then(function(data) {
+            console.log(data);
+            // handleApiResponse();
+            searchResults.val(data);
+        })
+        .catch(error => console.error(error));
+});
+
+
+
+</script>
+
+
+</body>
+</html>
