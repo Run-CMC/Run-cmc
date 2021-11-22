@@ -10,7 +10,7 @@ public class UserController {
     @GetMapping("/register")
     String showRegisterPage(Model model){
         model.addAttribute("user", new User());
-        return "/register.html";
+        return "register.html";
     }
 
     @GetMapping("/profile")

@@ -8,6 +8,6 @@ public class LoginController {
 
     @GetMapping("/")
     String showHomePage(){
-        return "/index.html";
+        return "index.html";
     }
 }
