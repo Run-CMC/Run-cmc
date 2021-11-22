@@ -10,4 +10,10 @@ public class TopsterController {
     public String showIndividualTopsterPage(){
         return "topster.html";
     }
+
+    @GetMapping("/edit-topster")
+    public String showEditProfilePage(){ return "user/edit-topster";}
+
+    @GetMapping("/create-topster")
+    public String showCreateTopsterPage (){ return "create-topster";}
 }
