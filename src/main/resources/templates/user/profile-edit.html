@@ -1,33 +1,38 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org" lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>Edit your User Profile!</title>
+<head th:replace="partials/partials.html :: head ('Edit Your Profile')">
 </head>
 <body>
-    <h1>Edit your User Profile!</h1>
-    <div>
-        <form th:action="@{/profile-edit}" method="POST">
-            <label for="username">Username</label>
-            <input id="username" name="username" type="text" />
-            <br>
-            <br>
-            <label for="email">Email</label>
-             <input id="email" name="email" type="text" />
-            <br>
-            <br>
-            <label for="password">Password</label>
-            <input id="password" name="password" type="password" /> <!--if I set type to password, the input is "hidden"-->
-            <br>
-            <br>
-            <label for="bio">Bio</label>
-            <input id="bio" name="bio" type="text" /> <!--how do I get a textarea?-->
-        </form>
-    </div>
-    <br>
-    <div>
-        <input value="Submit edits" type="submit" />
-    </div>
+	<nav th:replace="partials/partials.html :: navbar"></nav>
+	<main>
+	    <h1>Edit your User Profile!</h1>
+	    <div>
+	        <form th:action="@{/profile-edit}" method="POST">
+		        <div class="form-outline col-4">
+			        <input type="text" id="typeText" class="form-control" />
+			        <label class="form-label" for="typeText">Username</label>
+		        </div>
+		        <br>
+		        <div class="form-outline col-4">
+			        <input type="email" id="typeEmail" class="form-control" />
+			        <label class="form-label" for="typeEmail">Email</label>
+		        </div>
+		        <br>
+		        <div class="form-outline col-4">
+			        <input type="password" id="typePassword" class="form-control" />
+			        <label class="form-label" for="typePassword">!--if I set type to password, the input is "hidden"--></label>
+		        </div>
+		        <br>
+		        <div class="form-outline col-4">
+			        <textarea class="form-control" id="textAreaExample" rows="6"></textarea>
+			        <label class="form-label" for="textAreaExample">!-- how do I get a text area --></label>
+		        </div>
+		        <br>
+		        <input class="btn btn-primary" type="submit" value="Submit" />
+	        </form>
+	    </div>
+	</main>
+	<script th:replace="partials/partials.html :: md-js"></script>
 </body>
 </html>
 <!---->
