@@ -1,10 +1,172 @@
 <!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>Create a Topster</title>
+<html xmlns:th="http://www.thymeleaf.org" lang="en">
+<head th:replace="partials/partials.html :: head ('Create A Topster')">
 </head>
-<body>
-    <h1>Create a topster!</h1>
+<body onload="onPageLoad()">
+    <nav th:replace="partials/partials.html :: navbar"></nav>
+    <main>
+        <h1>Create a topster!</h1>
+
+    <!--    <div id="album-art"></div><br>-->
+        <input id="search-bar" type="text">
+        <button id="search-button">Search</button>
+        <div id="results" class="row"></div><br>
+
+    </main>
+    <script th:replace="partials/partials.html :: md-js"></script>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js" integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4=" crossorigin="anonymous"></script>
+    <script src="/keys.js"></script>
+    <script>
+        'use strict';
+
+        const searchBar = $("#search-bar");
+        const searchButton = $("#search-button");
+        const searchResults = document.querySelector("#results");
+        const albumArtDiv= document.querySelector("#album-art");
+
+        //Following guide at https://www.youtube.com/watch?v=1vR3m0HupGI&ab_channel=MakerAtPlayCoding
+        var redirect_uri = "http://localhost:8080/create-topster";
+        const AUTHORIZE = "https://accounts.spotify.com/authorize";
+        const TOKEN = "https://accounts.spotify.com/api/token";
+
+        var access_token = null;
+        var refresh_token = null;
+
+        function onPageLoad(){
+            if(window.location.search.length > 0){
+                handleRedirect();
+            }
+        }
+
+        function handleRedirect(){
+            let code = getCode();
+            fetchAccessToken( code );
+            window.history.pushState("", "", redirect_uri); // remove param from url
+        }
+
+        function fetchAccessToken( code ){
+            let body = "grant_type=client_credentials";
+            body += "&code=" + code;
+            body += "&redirect_uri=" + encodeURI(redirect_uri);
+            body += "&client_id=" + SPOTIFY_CLIENT_ID;
+            body += "&client_secret=" + SPOTIFY_CLIENT_SECRET;
+            callAuthorizationApi(body);
+        }
+        function getCode(){
+            let code = null;
+            const queryString = window.location.search;
+            if ( queryString.length > 0 ){
+                const urlParams = new URLSearchParams(queryString);
+                code = urlParams.get('code')
+            }
+            return code;
+        }
+
+        function callAuthorizationApi(body){
+            let xhr = new XMLHttpRequest();
+            xhr.open("POST", TOKEN, true);
+            xhr.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
+            xhr.setRequestHeader('Authorization', 'Basic ' + btoa(SPOTIFY_CLIENT_ID + ":" + SPOTIFY_CLIENT_SECRET));
+            xhr.send(body);
+            xhr.onload = handleAuthorizationResponse;
+        }
+
+        function handleAuthorizationResponse(){
+            if ( this.status == 200 ){
+                var data = JSON.parse(this.responseText);
+                console.log(data);
+                var data = JSON.parse(this.responseText);
+
+                access_token = data.access_token;
+                localStorage.setItem("access_token", access_token);
+
+                if ( data.refresh_token  != undefined ){
+                    refresh_token = data.refresh_token;
+                    localStorage.setItem("refresh_token", refresh_token);
+                }
+                onPageLoad();
+            }
+            else {
+                console.log(this.responseText);
+                alert(this.responseText);
+            }
+        }
+
+        function requestAuthorization(){
+
+            localStorage.setItem("client_id", SPOTIFY_CLIENT_ID);
+            localStorage.setItem("client_secret", SPOTIFY_CLIENT_SECRET);
+
+            let url = AUTHORIZE;
+            url += "?client_id=" + SPOTIFY_CLIENT_ID;
+            url += "&response_type=code";
+            url += "&redirect_uri=" + encodeURI(redirect_uri);
+            url += "&shot_dialogue=true";
+            url += "&scope=user-read-private user-read-email user-modify-playback-state user-read-playback-position user-library-read streaming user-read-playback-state user-read-recently-played playlist-read-private";
+            window.location.href = url;
+        }
+
+        function refreshAccessToken(){
+            refresh_token = localStorage.getItem("refresh_token");
+            let body = "grant_type=refresh_token";
+            body += "&refresh_token=" + refresh_token;
+            body += "&client_id=" + SPOTIFY_CLIENT_ID;
+            callAuthorizationApi(body);
+        }
+
+        function handleApiResponse(){
+            if ( this.status == 200){
+                console.log(this.responseText);
+                setTimeout(currentlyPlaying, 2000);
+            }
+            else if ( this.status == 204 ){
+                setTimeout(currentlyPlaying, 2000);
+            }
+            else if ( this.status == 401 ){
+                refreshAccessToken()
+            }
+            else {
+                console.log(this.responseText);
+                alert(this.responseText);
+            }
+        }
+
+        searchButton.click(function (){
+            console.log(searchBar.val());
+            let options = {
+                headers: {
+                    Accept: "application/json",
+                    Authorization: "Bearer "+access_token,
+                    "Content-Type": "application/json"
+                },
+                method: "Get"
+            };
+
+            fetch("https://api.spotify.com/v1/search?q=" + searchBar.val() +"&type=album,artist", options)
+                    .then(res => res.json())
+                    .then(data => {
+                        console.log(data);
+                        searchResults.innerHTML = "";
+                        data.albums.items.forEach(function (album){
+                            let albumString = "Artist: " + album.artists[0].name;
+                            albumString += "<br>Album: "+ album.name;
+                            albumString += "<br>Release Date: "+ album.release_date;
+                            let albumArtUrl = album.images[0].url;
+                            console.log(albumArtUrl);
+                            console.log(albumString);
+                            searchResults.innerHTML +=
+                                    `<div class="search-result col-4">
+                                        <img src="${albumArtUrl}" alt="${album.name} cover art" width="120" height="120">
+                                        <div class="album-details">
+                                            ${albumString}
+                                        </div>
+                                    </div>`;
+                            // searchResults.innerText += albumString;
+                        });
+                    })
+                    .catch(error => console.error(error));
+        });
+
+    </script>
 </body>
 </html>
