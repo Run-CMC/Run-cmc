@@ -1,17 +1,19 @@
 <!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>Create a Topster</title>
+<html xmlns:th="http://www.thymeleaf.org" lang="en">
+<head th:replace="partials/partials.html :: head ('Create A Topster')">
 </head>
 <body onload="onPageLoad()">
-    <h1>Create a topster!</h1>
+    <nav th:replace="partials/partials.html :: navbar"></nav>
+    <main>
+        <h1>Create a topster!</h1>
 
-    <div id="album-art"></div><br>
-    <div id="results"></div><br>
-    <input id="search-bar" type="text">
-    <button id="search-button">Search</button>
+    <!--    <div id="album-art"></div><br>-->
+        <input id="search-bar" type="text">
+        <button id="search-button">Search</button>
+        <div id="results" class="row"></div><br>
 
+    </main>
+    <script th:replace="partials/partials.html :: md-js"></script>
     <script src="https://code.jquery.com/jquery-3.6.0.min.js" integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4=" crossorigin="anonymous"></script>
     <script src="/keys.js"></script>
     <script>
@@ -144,15 +146,22 @@
                     .then(res => res.json())
                     .then(data => {
                         console.log(data);
+                        searchResults.innerHTML = "";
                         data.albums.items.forEach(function (album){
                             let albumString = "Artist: " + album.artists[0].name;
-                            albumString += "\nAlbum: "+ album.name;
-                            albumString += "\nRelease Date: "+ album.release_date;
+                            albumString += "<br>Album: "+ album.name;
+                            albumString += "<br>Release Date: "+ album.release_date;
                             let albumArtUrl = album.images[0].url;
                             console.log(albumArtUrl);
                             console.log(albumString);
-                            searchResults.innerText += albumString;
-                            albumArtDiv.innerHTML = `<img src="${albumArtUrl}" alt="${album.name} cover art" width="150" height="150">`;
+                            searchResults.innerHTML +=
+                                    `<div class="search-result col-4">
+                                        <img src="${albumArtUrl}" alt="${album.name} cover art" width="120" height="120">
+                                        <div class="album-details">
+                                            ${albumString}
+                                        </div>
+                                    </div>`;
+                            // searchResults.innerText += albumString;
                         });
                     })
                     .catch(error => console.error(error));
