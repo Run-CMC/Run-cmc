@@ -47,7 +47,10 @@
 					role="tabpanel"
 					aria-labelledby="my-topsters-tab"
 			>
-				These are my topsters I created.
+				<div id="my-topster-tab-content" class="row">
+					<div th:replace="partials/4x4-topster.html :: 4x4-topster"></div>
+					<div th:replace="partials/3x3-topster.html :: 3x3-topster"></div>
+				</div>
 			</div>
 			<div class="tab-pane fade" id="favorite-topsters" role="tabpanel" aria-labelledby="favorite-topsters-tab">
 				These are my favorite topsters.
