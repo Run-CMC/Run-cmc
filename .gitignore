@@ -34,4 +34,6 @@ build/
 
 ### Application Properties ###
 src/main/resources/application.properties
+
+### API Keys in RestTemplateTokenRequester ###
 src/main/java/com/codeup/runcmc/services/RestTemplateTokenRequester.java
