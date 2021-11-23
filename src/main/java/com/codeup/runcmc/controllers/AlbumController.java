@@ -9,7 +9,7 @@ public class AlbumController {
 
     @GetMapping("/album")
     public String album() {
-        return "/album.html";
+        return "album.html";
     }
 }
 //
