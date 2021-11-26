@@ -50,6 +50,14 @@ public class User {
     }
     public User(){}
 
+    // Do we need this?
+//    public User(User copy) {
+//        id = copy.id; // This line is SUPER important! Many things won't work if it's absent
+//        email = copy.email;
+//        username = copy.username;
+//        password = copy.password;
+//    }
+
     public User(User user){
         this.id = user.getId();
         this.email = user.getEmail();
