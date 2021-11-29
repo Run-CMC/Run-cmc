@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org" lang="en">
+<html xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.w3.org/1999/xhtml" lang="en">
 <head th:fragment="head (title)">
 	<meta charset="UTF-8">
 	<title th:text="${title}"></title>
@@ -41,7 +41,7 @@
 				<!-- Left links -->
 				<ul class="navbar-nav ms-auto mb-2 mb-lg-0">
 					<li class="nav-item">
-						<a class="nav-link" th:href="@{/about}">About Us</a>
+						<a class="nav-link" th:href="@{/discover}">Discover</a>
 					</li>
 					<li class="nav-item">
 						<a class="nav-link" th:href="@{/profile}">Profile</a>
@@ -49,16 +49,19 @@
 					<li class="nav-item">
 						<a class="nav-link" th:href="@{/create}">Create a new topster</a>
 					</li>
+					<li sec:authorize="!isAuthenticated()">
+						<a class="btn btn-primary btn-small active" th:href="@{/login}" role="button" >Login</a>
+					</li>
+					<li sec:authorize="isAuthenticated()">
+						<form th:action="@{/logout}" th:method="POST">
+							<button class="btn btn-primary btn-small active" sec:authorize="isAuthenticated()">Logout</button> <!-- I added this (**) -->
+						</form>
+					</li>
+					<li sec:authorize="!isAuthenticated()">
+						<a class="btn btn-primary btn-small" th:href="@{/register}" role="button">Sign Up</a>
+					</li>
 				</ul>
 				<!-- Left links -->
-
-				<div class="d-grid gap-2 d-md-block">
-					<a class="btn btn-primary btn-small active" th:href="@{/}" role="button">Login</a>
-					<form th:action="@{/logout}" th:method="POST">
-						<button class="btn btn-primary btn-small active">Logout</button> <!-- I added this (**) -->
-					</form>
-					<a class="btn btn-primary btn-small" th:href="@{/register}" role="button">Sign Up</a>
-				</div>
 			</div>
 			<!-- Collapsible wrapper -->
 		</div>
