@@ -51,9 +51,12 @@
 					</li>
 				</ul>
 				<!-- Left links -->
-				
+
 				<div class="d-grid gap-2 d-md-block">
 					<a class="btn btn-primary btn-small active" th:href="@{/}" role="button">Login</a>
+					<form th:action="@{/logout}" th:method="POST">
+						<button class="btn btn-primary btn-small active">Logout</button> <!-- I added this (**) -->
+					</form>
 					<a class="btn btn-primary btn-small" th:href="@{/register}" role="button">Sign Up</a>
 				</div>
 			</div>
