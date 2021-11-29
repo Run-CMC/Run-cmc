@@ -12,6 +12,7 @@ public class LoginController {
         return "user/login.html";
     }
 
+
 //    @PostMapping("/")
 //    String login() {
 //        return "redirect:/discover";
