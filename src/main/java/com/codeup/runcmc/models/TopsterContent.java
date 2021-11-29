@@ -12,30 +12,16 @@ public class TopsterContent {
     private long id;
 
     @ManyToOne
-    @JoinColumn(name="topster_id")
+    @JoinColumn(name = "topster_id")
     private Topster topster;
 
-    @Column (name= "spotify_album_id")
-    private long spotifyAlbumID;
+    @ManyToOne
+    @JoinColumn(name = "album_id")
+    private Album album;
 
-    @Column
-    private String spotifyAlbumName;
-
-    @Column
-    private String spotifyAlbumArt;
-
-    @Column
-    private String spotifyArtist;
-
-    @Column
-    private Date releaseDate;
-
-    @Column
-    private String genre;
 
     @Column
     private int position;
-
 
     public long getId() {
         return id;
@@ -53,52 +39,12 @@ public class TopsterContent {
         this.topster = topster;
     }
 
-    public long getSpotifyAlbumID() {
-        return spotifyAlbumID;
+    public Album getAlbum() {
+        return album;
     }
 
-    public void setSpotifyAlbumID(long spotifyAlbumID) {
-        this.spotifyAlbumID = spotifyAlbumID;
-    }
-
-    public String getSpotifyAlbumName() {
-        return spotifyAlbumName;
-    }
-
-    public void setSpotifyAlbumName(String spotifyAlbumName) {
-        this.spotifyAlbumName = spotifyAlbumName;
-    }
-
-    public String getSpotifyAlbumArt() {
-        return spotifyAlbumArt;
-    }
-
-    public void setSpotifyAlbumArt(String spotifyAlbumArt) {
-        this.spotifyAlbumArt = spotifyAlbumArt;
-    }
-
-    public String getSpotifyArtist() {
-        return spotifyArtist;
-    }
-
-    public void setSpotifyArtist(String spotifyArtist) {
-        this.spotifyArtist = spotifyArtist;
-    }
-
-    public Date getReleaseDate() {
-        return releaseDate;
-    }
-
-    public void setReleaseDate(Date releaseDate) {
-        this.releaseDate = releaseDate;
-    }
-
-    public String getGenre() {
-        return genre;
-    }
-
-    public void setGenre(String genre) {
-        this.genre = genre;
+    public void setAlbum(Album album) {
+        this.album = album;
     }
 
     public int getPosition() {

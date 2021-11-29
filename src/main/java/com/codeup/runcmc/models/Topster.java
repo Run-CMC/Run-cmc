@@ -18,7 +18,7 @@ public class Topster {
     private List<Comment> comments;
 
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "topster")
-    private List<TopsterContent> albums; //each 'TopsterContent' is essentially an album. Maybe this is more confusing?
+    private List<TopsterContent> topsterContents; //each 'TopsterContent' is essentially an album. Maybe this is more confusing?
 
     @ManyToMany
     @JoinTable(name = "favorites",
@@ -35,6 +35,21 @@ public class Topster {
     @Column
     private boolean isPublic;
 
+    public List<TopsterContent> getTopsterContents() {
+        return topsterContents;
+    }
+
+    public void setTopsterContents(List<TopsterContent> topsterContents) {
+        this.topsterContents = topsterContents;
+    }
+
+    public List<User> getUsersWhoFavorited() {
+        return usersWhoFavorited;
+    }
+
+    public void setUsersWhoFavorited(List<User> usersWhoFavorited) {
+        this.usersWhoFavorited = usersWhoFavorited;
+    }
 
     public long getId() {
         return id;
@@ -60,13 +75,6 @@ public class Topster {
         this.comments = comments;
     }
 
-    public List<TopsterContent> getAlbums() {
-        return albums;
-    }
-
-    public void setAlbums(List<TopsterContent> albums) {
-        this.albums = albums;
-    }
 
     public String getTitle() {
         return title;
