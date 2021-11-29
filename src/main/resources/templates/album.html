@@ -1,11 +1,21 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
 <head>
     <meta charset="UTF-8">
     <title>Album Page</title>
 </head>
 <body>
-    <h1>View the highlighted album here!</h1>
+<h1>View the highlighted album here!</h1>
+
+<main class="container">
+
+
+    <h3 th:text="${album.albumName}"></h3>
+    <img th:src="${album.albumArt}" alt="album art" width="200"/>
+    <h3 th:text="${album.artist}"></h3>
+    <h3 th:text="${album.releaseDate}"></h3>
+
+
+</main>
 </body>
 </html>
-<!---->
