@@ -31,7 +31,6 @@ public class UserController {
 	String showProfile(Model viewModel){
 	    User principal = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
 	    User currentUser = userDao.getById(principal.getId());
-	    System.out.println(currentUser.getId());
 	    viewModel.addAttribute("user", currentUser);
     	return "user/profile.html";
     }

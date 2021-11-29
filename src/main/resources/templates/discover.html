@@ -1,10 +1,10 @@
 <!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>Discover</title>
+<html xmlns:th="http://www.thymeleaf.org" lang="en">
+<head th:replace="partials/partials :: head ('Discover')">
 </head>
 <body>
+<nav th:replace="partials/partials :: navbar"></nav>
 <h1>Discover the Latest Topsters!</h1>
+<script th:replace="partials/partials :: md-js"></script>
 </body>
 </html>
