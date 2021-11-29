@@ -10,7 +10,22 @@
     <!--    <div id="album-art"></div><br>-->
         <input id="search-bar" type="text">
         <button id="search-button">Search</button>
-        <div id="results" class="row"></div><br>
+        <label for="topster-type">Select a topster style</label>
+        <select name="topster-type" id="topster-type" onchange="changeSelection()">
+            <option value="5x5">5x5</option>
+            <option value="4x4" selected>4x4</option>
+            <option value="3x3">3x3</option>
+        </select>
+        <div class="container row">
+            <div class="col-6">
+                <div id="results" class="row"></div>
+            </div>
+
+                <div id="3x3" th:replace="partials/3x3-topster.html :: 3x3-topster" style="display: none"></div>
+                <div id="4x4" th:replace="partials/4x4-topster.html :: 4x4-topster"></div>
+                <div id="5x5" th:replace="partials/5x5-topster.html :: 5x5-topster"></div>
+
+        </div>
 
     </main>
     <script th:replace="partials/partials.html :: md-js"></script>
@@ -19,10 +34,114 @@
     <script>
         'use strict';
 
+        (function (){
+            var _numOfImageSlots = 16;
+            var _numOfImagesPerRow = 4;
+            var _imageMarginBottom = 30;
+            var imageSlots = [];
+            var _selectedImageElement = null,
+                    _originalImageSlot = null,
+                    _originalClickCoords = null;
+            function init(){
+                addImageSlots();
+
+                document.getElementById('dragDrop').addEventListener('mousemove', imageMousemove)
+            }
+
+            var wrap = document.getElementById('dragDrop');
+
+            function addImageSlots(){
+                var len = _numOfImageSlots;
+                var item;
+                for(let i =0; i<len; i++){
+                    item = window.document.createElement('div');
+                    item.setAttribute('class', 'dd-slot');
+                    item.setAttribute('style', 'width:' + (100/_numOfImagesPerRow)+"%;paddint-bottom:" + (100/_numOfImagesPerRow)+";margin-bottom:" + _imageMarginBottom + "px;");
+
+                    item.innerHTML = '<p class="dd-slot-num dd-vc">' + (i+1) +  '</p>';
+                }
+            }
+            function imageMousedown ( event ) {
+                if ( !_selectedImageElement ) {
+                    _selectedImageElement = event.currentTarget;
+                    _originalClickCoords = { x: event.pageX, y: event.pageY };
+                    _originalImageSlot = getIndexOfImageId( _selectedImageElement.getAttribute('data-image-id') );
+                    _selectedImageElement.classList.add('dd-selected');
+                    _selectedImageElement.classList.remove('dd-transition');
+                }
+            }
+
+            function getSlotIdByCoords ( coords ) {
+                // Get the current slot being hovered over
+                for ( var id in _imageSlots ) {
+                    var slot = _imageSlots[id];
+                    if ( slot.x <= coords.x && coords.x <= slot.x + slot.width && slot.y <= coords.y && coords.y <= slot.y + slot.height )
+                        return id;
+                }
+            }
+
+            function imageMousemove ( event ) {
+
+                if ( _selectedImageElement ) {
+
+                    var wrap = _doc.getElementById('dragDrop'),
+                            bounds = wrap.getBoundingClientRect(),
+                            left = bounds.left,
+                            top = bounds.top;
+
+                    var pageX = event.pageX,
+                            pageY = event.pageY;
+
+                    var clickX = pageX - left,
+                            clickY = pageY - top,
+                            hoverSlotId = getSlotIdByCoords( { x: clickX, y: clickY } );
+
+                    var ele = _selectedImageElement,
+                            imageId = ele.getAttribute('data-image-id'),
+                            index = _originalImageSlot,
+                            newIndex = getIndexOfImageId( imageId ),
+                            x = _imageSlots[index].x,
+                            y = _imageSlots[index].y;
+
+                    var resultX = x + ( pageX - _originalClickCoords.x ),
+                            resultY = y + ( pageY - _originalClickCoords.y );
+
+                    ele.style.transform = 'translate3d(' + resultX + 'px,' + resultY + 'px,0)';
+
+                }
+
+            }
+
+            function getSlotIdByCoords ( coords ) {
+
+                // Get the current slot being hovered over
+                for ( var id in _imageSlots ) {
+                    var slot = _imageSlots[id];
+                    if ( slot.x <= coords.x && coords.x <= slot.x + slot.width && slot.y <= coords.y && coords.y <= slot.y + slot.height )
+                        return id;
+                }
+            }
+            function getIndexOfImageId ( id ) {
+                var i = 0,
+                        len = _listedImageIds.length;
+
+                for ( ; i < len; i++ )
+                    if ( _listedImageIds[i] == id )
+                        return i;
+            }
+        })();
+
+        // const threeByThreeTopster = $('#3x3');
+        // const fourByFourTopster = $('#4x4');
+        // const fiveByFiveTopster = $('#5x5');
+
+
+
         const searchBar = $("#search-bar");
         const searchButton = $("#search-button");
         const searchResults = document.querySelector("#results");
         const albumArtDiv= document.querySelector("#album-art");
+
 
         //Following guide at https://www.youtube.com/watch?v=1vR3m0HupGI&ab_channel=MakerAtPlayCoding
         var redirect_uri = "http://localhost:8080/create-topster";
@@ -31,6 +150,29 @@
 
         var access_token = null;
         var refresh_token = null;
+
+        function changeSelection(){
+            console.log($("#topster-type").val());
+            switch ($("#topster-type").val()){
+                case "3x3":
+                    $("#3x3").css("display", "block");
+                    $("#4x4").css("display", "none");
+                    $("#5x5").css("display", "none");
+                    break;
+                case "4x4":
+                    $("#3x3").css("display", "none");
+                    $("#4x4").css("display", "block");
+                    $("#5x5").css("display", "none");
+                    break;
+                case "5x5":
+                    $("#3x3").css("display", "none");
+                    $("#4x4").css("display", "none");
+                    $("#5x5").css("display", "block");
+                    break;
+                default:
+                    console.log("This should never happen")
+            }
+        }
 
         function onPageLoad(){
             if(window.location.search.length > 0){
@@ -145,28 +287,44 @@
             fetch("https://api.spotify.com/v1/search?q=" + searchBar.val() +"&type=album,artist", options)
                     .then(res => res.json())
                     .then(data => {
-                        console.log(data);
+                        // console.log(data);
                         searchResults.innerHTML = "";
                         data.albums.items.forEach(function (album){
                             let albumString = "Artist: " + album.artists[0].name;
-                            albumString += "<br>Album: "+ album.name;
-                            albumString += "<br>Release Date: "+ album.release_date;
+                            albumString += "\nAlbum: "+ album.name;
+                            albumString += "\nRelease Date: "+ album.release_date;
                             let albumArtUrl = album.images[0].url;
-                            console.log(albumArtUrl);
-                            console.log(albumString);
+                            // console.log(albumArtUrl);
+                            // console.log(albumString);
                             searchResults.innerHTML +=
                                     `<div class="search-result col-4">
-                                        <img src="${albumArtUrl}" alt="${album.name} cover art" width="120" height="120">
-                                        <div class="album-details">
-                                            ${albumString}
-                                        </div>
+                                        <img title="${albumString}" src="${albumArtUrl}" alt="${album.name} cover art" width="120" height="120" draggable="true">
+<!--                                        <div class="album-details">-->
+<!--                                            ${albumString}-->
+<!--                                        </div>-->
                                     </div>`;
+
+//                            This is code to render the albums as flip cards. However, the css is funky and they move to the side when you mouse over them.
+//                             `
+//                                     <div class="search-result col-4 flip-box">
+//                                         <div class="flip-box-inner">
+//                                             <div class="flip-box-front">
+// <!--                                              Whenever we adjust the size of the image, we'll need to adjust the size of the css flip-box elements accordingly-->
+//                                                 <img src="${albumArtUrl}" alt="${album.name} cover art" class="album-art" width="120" height="120" draggable="true">
+//                                             </div>
+//                                             <div class="album-details flip-box-back">
+//                                                 <p>${albumString}</p>
+//                                             </div>
+//                                         </div>
+//                                     </div>`;
+
                             // searchResults.innerText += albumString;
                         });
                     })
                     .catch(error => console.error(error));
         });
 
+        changeSelection(); //This should cause non-selected topster types to be set to display-none
     </script>
 </body>
 </html>
