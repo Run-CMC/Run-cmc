@@ -3,6 +3,8 @@ target/
 !.mvn/wrapper/maven-wrapper.jar
 !**/src/main/**/target/
 !**/src/test/**/target/
+src/main/resources/static/js/key.js
+keys.js
 
 ### STS ###
 .apt_generated
@@ -37,3 +39,6 @@ src/main/resources/application.properties
 
 ### API Keys in RestTemplateTokenRequester ###
 src/main/java/com/codeup/runcmc/services/RestTemplateTokenRequester.java
+
+### Feature not currently planned ###
+src/main/java/com/codeup/runcmc/configuration/OAuth2LoginSecurityConfig.java
