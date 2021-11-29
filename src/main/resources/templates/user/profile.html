@@ -5,11 +5,12 @@
 <body>
 	<nav th:replace="partials/partials.html :: navbar"></nav>
 	<main>
-		<h1>Profile Page</h1>
-		<!--	<div>-->
-		<!--		<h3 th:text="${username}"></h3>-->
-		<!--		<h3 th:text="${bio}"></h3>-->
-		<!--	</div>-->
+<!--		<h1>Profile Page</h1>-->
+			<div th:object="${user}">
+				<h2 th:text="*{username}"></h2>
+				<p th:text="*{bio}"></p>
+				<a th:href="@{/profile-edit}"><i class="fas fa-pen"></i></a>
+			</div>
 		<ul class="nav nav-tabs mb-3" id="profileTabs" role="tablist">
 			<li class="nav-item" role="presentation">
 				<button
@@ -50,6 +51,7 @@
 				<div id="my-topster-tab-content" class="row">
 					<div th:replace="partials/4x4-topster.html :: 4x4-topster"></div>
 					<div th:replace="partials/3x3-topster.html :: 3x3-topster"></div>
+					<div th:replace="partials/5x5-topster.html :: 5x5-topster"></div>
 				</div>
 			</div>
 			<div class="tab-pane fade" id="favorite-topsters" role="tabpanel" aria-labelledby="favorite-topsters-tab">
