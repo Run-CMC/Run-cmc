@@ -7,24 +7,24 @@
 	<main>
 	    <h1>Edit your User Profile!</h1>
 	    <div>
-	        <form th:action="@{/profile-edit}" method="POST">
+	        <form th:action="@{/profile-edit}" method="POST" th:object="${user}">
 		        <div class="form-outline col-4">
-			        <input type="text" id="typeText" class="form-control" />
+			        <input th:field="*{username}" type="text" id="typeText" class="form-control" />
 			        <label class="form-label" for="typeText">Username</label>
 		        </div>
 		        <br>
 		        <div class="form-outline col-4">
-			        <input type="email" id="typeEmail" class="form-control" />
+			        <input th:field="*{email}" type="email" id="typeEmail" class="form-control" />
 			        <label class="form-label" for="typeEmail">Email</label>
 		        </div>
 		        <br>
 		        <div class="form-outline col-4">
-			        <input type="password" id="typePassword" class="form-control" />
+			        <input th:field="*{password}" type="text" id="typePassword" class="form-control" />
 			        <label class="form-label" for="typePassword">Password</label>
 		        </div>
 		        <br>
 		        <div class="form-outline col-4">
-			        <textarea class="form-control" id="textAreaExample" rows="6"></textarea>
+			        <textarea th:field="*{bio}" class="form-control" id="textAreaExample" rows="6"></textarea>
 			        <label class="form-label" for="textAreaExample">Bio</label>
 		        </div>
 		        <br>
