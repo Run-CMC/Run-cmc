@@ -16,7 +16,7 @@ public class Album {
     private List<TopsterContent> topsterContents;
 
     @Column (name= "spotify_album_id")
-    private long spotifyAlbumID;
+    private String spotifyAlbumID;
 
     @Column
     private String spotifyAlbumName;
@@ -51,11 +51,11 @@ public class Album {
 
 
 
-    public long getSpotifyAlbumID() {
+    public String getSpotifyAlbumID() {
         return spotifyAlbumID;
     }
 
-    public void setSpotifyAlbumID(long spotifyAlbumID) {
+    public void setSpotifyAlbumID(String spotifyAlbumID) {
         this.spotifyAlbumID = spotifyAlbumID;
     }
 
