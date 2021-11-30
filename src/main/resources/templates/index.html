@@ -11,6 +11,7 @@
 	</div>
 
 <!--	Login -->
+<div sec:authorize="!isAuthenticated()">
 	<h1>Log In</h1>
 	<div th:if="${param.error}">
 		Invalid Username and Password.
@@ -19,7 +20,7 @@
 		You have been logged out.
 	</div>
 	<div>
-		<form th:action="@{/login}" method="post">
+		<form th:action="@{/}" method="post">
 			<label for="username">Username</label>
 			<input id="username" name="username" type="text" />
 			<label for="password">Password</label>
@@ -30,6 +31,7 @@
 	<div>
 		<a th:href="register"><button>Register</button></a>
 	</div>
+</div>
 <script th:replace="partials/partials :: md-js"></script>
 </body>
 </html>
