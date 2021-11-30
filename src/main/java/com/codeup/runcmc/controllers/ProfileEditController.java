@@ -3,6 +3,7 @@ package com.codeup.runcmc.controllers;
 import com.codeup.runcmc.models.User;
 import com.codeup.runcmc.repositories.UserRepository;
 import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -13,9 +14,11 @@ import org.springframework.web.bind.annotation.*;
 public class ProfileEditController {
 
     private UserRepository userDao;
+    private PasswordEncoder passwordEncoder;
 
-    public ProfileEditController(UserRepository userDao) {
+    public ProfileEditController(UserRepository userDao, PasswordEncoder passwordEncoder) {
         this.userDao = userDao;
+        this.passwordEncoder = passwordEncoder;
     }
 
     @GetMapping("/profile-edit/{id}")
@@ -26,14 +29,11 @@ public class ProfileEditController {
 
     @PostMapping("/profile-edit/{id}")
     public String updateProfile(@ModelAttribute User user) {
-        User editedProfile = userDao.getById(user.getId());
-        editedProfile.setUsername(user.getUsername());
-        editedProfile.setPassword(user.getPassword());
-        editedProfile.setEmail(user.getEmail());
-        editedProfile.setBio(user.getBio());
-        System.out.println(user.getId());
-        System.out.println(user.getUsername());
-        userDao.save(editedProfile);
-        return "redirect:profile";
+        User editedUser = userDao.getById(user.getId());
+        editedUser.setUsername(user.getUsername());
+        editedUser.setEmail(user.getEmail());
+        editedUser.setBio(user.getBio());
+        userDao.save(editedUser);
+        return "redirect:/profile";
     }
 }
