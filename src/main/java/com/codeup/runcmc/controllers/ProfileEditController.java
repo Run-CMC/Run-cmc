@@ -14,11 +14,9 @@ import org.springframework.web.bind.annotation.*;
 public class ProfileEditController {
 
     private UserRepository userDao;
-    private PasswordEncoder passwordEncoder;
 
-    public ProfileEditController(UserRepository userDao, PasswordEncoder passwordEncoder) {
+    public ProfileEditController(UserRepository userDao) {
         this.userDao = userDao;
-        this.passwordEncoder = passwordEncoder;
     }
 
     @GetMapping("/profile-edit/{id}")

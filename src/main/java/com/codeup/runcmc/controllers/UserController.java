@@ -12,7 +12,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 
 @Controller
 public class UserController {
-    //(**)
+
     private UserRepository userDao;
     private PasswordEncoder passwordEncoder;
 
@@ -35,7 +35,6 @@ public class UserController {
     	return "user/profile.html";
     }
 
-//    not sure if i need this for login/logout func. Refactor for our project
     @PostMapping("/register")
     public String saveUser(@ModelAttribute User user){
         String hash = passwordEncoder.encode(user.getPassword());
