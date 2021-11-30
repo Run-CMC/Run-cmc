@@ -7,32 +7,26 @@
 	<main>
 	    <h1>Edit your User Profile!</h1>
 	    <div>
-	        <form th:action="@{/profile-edit}" method="POST">
+	        <form th:action="@{'/profile-edit/'+*{id}}" method="POST" th:object="${user}">
 		        <div class="form-outline col-4">
-			        <input type="text" id="typeText" class="form-control" />
+			        <input th:field="*{username}" type="text" id="typeText" class="form-control" />
 			        <label class="form-label" for="typeText">Username</label>
 		        </div>
 		        <br>
 		        <div class="form-outline col-4">
-			        <input type="email" id="typeEmail" class="form-control" />
+			        <input th:field="*{email}" type="email" id="typeEmail" class="form-control" />
 			        <label class="form-label" for="typeEmail">Email</label>
 		        </div>
 		        <br>
 		        <div class="form-outline col-4">
-			        <input type="password" id="typePassword" class="form-control" />
-			        <label class="form-label" for="typePassword">!--if I set type to password, the input is "hidden"--></label>
+			        <textarea th:field="*{bio}" class="form-control" id="textAreaExample" rows="6"></textarea>
+			        <label class="form-label" for="textAreaExample">Bio</label>
 		        </div>
 		        <br>
-		        <div class="form-outline col-4">
-			        <textarea class="form-control" id="textAreaExample" rows="6"></textarea>
-			        <label class="form-label" for="textAreaExample">!-- how do I get a text area --></label>
-		        </div>
-		        <br>
-		        <input class="btn btn-primary" type="submit" value="Submit" />
+		        <button class="btn btn-primary" type="submit" value="Submit">Submit</button>
 	        </form>
 	    </div>
 	</main>
 	<script th:replace="partials/partials.html :: md-js"></script>
 </body>
 </html>
-<!---->

@@ -9,7 +9,7 @@
 			<div th:object="${user}">
 				<h2 th:text="*{username}"></h2>
 				<p th:text="*{bio}"></p>
-				<a th:href="@{/profile-edit}"><i class="fas fa-pen"></i></a>
+				<a th:href="@{'/profile-edit/'+*{id}}"><i class="fas fa-pen"></i></a>
 			</div>
 		<ul class="nav nav-tabs mb-3" id="profileTabs" role="tablist">
 			<li class="nav-item" role="presentation">
