@@ -25,6 +25,15 @@ main {
 #5x5{
 }
 
+/*create page stylings*/
+
+#topster-title{
+	width: 90%;
+}
+#topster-text-body{
+	width: 90%;
+}
+
 .hide {
 	display: none;
 }

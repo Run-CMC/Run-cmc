@@ -6,7 +6,23 @@
     <nav th:replace="partials/partials.html :: navbar"></nav>
     <main>
         <h1>Create a topster!</h1>
-
+        <div id="instructions-upper-bar">
+            <button
+                    class="btn btn-primary"
+                    type="button"
+                    data-mdb-toggle="collapse"
+                    data-mdb-target="#create-instructions"
+                    aria-expanded="false"
+                    aria-controls="collapseExample"
+            >
+                Collapse instructions
+            </button>
+        </div>
+        <div id="create-instructions" class="collapse mt-3">
+            Anim pariatur cliche reprehenderit, enim eiusmod high life accusamus terry richardson ad
+            squid. Nihil anim keffiyeh helvetica, craft beer labore wes anderson cred nesciunt
+            sapiente ea proident.
+        </div>
     <!--    <div id="album-art"></div><br>-->
         <input id="search-bar" type="text">
         <button id="search-button">Search</button>
@@ -24,13 +40,20 @@
                 <div id="3x3" th:replace="partials/3x3-topster.html :: 3x3-topster"></div>
                 <div id="4x4" th:replace="partials/4x4-topster.html :: 4x4-topster"></div>
                 <div id="5x5" th:replace="partials/5x5-topster.html :: 5x5-topster"></div>
-                <div class="col-6">
+                <hr>
+                <div class="col-12">
                     <label for="topster-title">Title: </label>
                     <input id="topster-title" type="text">
                 </div>
-                <div class="col-6">
+                <div class="col-12">
                     <label for="topster-text-body">Body: </label>
                     <textarea id="topster-text-body"></textarea>
+                </div>
+                <div class="col-9"></div>
+                <div class="col-3">
+                    <label for="public">Make public</label>
+                    <input type="checkbox" id="public" value="public" checked>
+                    <button>Create</button>
                 </div>
             </div>
         </div>
@@ -187,8 +210,9 @@
         function onPageLoad(){
             if(window.location.search.length > 0){
                 handleRedirect();
+            }else{
+                requestAuthTokenIfLocalStorageDoesntHaveOne();
             }
-            requestAuthTokenIfLocalStorageDoesntHaveOne();
         }
 
         function handleRedirect(){
@@ -265,7 +289,7 @@
             url += "&response_type=code";
             url += "&redirect_uri=" + encodeURI(redirect_uri);
             url += "&shot_dialogue=true";
-            url += "&scope=user-read-private user-read-email user-modify-playback-state user-read-playback-position user-library-read streaming user-read-playback-state user-read-recently-played playlist-read-private";
+            url += "&scope=user-modify-playback-state user-read-playback-position user-library-read streaming user-read-playback-state user-read-recently-played";
             window.location.href = url;
             // let options = {
             //     method: 'POST',
@@ -334,7 +358,7 @@
             fetch("https://api.spotify.com/v1/search?q=" + searchBar.val() +"&type=album,artist", options)
                     .then(res => res.json())
                     .then(data => {
-                        // console.log(data);
+                        console.log(data);
                         searchResults.innerHTML = "";
                         data.albums.items.forEach(function (album, iterator){
                             let albumString = "Artist: " + album.artists[0].name;
@@ -345,7 +369,12 @@
                             // console.log(albumString);
                             searchResults.innerHTML +=
                                     `<div id="result-${iterator}" class="search-result col-4">
-                                        <img title="${albumString}" src="${albumArtUrl}" alt="${album.name} cover art" width="120" height="120" draggable="true">
+                                        <img title="${albumString}" src="${albumArtUrl}"
+                                        alt="${album.name} cover art" width="120" height="120"
+                                        draggable="true" data-title="${album.name}"
+                                        data-artist="${album.artists[0].name}"
+                                        data-releasedate="${album.release_date}"
+                                        data-spotifyid="${album.id}">
 <!--                                        <div class="album-details">-->
 <!--                                            ${albumString}-->
 <!--                                        </div>-->
@@ -369,6 +398,7 @@
                         });
                     })
                     .catch(error => console.error(error));
+            onSearch();
         });
         refreshAccessToken();
         changeSelection(); //This should cause non-selected topster types to be set to display-none

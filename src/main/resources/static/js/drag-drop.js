@@ -1,11 +1,13 @@
 'use strict';
 //using the sample code from https://www.javascripttutorial.net/web-apis/javascript-drag-and-drop/
-const results = document.querySelectorAll(".search-result");
-
-results.forEach(function (result){
-    result.addEventListener('dragstart',dragStart);
-})
-// results.addEventListener('dragstart', dragStart);
+    var results;
+function onSearch(){
+    results = document.querySelectorAll(".search-result");
+    results.addEventListener('dragstart',dragStart)
+    // results.forEach(function (result){
+    //     result.addEventListener('dragstart',dragStart);
+    // })
+}
 
 function dragStart(e) {
     console.log("dragging");
@@ -14,7 +16,6 @@ function dragStart(e) {
         e.target.classList.add('hide');
     }, 0);
 }
-
 
 /* drop targets */
 const topsterImageSlots = document.querySelectorAll('.p-3');
@@ -49,12 +50,13 @@ function drop(e) {
     const id = e.dataTransfer.getData('text/plain'); //this is just the image src address in this case
     console.log(id);
     //having to improvise a way to select the img element with said src attribute
-
-    console.log(results);
+    let theImgTagThatWeWantToCopy = document.querySelectorAll('[src=id]');
+    console.log(theImgTagThatWeWantToCopy);
     let draggable;
+
     results.forEach(function (result){
-        console.log(result)
-        if(result.src === id){
+        console.log(result.firstChild.src);
+        if(result.firstChild.src === id){
             draggable = result;
         }
     });
@@ -62,7 +64,8 @@ function drop(e) {
     console.log(draggable);
 
     // add it to the drop target
-    e.target.appendChild(draggable);
+    // e.target.appendChild(draggable);
+    e.target.innerHTML=draggable;
 
     // display the draggable element
     draggable.classList.remove('hide');
