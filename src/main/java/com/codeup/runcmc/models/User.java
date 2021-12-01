@@ -1,5 +1,7 @@
 package com.codeup.runcmc.models;
 
+import org.apache.logging.log4j.util.Strings;
+
 import javax.persistence.*;
 import java.util.List;
 
@@ -129,4 +131,10 @@ public class User {
     public void setComments(List<Comment> comments) {
         this.comments = comments;
     }
+
+//    public static boolean isValidUser(User user) {
+//        return user != null && Strings.isNotBlank(user.getUsername())
+//                && Strings.isNotBlank(user.getPassword())
+//                && Strings.isNotBlank(user.getEmail());
+//    }
 }

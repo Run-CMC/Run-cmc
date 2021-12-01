@@ -21,8 +21,8 @@
 		<div class="container navbar-container">
 			<!-- Navbar brand -->
 			<a class="navbar-brand nav-link me-2" th:href="@{/}">
-				<i class="fas fa-play"></i>
-				Run//CMC
+				
+				Run<i class="fas fa-play"></i>CMC
 			</a>
 			
 			<!-- Toggle button -->
@@ -55,7 +55,7 @@
 					</li>
 					<li sec:authorize="isAuthenticated()">
 						<form th:action="@{/logout}" th:method="POST">
-							<button class="btn btn-primary btn-small active" sec:authorize="isAuthenticated()">Logout</button> <!-- I added this (**) -->
+							<button class="btn btn-primary btn-small active" sec:authorize="isAuthenticated()">Logout</button>
 						</form>
 					</li>
 					<li sec:authorize="!isAuthenticated()">
