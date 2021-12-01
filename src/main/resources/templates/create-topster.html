@@ -16,15 +16,23 @@
             <option value="4x4" selected>4x4</option>
             <option value="3x3">3x3</option>
         </select>
-        <div class="container row">
-            <div class="col-6">
-                <div id="results" class="row"></div>
-            </div>
-
-                <div id="3x3" th:replace="partials/3x3-topster.html :: 3x3-topster" style="display: none"></div>
+        <div class="container">
+            <div class="row">
+                <div class="col-6">
+                    <div id="results" class="row"></div>
+                </div>
+                <div id="3x3" th:replace="partials/3x3-topster.html :: 3x3-topster"></div>
                 <div id="4x4" th:replace="partials/4x4-topster.html :: 4x4-topster"></div>
                 <div id="5x5" th:replace="partials/5x5-topster.html :: 5x5-topster"></div>
-
+                <div class="col-6">
+                    <label for="topster-title">Title: </label>
+                    <input id="topster-title" type="text">
+                </div>
+                <div class="col-6">
+                    <label for="topster-text-body">Body: </label>
+                    <textarea id="topster-text-body"></textarea>
+                </div>
+            </div>
         </div>
 
     </main>
@@ -148,6 +156,8 @@
         const AUTHORIZE = "https://accounts.spotify.com/authorize";
         const TOKEN = "https://accounts.spotify.com/api/token";
 
+
+
         var access_token = null;
         var refresh_token = null;
 
@@ -178,6 +188,7 @@
             if(window.location.search.length > 0){
                 handleRedirect();
             }
+            requestAuthTokenIfLocalStorageDoesntHaveOne();
         }
 
         function handleRedirect(){
@@ -234,6 +245,16 @@
             }
         }
 
+        function base64EncodeUnicode(str) {
+            // First we escape the string using encodeURIComponent to get the UTF-8 encoding of the characters,
+            // then we convert the percent encodings into raw bytes, and finally feed it to btoa() function.
+            let utf8Bytes = encodeURIComponent(str).replace(/%([0-9A-F]{2})/g, function(match, p1) {
+                return String.fromCharCode('0x' + p1);
+            });
+
+            return btoa(utf8Bytes);
+        }
+
         function requestAuthorization(){
 
             localStorage.setItem("client_id", SPOTIFY_CLIENT_ID);
@@ -246,6 +267,26 @@
             url += "&shot_dialogue=true";
             url += "&scope=user-read-private user-read-email user-modify-playback-state user-read-playback-position user-library-read streaming user-read-playback-state user-read-recently-played playlist-read-private";
             window.location.href = url;
+            // let options = {
+            //     method: 'POST',
+            //     headers: {
+            //         'Content-Type': 'application/x-www-form-urlencoded',
+            //         Authorization: 'Basic ' + (base64EncodeUnicode((SPOTIFY_CLIENT_ID) + ':' + (SPOTIFY_CLIENT_SECRET)))
+            //     },
+            //     body: {
+            //         "grant_type": 'client_credentials',
+            //         response_type: 'token',
+            //         scope: ""
+            //     }
+            // };
+            // fetch('https://accounts.spotify.com/api/token', options)
+            //         .then((res) =>{
+            //             console.log(res);
+            //
+            //         })
+            //         .catch(error =>{
+            //             console.log(error)
+            //         });
         }
 
         function refreshAccessToken(){
@@ -273,8 +314,15 @@
             }
         }
 
+        function requestAuthTokenIfLocalStorageDoesntHaveOne(){
+            if (localStorage.getItem("access_token") === null){
+                requestAuthorization();
+            }
+        }
+
         searchButton.click(function (){
-            console.log(searchBar.val());
+            refreshAccessToken();
+            // console.log(searchBar.val());
             let options = {
                 headers: {
                     Accept: "application/json",
@@ -283,13 +331,12 @@
                 },
                 method: "Get"
             };
-
             fetch("https://api.spotify.com/v1/search?q=" + searchBar.val() +"&type=album,artist", options)
                     .then(res => res.json())
                     .then(data => {
                         // console.log(data);
                         searchResults.innerHTML = "";
-                        data.albums.items.forEach(function (album){
+                        data.albums.items.forEach(function (album, iterator){
                             let albumString = "Artist: " + album.artists[0].name;
                             albumString += "\nAlbum: "+ album.name;
                             albumString += "\nRelease Date: "+ album.release_date;
@@ -297,7 +344,7 @@
                             // console.log(albumArtUrl);
                             // console.log(albumString);
                             searchResults.innerHTML +=
-                                    `<div class="search-result col-4">
+                                    `<div id="result-${iterator}" class="search-result col-4">
                                         <img title="${albumString}" src="${albumArtUrl}" alt="${album.name} cover art" width="120" height="120" draggable="true">
 <!--                                        <div class="album-details">-->
 <!--                                            ${albumString}-->
@@ -323,8 +370,9 @@
                     })
                     .catch(error => console.error(error));
         });
-
+        refreshAccessToken();
         changeSelection(); //This should cause non-selected topster types to be set to display-none
     </script>
+    <script src="../js/drag-drop.js"></script>
 </body>
 </html>

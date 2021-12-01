@@ -24,3 +24,7 @@ main {
 
 #5x5{
 }
+
+.hide {
+	display: none;
+}
