@@ -55,7 +55,7 @@
 					</li>
 					<li sec:authorize="isAuthenticated()">
 						<form th:action="@{/logout}" th:method="POST">
-							<button class="btn btn-primary btn-small active" sec:authorize="isAuthenticated()">Logout</button> <!-- I added this (**) -->
+							<button class="btn btn-primary btn-small active" sec:authorize="isAuthenticated()">Logout</button>
 						</form>
 					</li>
 					<li sec:authorize="!isAuthenticated()">

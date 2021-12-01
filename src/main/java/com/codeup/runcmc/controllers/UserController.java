@@ -12,7 +12,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 
 @Controller
 public class UserController {
-    //(**)
+
     private UserRepository userDao;
     private PasswordEncoder passwordEncoder;
 
@@ -32,10 +32,10 @@ public class UserController {
 	    User principal = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
 	    User currentUser = userDao.getById(principal.getId());
 	    viewModel.addAttribute("user", currentUser);
-    	return "user/profile.html";
+        return "discover.html"; // Changed the redirect to discover when a user signs in
+//    	return "user/profile.html"; // this will lead user to their profile page after logging in
     }
 
-//    not sure if i need this for login/logout func. Refactor for our project
     @PostMapping("/register")
     public String saveUser(@ModelAttribute User user){
         String hash = passwordEncoder.encode(user.getPassword());
