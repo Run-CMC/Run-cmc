@@ -1,11 +1,13 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org" lang="en">
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
 <head th:replace="partials/partials.html :: head ('Create A Topster')">
 </head>
 <body onload="onPageLoad()">
     <nav th:replace="partials/partials.html :: navbar"></nav>
     <main>
         <h1>Create a topster!</h1>
+
 
     <!--    <div id="album-art"></div><br>-->
         <input id="search-bar" type="text">
