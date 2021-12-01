@@ -1,11 +1,21 @@
 <!DOCTYPE html>
-<html lang="en">
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
 <head>
-    <meta charset="UTF-8">
-    <title>Edit-Topster</title>
+
+    <head th:replace="partials/partials.html :: head ('Edit A Topster')">
 </head>
 <body>
+<nav th:replace="partials/partials.html :: navbar"></nav>
     <h1>Edit your topster!</h1>
+    <input id="search-bar" type="text">
+    <button id="search-button">Search</button>
+    <label for="topster-type">Select a topster style</label>
+    <select name="topster-type" id="topster-type" onchange="changeSelection()">
+        <option value="5x5">5x5</option>
+        <option value="4x4" selected>4x4</option>
+        <option value="3x3">3x3</option>
+    </select>
     <input type="submit" value="topster" />
 </body>
 </html>
