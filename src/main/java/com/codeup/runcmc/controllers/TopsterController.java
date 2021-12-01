@@ -26,6 +26,9 @@ public class TopsterController {
     @GetMapping("/create-topster")
     public String showCreateTopsterPage (){ return "create-topster";}
 
+    @GetMapping("dragdropdemo")
+    public String showDragAndDropDemoPage(){return "drag-n-drop-practice.html";}
+
     @RequestMapping(path = "/keys.js", produces = "application/javascript")
     @ResponseBody
     public String apikey(){
