@@ -56,16 +56,17 @@ insert into albums (spotify_album_id, release_date, spotify_album_art, spotify_a
 insert into albums (spotify_album_id, release_date, spotify_album_art, spotify_album_name, spotify_artist) values ("4ABWHaYSXDnjvRZd06pOvh", "2014-09-10", "https://i.scdn.co/image/ab67616d0000b27339f25fbb384c26c25ac1d092", "Sonic The Hedgehog “Passion & Pride” Anthems with Attitude from the Sonic Adventure Era (Vox Collection)", "SEGA SOUND TEAM");
 insert into albums (spotify_album_id, release_date, spotify_album_art, spotify_album_name, spotify_artist) values ("4yKH5FB9gO2GQNnalIqcTw", "2021-08-31", "https://i.scdn.co/image/ab67616d0000b273717bdfe8eca75670194e4930", "Sonic 30th Anniversary Symphony", "Sonic The Hedgehog");
 
-# Foreign Key Checks are disables to allow inserting foreign keys
+# Foreign Key Checks are disabled to allow inserting foreign keys
 SET foreign_key_checks = 0;
 # 3x3 Topster
 insert into topsters (body, is_public, title, user_id) values (null, true, "BABYMETAL OR BUST", 1);
 # 4x4 Topster
-insert into topsters (body, is_public, title, user_id) values (null, true, "BABYMETAL IS A MUST", 1);
+insert into topsters (body, is_public, title, user_id) values (null, true, "BABYMETAL IS A MUST", 2);
 # 5x5 Topster
 insert into topsters (body, is_public, title, user_id) values (null, true, "IN FF WE TRUST", 1);
 
-
+# Foreign Key Checks are disabled to allow inserting foreign keys
+SET foreign_key_checks = 0;
 # 3x3 Topster Contents
 insert into topster_contents (position, album_id, topster_id) values (1, 1, 1);
 insert into topster_contents (position, album_id, topster_id) values (2, 2, 1);
@@ -123,3 +124,27 @@ insert into topster_contents (position, album_id, topster_id) values (22, 47, 3)
 insert into topster_contents (position, album_id, topster_id) values (23, 48, 3);
 insert into topster_contents (position, album_id, topster_id) values (24, 49, 3);
 insert into topster_contents (position, album_id, topster_id) values (25, 50, 3);
+
+# Foreign Key Checks are disabled to allow inserting foreign keys
+SET foreign_key_checks = 0;
+# 3x3 topster comments
+insert into comments (topster_id, user_id, body) values (1, 2, "How come no crazy frog?");
+insert into comments (topster_id, user_id, body) values (1, 1, "Because I don't like crazy frog");
+insert into comments (topster_id, user_id, body) values (1, 2, "bro you dont like crazy frog?? whats wrong wit u");
+insert into comments (topster_id, user_id, body) values (1, 1, "this is a babymetal NOT crazy frog topster that's why!!!1!1");
+
+# 4x4 topster comments
+insert into comments (topster_id, user_id, body) values (2, 1, "how come your only topster doesn't have crazy frog???  fake fan!");
+insert into comments (topster_id, user_id, body) values (2, 2, "this is my alt account thats why!!!");
+
+# 5x5 topster comments
+insert into comments (topster_id, user_id, body) values (3, 2, "CRAZY FROG TIME");
+insert into comments (topster_id, user_id, body) values (3, 1, "DUDE WHERE ARE THE MODS?? BAN THIS GUY!!!");
+
+
+# Foreign Key Checks are disabled to allow inserting foreign keys
+SET foreign_key_checks = 0;
+# Topster faves
+insert into favorites (user_id, topster_id) values (1, 2);
+insert into favorites (user_id, topster_id) values (2, 1);
+insert into favorites (user_id, topster_id) values (2, 3);
