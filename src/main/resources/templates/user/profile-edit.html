@@ -19,14 +19,17 @@
 		        </div>
 		        <br>
 		        <div class="form-outline col-4">
-			        <textarea th:field="*{bio}" class="form-control" id="textAreaExample" rows="6"></textarea>
-			        <label class="form-label" for="textAreaExample">Bio</label>
+			        <textarea th:field="*{bio}" class="form-control" id="bio" rows="6" maxlength="255"></textarea>
+			        <label class="form-label" for="bio">Bio</label>
 		        </div>
+		        <div id="char-count"></div>
 		        <br>
 		        <button class="btn btn-primary" type="submit" value="Submit">Submit</button>
 	        </form>
 	    </div>
 	</main>
+	<script th:replace="partials/partials :: jquery"></script>
 	<script th:replace="partials/partials.html :: md-js"></script>
+	<script type="text/javascript" src="../js/char-count.js"></script>
 </body>
 </html>
