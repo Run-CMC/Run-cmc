@@ -39,16 +39,18 @@
 			</li>
 		</ul>
 		<div class="tab-content" id="tabContent">
-			<div
-					class="tab-pane fade show active"
+			<div class="tab-pane fade show active"
 					id="my-topsters"
 					role="tabpanel"
-					aria-labelledby="my-topsters-tab"
-			>
-				<div id="my-topster-tab-content" class="row">
-					<div th:replace="partials/4x4-topster.html :: 4x4-topster"></div>
-					<div th:replace="partials/3x3-topster.html :: 3x3-topster"></div>
-					<div th:replace="partials/5x5-topster.html :: 5x5-topster"></div>
+					aria-labelledby="my-topsters-tab">
+				<div id="my-topster-tab-content"  th:object="${albums}">
+					<div  class="col-12 col-lg-6">
+						<div class="row row-cols-3 g-2 g-lg-3">
+							<div th:each="album : ${albums}" class="col">
+								<img th:src="${album.spotifyAlbumArt}" height="150" width="150">
+							</div>
+						</div>
+					</div>
 				</div>
 			</div>
 			<div class="tab-pane fade" id="favorite-topsters" role="tabpanel" aria-labelledby="favorite-topsters-tab">

@@ -8,7 +8,24 @@
     <main>
         <h1>Create a topster!</h1>
 
-
+        <div id="instructions-upper-bar">
+            <button
+                    class="btn btn-primary"
+                    type="button"
+                    data-mdb-toggle="collapse"
+                    data-mdb-target="#create-instructions"
+                    aria-expanded="false"
+                    aria-controls="collapseExample"
+            >
+                Collapse instructions
+            </button>
+        </div>
+        <div id="create-instructions" class="collapse mt-3">
+            Anim pariatur cliche reprehenderit, enim eiusmod high life accusamus terry richardson ad
+            squid. Nihil anim keffiyeh helvetica, craft beer labore wes anderson cred nesciunt
+            sapiente ea proident.
+        </div>
+        <br>
     <!--    <div id="album-art"></div><br>-->
         <input id="search-bar" type="text">
         <button id="search-button">Search</button>
@@ -26,13 +43,20 @@
                 <div id="3x3" th:replace="partials/3x3-topster.html :: 3x3-topster"></div>
                 <div id="4x4" th:replace="partials/4x4-topster.html :: 4x4-topster"></div>
                 <div id="5x5" th:replace="partials/5x5-topster.html :: 5x5-topster"></div>
-                <div class="col-6">
+                <hr>
+                <div class="col-12">
                     <label for="topster-title">Title: </label>
                     <input id="topster-title" type="text">
                 </div>
-                <div class="col-6">
+                <div class="col-12">
                     <label for="topster-text-body">Body: </label>
                     <textarea id="topster-text-body"></textarea>
+                </div>
+                <div class="col-9"></div>
+                <div class="col-3">
+                    <label for="public">Make public</label>
+                    <input type="checkbox" id="public" value="public" checked>
+                    <button>Create</button>
                 </div>
             </div>
         </div>
@@ -44,121 +68,19 @@
     <script>
         'use strict';
 
-        (function (){
-            var _numOfImageSlots = 16;
-            var _numOfImagesPerRow = 4;
-            var _imageMarginBottom = 30;
-            var imageSlots = [];
-            var _selectedImageElement = null,
-                    _originalImageSlot = null,
-                    _originalClickCoords = null;
-            function init(){
-                addImageSlots();
-
-                document.getElementById('dragDrop').addEventListener('mousemove', imageMousemove)
-            }
-
-            var wrap = document.getElementById('dragDrop');
-
-            function addImageSlots(){
-                var len = _numOfImageSlots;
-                var item;
-                for(let i =0; i<len; i++){
-                    item = window.document.createElement('div');
-                    item.setAttribute('class', 'dd-slot');
-                    item.setAttribute('style', 'width:' + (100/_numOfImagesPerRow)+"%;paddint-bottom:" + (100/_numOfImagesPerRow)+";margin-bottom:" + _imageMarginBottom + "px;");
-
-                    item.innerHTML = '<p class="dd-slot-num dd-vc">' + (i+1) +  '</p>';
-                }
-            }
-            function imageMousedown ( event ) {
-                if ( !_selectedImageElement ) {
-                    _selectedImageElement = event.currentTarget;
-                    _originalClickCoords = { x: event.pageX, y: event.pageY };
-                    _originalImageSlot = getIndexOfImageId( _selectedImageElement.getAttribute('data-image-id') );
-                    _selectedImageElement.classList.add('dd-selected');
-                    _selectedImageElement.classList.remove('dd-transition');
-                }
-            }
-
-            function getSlotIdByCoords ( coords ) {
-                // Get the current slot being hovered over
-                for ( var id in _imageSlots ) {
-                    var slot = _imageSlots[id];
-                    if ( slot.x <= coords.x && coords.x <= slot.x + slot.width && slot.y <= coords.y && coords.y <= slot.y + slot.height )
-                        return id;
-                }
-            }
-
-            function imageMousemove ( event ) {
-
-                if ( _selectedImageElement ) {
-
-                    var wrap = _doc.getElementById('dragDrop'),
-                            bounds = wrap.getBoundingClientRect(),
-                            left = bounds.left,
-                            top = bounds.top;
-
-                    var pageX = event.pageX,
-                            pageY = event.pageY;
-
-                    var clickX = pageX - left,
-                            clickY = pageY - top,
-                            hoverSlotId = getSlotIdByCoords( { x: clickX, y: clickY } );
-
-                    var ele = _selectedImageElement,
-                            imageId = ele.getAttribute('data-image-id'),
-                            index = _originalImageSlot,
-                            newIndex = getIndexOfImageId( imageId ),
-                            x = _imageSlots[index].x,
-                            y = _imageSlots[index].y;
-
-                    var resultX = x + ( pageX - _originalClickCoords.x ),
-                            resultY = y + ( pageY - _originalClickCoords.y );
-
-                    ele.style.transform = 'translate3d(' + resultX + 'px,' + resultY + 'px,0)';
-
-                }
-
-            }
-
-            function getSlotIdByCoords ( coords ) {
-
-                // Get the current slot being hovered over
-                for ( var id in _imageSlots ) {
-                    var slot = _imageSlots[id];
-                    if ( slot.x <= coords.x && coords.x <= slot.x + slot.width && slot.y <= coords.y && coords.y <= slot.y + slot.height )
-                        return id;
-                }
-            }
-            function getIndexOfImageId ( id ) {
-                var i = 0,
-                        len = _listedImageIds.length;
-
-                for ( ; i < len; i++ )
-                    if ( _listedImageIds[i] == id )
-                        return i;
-            }
-        })();
-
         // const threeByThreeTopster = $('#3x3');
         // const fourByFourTopster = $('#4x4');
         // const fiveByFiveTopster = $('#5x5');
-
-
 
         const searchBar = $("#search-bar");
         const searchButton = $("#search-button");
         const searchResults = document.querySelector("#results");
         const albumArtDiv= document.querySelector("#album-art");
 
-
         //Following guide at https://www.youtube.com/watch?v=1vR3m0HupGI&ab_channel=MakerAtPlayCoding
         var redirect_uri = "http://localhost:8080/create-topster";
         const AUTHORIZE = "https://accounts.spotify.com/authorize";
         const TOKEN = "https://accounts.spotify.com/api/token";
-
-
 
         var access_token = null;
         var refresh_token = null;
@@ -189,8 +111,9 @@
         function onPageLoad(){
             if(window.location.search.length > 0){
                 handleRedirect();
+            }else{
+                requestAuthTokenIfLocalStorageDoesntHaveOne();
             }
-            requestAuthTokenIfLocalStorageDoesntHaveOne();
         }
 
         function handleRedirect(){
@@ -267,7 +190,7 @@
             url += "&response_type=code";
             url += "&redirect_uri=" + encodeURI(redirect_uri);
             url += "&shot_dialogue=true";
-            url += "&scope=user-read-private user-read-email user-modify-playback-state user-read-playback-position user-library-read streaming user-read-playback-state user-read-recently-played playlist-read-private";
+            url += "&scope=user-modify-playback-state user-read-playback-position user-library-read streaming user-read-playback-state user-read-recently-played";
             window.location.href = url;
             // let options = {
             //     method: 'POST',
@@ -336,7 +259,7 @@
             fetch("https://api.spotify.com/v1/search?q=" + searchBar.val() +"&type=album,artist", options)
                     .then(res => res.json())
                     .then(data => {
-                        // console.log(data);
+                        console.log(data);
                         searchResults.innerHTML = "";
                         data.albums.items.forEach(function (album, iterator){
                             let albumString = "Artist: " + album.artists[0].name;
@@ -347,7 +270,12 @@
                             // console.log(albumString);
                             searchResults.innerHTML +=
                                     `<div id="result-${iterator}" class="search-result col-4">
-                                        <img title="${albumString}" src="${albumArtUrl}" alt="${album.name} cover art" width="120" height="120" draggable="true">
+                                        <img title="${albumString}" src="${albumArtUrl}"
+                                        alt="${album.name} cover art" width="120" height="120"
+                                        draggable="true" data-title="${album.name}"
+                                        data-artist="${album.artists[0].name}"
+                                        data-releasedate="${album.release_date}"
+                                        data-spotifyid="${album.id}">
 <!--                                        <div class="album-details">-->
 <!--                                            ${albumString}-->
 <!--                                        </div>-->
@@ -371,6 +299,7 @@
                         });
                     })
                     .catch(error => console.error(error));
+            onSearch();
         });
         refreshAccessToken();
         changeSelection(); //This should cause non-selected topster types to be set to display-none
