@@ -14,15 +14,21 @@ import java.util.List;
 @Controller
 public class TopsterController {
 
-    @Value("${spotify_client_id}")
-    private String spotifyClientID;
-
-    @Value("${spotify_client_secret}")
-    private String spotifyClientSecret;
+//    @Value("${spotify_client_id}")
+//    private String spotifyClientID;
+//
+//    @Value("${spotify_client_secret}")
+//    private String spotifyClientSecret;
 
     @GetMapping("discover/topster/{id}")
     public String showIndividualTopsterPage(){
         return "topster.html";
+    }
+
+    private RestTemplateTokenRequester restTemplateTokenRequester;
+
+    public TopsterController(RestTemplateTokenRequester restTemplateTokenRequester) {
+        this.restTemplateTokenRequester = restTemplateTokenRequester;
     }
 
     @GetMapping("/edit-topster")
@@ -30,7 +36,7 @@ public class TopsterController {
 
     @GetMapping("/create-topster")
     public String showCreateTopsterPage (Model viewModel){
-        TokenResponse authToken = RestTemplateTokenRequester.requestAccessToken();
+        TokenResponse authToken = restTemplateTokenRequester.requestAccessToken();
         viewModel.addAttribute("authToken", authToken);
         return "create-topster";
     }
@@ -38,11 +44,11 @@ public class TopsterController {
     @GetMapping("dragdropdemo")
     public String showDragAndDropDemoPage(){return "drag-n-drop-practice.html";}
 
-    @RequestMapping(path = "/keys.js", produces = "application/javascript")
-    @ResponseBody
-    public String apikey(){
-        System.out.println(spotifyClientID +"/n" + spotifyClientSecret);
-        return "const SPOTIFY_CLIENT_ID = `" + spotifyClientID + "`;\n" +
-                "const SPOTIFY_CLIENT_SECRET = `" + spotifyClientSecret +"`;";
-    }
+//    @RequestMapping(path = "/keys.js", produces = "application/javascript")
+//    @ResponseBody
+//    public String apikey(){
+//        System.out.println(spotifyClientID +"/n" + spotifyClientSecret);
+//        return "const SPOTIFY_CLIENT_ID = `" + spotifyClientID + "`;\n" +
+//                "const SPOTIFY_CLIENT_SECRET = `" + spotifyClientSecret +"`;";
+//    }
 }

@@ -9,10 +9,16 @@ import org.springframework.web.bind.annotation.ResponseBody;
 @Controller
 public class AuthTokenController {
 
+    private RestTemplateTokenRequester restTemplateTokenRequester;
+
+    public AuthTokenController(RestTemplateTokenRequester restTemplateTokenRequester) {
+        this.restTemplateTokenRequester = restTemplateTokenRequester;
+    }
+
     @GetMapping("/auth")
     @ResponseBody
     public TokenResponse requestToken() {
-        return RestTemplateTokenRequester.requestAccessToken();
+        return restTemplateTokenRequester.requestAccessToken();
 
     }
 }
