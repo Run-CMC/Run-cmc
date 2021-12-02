@@ -83,7 +83,7 @@
                 <exclusion>
                     <groupId>org.hamcrest</groupId>
                     <artifactId>hamcrest-core</artifactId>
-                </exclusion>
+                </exclusion>3154744626
             </exclusions>
         </dependency>
         <!--do we need this dependency?-->

@@ -3,6 +3,8 @@ package com.codeup.runcmc.models;
 import org.apache.logging.log4j.util.Strings;
 
 import javax.persistence.*;
+import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.Size;
 import java.util.List;
 
 @Entity
@@ -12,13 +14,18 @@ public class User {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
 
+
     @Column(unique = true)
+    @NotBlank(message = "Username invalid.")
+    @Size(min = 5, message = "Username must be five characters long.")
     private String username;
 
     @Column (unique = true)
+    @NotBlank(message = "Email invalid.")
     private String email;
 
     @Column
+    @NotBlank(message = "Password invalid.")
     private String password;
 
     @Column
