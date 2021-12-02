@@ -7,7 +7,7 @@
     <nav th:replace="partials/partials.html :: navbar"></nav>
     <main>
         <h1>Create a topster!</h1>
-<<<<<<< HEAD
+
         <div id="instructions-upper-bar">
             <button
                     class="btn btn-primary"
@@ -25,10 +25,7 @@
             squid. Nihil anim keffiyeh helvetica, craft beer labore wes anderson cred nesciunt
             sapiente ea proident.
         </div>
-=======
-
-
->>>>>>> f8c9e2c048e117e98923be11dfc4d7a470cdd248
+        <br>
     <!--    <div id="album-art"></div><br>-->
         <input id="search-bar" type="text">
         <button id="search-button">Search</button>
@@ -71,121 +68,19 @@
     <script>
         'use strict';
 
-        (function (){
-            var _numOfImageSlots = 16;
-            var _numOfImagesPerRow = 4;
-            var _imageMarginBottom = 30;
-            var imageSlots = [];
-            var _selectedImageElement = null,
-                    _originalImageSlot = null,
-                    _originalClickCoords = null;
-            function init(){
-                addImageSlots();
-
-                document.getElementById('dragDrop').addEventListener('mousemove', imageMousemove)
-            }
-
-            var wrap = document.getElementById('dragDrop');
-
-            function addImageSlots(){
-                var len = _numOfImageSlots;
-                var item;
-                for(let i =0; i<len; i++){
-                    item = window.document.createElement('div');
-                    item.setAttribute('class', 'dd-slot');
-                    item.setAttribute('style', 'width:' + (100/_numOfImagesPerRow)+"%;paddint-bottom:" + (100/_numOfImagesPerRow)+";margin-bottom:" + _imageMarginBottom + "px;");
-
-                    item.innerHTML = '<p class="dd-slot-num dd-vc">' + (i+1) +  '</p>';
-                }
-            }
-            function imageMousedown ( event ) {
-                if ( !_selectedImageElement ) {
-                    _selectedImageElement = event.currentTarget;
-                    _originalClickCoords = { x: event.pageX, y: event.pageY };
-                    _originalImageSlot = getIndexOfImageId( _selectedImageElement.getAttribute('data-image-id') );
-                    _selectedImageElement.classList.add('dd-selected');
-                    _selectedImageElement.classList.remove('dd-transition');
-                }
-            }
-
-            function getSlotIdByCoords ( coords ) {
-                // Get the current slot being hovered over
-                for ( var id in _imageSlots ) {
-                    var slot = _imageSlots[id];
-                    if ( slot.x <= coords.x && coords.x <= slot.x + slot.width && slot.y <= coords.y && coords.y <= slot.y + slot.height )
-                        return id;
-                }
-            }
-
-            function imageMousemove ( event ) {
-
-                if ( _selectedImageElement ) {
-
-                    var wrap = _doc.getElementById('dragDrop'),
-                            bounds = wrap.getBoundingClientRect(),
-                            left = bounds.left,
-                            top = bounds.top;
-
-                    var pageX = event.pageX,
-                            pageY = event.pageY;
-
-                    var clickX = pageX - left,
-                            clickY = pageY - top,
-                            hoverSlotId = getSlotIdByCoords( { x: clickX, y: clickY } );
-
-                    var ele = _selectedImageElement,
-                            imageId = ele.getAttribute('data-image-id'),
-                            index = _originalImageSlot,
-                            newIndex = getIndexOfImageId( imageId ),
-                            x = _imageSlots[index].x,
-                            y = _imageSlots[index].y;
-
-                    var resultX = x + ( pageX - _originalClickCoords.x ),
-                            resultY = y + ( pageY - _originalClickCoords.y );
-
-                    ele.style.transform = 'translate3d(' + resultX + 'px,' + resultY + 'px,0)';
-
-                }
-
-            }
-
-            function getSlotIdByCoords ( coords ) {
-
-                // Get the current slot being hovered over
-                for ( var id in _imageSlots ) {
-                    var slot = _imageSlots[id];
-                    if ( slot.x <= coords.x && coords.x <= slot.x + slot.width && slot.y <= coords.y && coords.y <= slot.y + slot.height )
-                        return id;
-                }
-            }
-            function getIndexOfImageId ( id ) {
-                var i = 0,
-                        len = _listedImageIds.length;
-
-                for ( ; i < len; i++ )
-                    if ( _listedImageIds[i] == id )
-                        return i;
-            }
-        })();
-
         // const threeByThreeTopster = $('#3x3');
         // const fourByFourTopster = $('#4x4');
         // const fiveByFiveTopster = $('#5x5');
-
-
 
         const searchBar = $("#search-bar");
         const searchButton = $("#search-button");
         const searchResults = document.querySelector("#results");
         const albumArtDiv= document.querySelector("#album-art");
 
-
         //Following guide at https://www.youtube.com/watch?v=1vR3m0HupGI&ab_channel=MakerAtPlayCoding
         var redirect_uri = "http://localhost:8080/create-topster";
         const AUTHORIZE = "https://accounts.spotify.com/authorize";
         const TOKEN = "https://accounts.spotify.com/api/token";
-
-
 
         var access_token = null;
         var refresh_token = null;
