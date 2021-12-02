@@ -1,6 +1,6 @@
 'use strict';
 //using the sample code from https://www.javascripttutorial.net/web-apis/javascript-drag-and-drop/
-    var results;
+var results;
 function onSearch(){
     results = document.querySelectorAll(".search-result");
     console.log(results);
