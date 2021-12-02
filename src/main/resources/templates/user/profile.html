@@ -3,61 +3,70 @@
 <head th:replace="partials/partials.html :: head ('Your Profile')">
 </head>
 <body>
-	<nav th:replace="partials/partials.html :: navbar"></nav>
-	<main>
-<!--		<h1>Profile Page</h1>-->
-			<div th:object="${user}">
-				<h1 th:text="*{username}"></h1>
-				<h5>About me:</h5>
-				<p th:text="*{bio}"></p>
-				<a th:href="@{'/profile-edit/' + *{id}}">Edit Profile<i class="fas fa-pen"></i></a>
-			</div>
-		<ul class="nav nav-tabs mb-3" id="profileTabs" role="tablist">
-			<li class="nav-item" role="presentation">
-				<button
-						class="nav-link active"
-						id="my-topsters-tab"
-						data-mdb-toggle="tab"
-						data-mdb-target="#my-topsters"
-						type="button"
-						role="tab"
-						aria-controls="my-topsters"
-						aria-selected="true"
-				>My Topsters</button>
-			</li>
-			<li class="nav-item" role="presentation">
-				<button
-						class="nav-link"
-						id="favorite-topsters-tab"
-						data-mdb-toggle="tab"
-						data-mdb-target="#favorite-topsters"
-						type="button"
-						role="tab"
-						aria-controls="favorite-topsters"
-						aria-selected="false"
-				>My Favorited Topsters</button>
-			</li>
-		</ul>
-		<div class="tab-content" id="tabContent">
-			<div class="tab-pane fade show active"
-					id="my-topsters"
-					role="tabpanel"
-					aria-labelledby="my-topsters-tab">
-				<div id="my-topster-tab-content"  th:object="${albums}">
-					<div  class="col-12 col-lg-6">
-						<div class="row row-cols-3 g-2 g-lg-3">
-							<div th:each="album : ${albums}" class="col">
-								<img th:src="${album.spotifyAlbumArt}" height="150" width="150">
-							</div>
+<nav th:replace="partials/partials.html :: navbar"></nav>
+<main>
+	<div th:object="${user}">
+		<h1 th:text="*{username}"></h1>
+		<h5>About me:</h5>
+		<p th:text="*{bio}"></p>
+		<a th:href="@{'/profile-edit/' + *{id}}">Edit Profile<i class="fas fa-pen"></i></a>
+	</div>
+	<ul class="nav nav-tabs mb-3" id="profileTabs" role="tablist">
+		<li class="nav-item" role="presentation">
+			<button
+					class="nav-link active"
+					id="my-topsters-tab"
+					data-mdb-toggle="tab"
+					data-mdb-target="#my-topsters"
+					type="button"
+					role="tab"
+					aria-controls="my-topsters"
+					aria-selected="true"
+			>My Topsters</button>
+		</li>
+		<li class="nav-item" role="presentation">
+			<button
+					class="nav-link"
+					id="favorite-topsters-tab"
+					data-mdb-toggle="tab"
+					data-mdb-target="#favorite-topsters"
+					type="button"
+					role="tab"
+					aria-controls="favorite-topsters"
+					aria-selected="false"
+			>My Favorited Topsters</button>
+		</li>
+	</ul>
+	<div class="tab-content" id="tabContent">
+		<div class="tab-pane fade show active"
+		     id="my-topsters"
+		     role="tabpanel"
+		     aria-labelledby="my-topsters-tab">
+			<div id="my-topster-tab-content" th:object="${albums}">
+				<div  class="col-12 col-lg-6" th:object="${topsterContents}">
+					<div class="row row-cols-3 g-2 g-lg-3" th:if="${#lists.size(topsterContents) lt 10}">
+						<div th:each="album : ${albums}" class="col">
+							<img th:src="${album.spotifyAlbumArt}" height="100%" width="100%">
 						</div>
 					</div>
+					<div class="row row-cols-4 g-2 g-lg-3" th:if="${#lists.size(topsterContents) gt 10 and #lists.size(topsterContents) lt 17}">
+						<div th:each="album : ${albums}" class="col">
+							<img th:src="${album.spotifyAlbumArt}" height="150" width="150">
+						</div>
+					</div><div class="row row-cols-5 g-2 g-lg-3" th:if="${#lists.size(topsterContents) gt 17}">
+					<div th:each="album : ${albums}" class="col">
+						<img th:src="${album.spotifyAlbumArt}" height="150" width="150">
+					</div>
+				</div>
+					<div th:unless="${#lists.size(topsterContents) gt 26}"></div>
 				</div>
 			</div>
-			<div class="tab-pane fade" id="favorite-topsters" role="tabpanel" aria-labelledby="favorite-topsters-tab">
-				These are my favorite topsters.
-			</div>
 		</div>
-	</main>
+		<div class="tab-pane fade" id="favorite-topsters" role="tabpanel" aria-labelledby="favorite-topsters-tab">
+			These are my favorite topsters.
+		</div>
+	</div>
+</main>
 
 
 <script th:replace="partials/partials.html :: md-js"></script>
