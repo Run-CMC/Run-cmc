@@ -52,8 +52,8 @@ public class UserController {
 	    viewModel.addAttribute("albums", albums);
 	    viewModel.addAttribute("topster", usersTopster);
 	    viewModel.addAttribute("user", currentUser);
-        return "discover.html"; // Changed the redirect to discover when a user signs in
-//    	return "user/profile.html"; // this will lead user to their profile page after logging in
+//        return "discover.html"; // Changed the redirect to discover when a user signs in
+    	return "user/profile.html"; // this will lead user to their profile page after logging in
     }
 
     @PostMapping("/register")
