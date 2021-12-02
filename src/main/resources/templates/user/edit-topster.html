@@ -1,14 +1,12 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org"
       xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
-<head>
-
-    <head th:replace="partials/partials.html :: head ('Edit A Topster')">
+<head th:replace="partials/partials.html :: head ('Edit A Topster')">
 </head>
-<body onload="onPageLoad()">
+<body>
 <nav th:replace="partials/partials.html :: navbar"></nav>
 <main>
-    <h1>Edit Your Topster!</h1>
+    <h1>Edit a topster!</h1>
 
     <div id="instructions-upper-bar">
         <button
@@ -22,7 +20,7 @@
             Collapse instructions
         </button>
     </div>
-    <div id="create-instructions" class="collapse mt-3">
+    <div id="edit-instructions" class="collapse mt-3">
         Anim pariatur cliche reprehenderit, enim eiusmod high life accusamus terry richardson ad
         squid. Nihil anim keffiyeh helvetica, craft beer labore wes anderson cred nesciunt
         sapiente ea proident.
@@ -66,7 +64,16 @@
 </main>
 <script th:replace="partials/partials.html :: md-js"></script>
 <script src="https://code.jquery.com/jquery-3.6.0.min.js" integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4=" crossorigin="anonymous"></script>
+
 <script src="/keys.js"></script>
+<!--    <script src="../js/auth.js"></script>-->
+
+<script th:inline="javascript">
+    /*<![CDATA[*/
+    var accessToken = [[${authToken}]].access_token;
+    /*]]>*/
+</script>
+
 <script>
     'use strict';
 
@@ -110,150 +117,149 @@
         }
     }
 
-    function onPageLoad(){
-        if(window.location.search.length > 0){
-            handleRedirect();
-        }else{
-            requestAuthTokenIfLocalStorageDoesntHaveOne();
-        }
-    }
-
-    function handleRedirect(){
-        let code = getCode();
-        fetchAccessToken( code );
-        window.history.pushState("", "", redirect_uri); // remove param from url
-    }
-
-    function fetchAccessToken( code ){
-        let body = "grant_type=client_credentials";
-        body += "&code=" + code;
-        body += "&redirect_uri=" + encodeURI(redirect_uri);
-        body += "&client_id=" + SPOTIFY_CLIENT_ID;
-        body += "&client_secret=" + SPOTIFY_CLIENT_SECRET;
-        callAuthorizationApi(body);
-    }
-    function getCode(){
-        let code = null;
-        const queryString = window.location.search;
-        if ( queryString.length > 0 ){
-            const urlParams = new URLSearchParams(queryString);
-            code = urlParams.get('code')
-        }
-        return code;
-    }
-
-    function callAuthorizationApi(body){
-        let xhr = new XMLHttpRequest();
-        xhr.open("POST", TOKEN, true);
-        xhr.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
-        xhr.setRequestHeader('Authorization', 'Basic ' + btoa(SPOTIFY_CLIENT_ID + ":" + SPOTIFY_CLIENT_SECRET));
-        xhr.send(body);
-        xhr.onload = handleAuthorizationResponse;
-    }
-
-    function handleAuthorizationResponse(){
-        if ( this.status == 200 ){
-            var data = JSON.parse(this.responseText);
-            console.log(data);
-            var data = JSON.parse(this.responseText);
-
-            access_token = data.access_token;
-            localStorage.setItem("access_token", access_token);
-
-            if ( data.refresh_token  != undefined ){
-                refresh_token = data.refresh_token;
-                localStorage.setItem("refresh_token", refresh_token);
-            }
-            onPageLoad();
-        }
-        else {
-            console.log(this.responseText);
-            alert(this.responseText);
-        }
-    }
-
-    function base64EncodeUnicode(str) {
-        // First we escape the string using encodeURIComponent to get the UTF-8 encoding of the characters,
-        // then we convert the percent encodings into raw bytes, and finally feed it to btoa() function.
-        let utf8Bytes = encodeURIComponent(str).replace(/%([0-9A-F]{2})/g, function(match, p1) {
-            return String.fromCharCode('0x' + p1);
-        });
-
-        return btoa(utf8Bytes);
-    }
-
-    function requestAuthorization(){
-
-        localStorage.setItem("client_id", SPOTIFY_CLIENT_ID);
-        localStorage.setItem("client_secret", SPOTIFY_CLIENT_SECRET);
-
-        let url = AUTHORIZE;
-        url += "?client_id=" + SPOTIFY_CLIENT_ID;
-        url += "&response_type=code";
-        url += "&redirect_uri=" + encodeURI(redirect_uri);
-        url += "&shot_dialogue=true";
-        url += "&scope=user-modify-playback-state user-read-playback-position user-library-read streaming user-read-playback-state user-read-recently-played";
-        window.location.href = url;
-        // let options = {
-        //     method: 'POST',
-        //     headers: {
-        //         'Content-Type': 'application/x-www-form-urlencoded',
-        //         Authorization: 'Basic ' + (base64EncodeUnicode((SPOTIFY_CLIENT_ID) + ':' + (SPOTIFY_CLIENT_SECRET)))
-        //     },
-        //     body: {
-        //         "grant_type": 'client_credentials',
-        //         response_type: 'token',
-        //         scope: ""
-        //     }
-        // };
-        // fetch('https://accounts.spotify.com/api/token', options)
-        //         .then((res) =>{
-        //             console.log(res);
-        //
-        //         })
-        //         .catch(error =>{
-        //             console.log(error)
-        //         });
-    }
-
-    function refreshAccessToken(){
-        refresh_token = localStorage.getItem("refresh_token");
-        let body = "grant_type=refresh_token";
-        body += "&refresh_token=" + refresh_token;
-        body += "&client_id=" + SPOTIFY_CLIENT_ID;
-        callAuthorizationApi(body);
-    }
-
-    function handleApiResponse(){
-        if ( this.status == 200){
-            console.log(this.responseText);
-            setTimeout(currentlyPlaying, 2000);
-        }
-        else if ( this.status == 204 ){
-            setTimeout(currentlyPlaying, 2000);
-        }
-        else if ( this.status == 401 ){
-            refreshAccessToken()
-        }
-        else {
-            console.log(this.responseText);
-            alert(this.responseText);
-        }
-    }
-
-    function requestAuthTokenIfLocalStorageDoesntHaveOne(){
-        if (localStorage.getItem("access_token") === null){
-            requestAuthorization();
-        }
-    }
+    // function onPageLoad(){
+    //     if(window.location.search.length > 0){
+    //         handleRedirect();
+    //     }
+    //     // else{
+    //     //     requestAuthTokenIfLocalStorageDoesntHaveOne();
+    //     // }
+    // }
+    //
+    // function handleRedirect(){
+    //     let code = getCode();
+    //     fetchAccessToken( code );
+    //     window.history.pushState("", "", redirect_uri); // remove param from url
+    // }
+    //
+    // function fetchAccessToken( code ){
+    //     let body = "grant_type=client_credentials";
+    //     body += "&code=" + code;
+    //     body += "&redirect_uri=" + encodeURI(redirect_uri);
+    //     body += "&client_id=" + SPOTIFY_CLIENT_ID;
+    //     body += "&client_secret=" + SPOTIFY_CLIENT_SECRET;
+    //     callAuthorizationApi(body);
+    // }
+    // function getCode(){
+    //     let code = null;
+    //     const queryString = window.location.search;
+    //     if ( queryString.length > 0 ){
+    //         const urlParams = new URLSearchParams(queryString);
+    //         code = urlParams.get('code')
+    //     }
+    //     return code;
+    // }
+    //
+    // function callAuthorizationApi(body){
+    //     let xhr = new XMLHttpRequest();
+    //     xhr.open("POST", TOKEN, true);
+    //     xhr.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
+    //     xhr.setRequestHeader('Authorization', 'Basic ' + btoa(SPOTIFY_CLIENT_ID + ":" + SPOTIFY_CLIENT_SECRET));
+    //     xhr.send(body);
+    //     xhr.onload = handleAuthorizationResponse;
+    // }
+    //
+    // function handleAuthorizationResponse(){
+    //     if ( this.status == 200 ){
+    //         var data = JSON.parse(this.responseText);
+    //         console.log(data);
+    //         var data = JSON.parse(this.responseText);
+    //
+    //         access_token = data.access_token;
+    //         localStorage.setItem("access_token", access_token);
+    //
+    //         if ( data.refresh_token  != undefined ){
+    //             refresh_token = data.refresh_token;
+    //             localStorage.setItem("refresh_token", refresh_token);
+    //         }
+    //         onPageLoad();
+    //     }
+    //     else {
+    //         console.log(this.responseText);
+    //         alert(this.responseText);
+    //     }
+    // }
+    //
+    // function base64EncodeUnicode(str) {
+    //     // First we escape the string using encodeURIComponent to get the UTF-8 encoding of the characters,
+    //     // then we convert the percent encodings into raw bytes, and finally feed it to btoa() function.
+    //     let utf8Bytes = encodeURIComponent(str).replace(/%([0-9A-F]{2})/g, function(match, p1) {
+    //         return String.fromCharCode('0x' + p1);
+    //     });
+    //
+    //     return btoa(utf8Bytes);
+    // }
+    //
+    // function requestAuthorization(){
+    //
+    //     localStorage.setItem("client_id", SPOTIFY_CLIENT_ID);
+    //     localStorage.setItem("client_secret", SPOTIFY_CLIENT_SECRET);
+    //
+    //     let url = AUTHORIZE;
+    //     url += "?client_id=" + SPOTIFY_CLIENT_ID;
+    //     url += "&response_type=code";
+    //     url += "&redirect_uri=" + encodeURI(redirect_uri);
+    //     url += "&shot_dialogue=true";
+    //     url += "&scope=user-modify-playback-state user-read-playback-position user-library-read streaming user-read-playback-state user-read-recently-played";
+    //     window.location.href = url;
+    //     // let options = {
+    //     //     method: 'POST',
+    //     //     headers: {
+    //     //         'Content-Type': 'application/x-www-form-urlencoded',
+    //     //         Authorization: 'Basic ' + (base64EncodeUnicode((SPOTIFY_CLIENT_ID) + ':' + (SPOTIFY_CLIENT_SECRET)))
+    //     //     },
+    //     //     body: {
+    //     //         "grant_type": 'client_credentials',
+    //     //         response_type: 'token',
+    //     //         scope: ""
+    //     //     }
+    //     // };
+    //     // fetch('https://accounts.spotify.com/api/token', options)
+    //     //         .then((res) =>{
+    //     //             console.log(res);
+    //     //
+    //     //         })
+    //     //         .catch(error =>{
+    //     //             console.log(error)
+    //     //         });
+    // }
+    //
+    // function refreshAccessToken(){
+    //     refresh_token = localStorage.getItem("refresh_token");
+    //     let body = "grant_type=refresh_token";
+    //     body += "&refresh_token=" + refresh_token;
+    //     body += "&client_id=" + SPOTIFY_CLIENT_ID;
+    //     callAuthorizationApi(body);
+    // }
+    //
+    // function handleApiResponse(){
+    //     if ( this.status == 200){
+    //         console.log(this.responseText);
+    //         setTimeout(currentlyPlaying, 2000);
+    //     }
+    //     else if ( this.status == 204 ){
+    //         setTimeout(currentlyPlaying, 2000);
+    //     }
+    //     else if ( this.status == 401 ){
+    //         refreshAccessToken()
+    //     }
+    //     else {
+    //         console.log(this.responseText);
+    //         alert(this.responseText);
+    //     }
+    // }
+    //
+    // function requestAuthTokenIfLocalStorageDoesntHaveOne(){
+    //     if (localStorage.getItem("access_token") === null){
+    //         requestAuthorization();
+    //     }
+    // }
 
     searchButton.click(function (){
-        refreshAccessToken();
-        // console.log(searchBar.val());
         let options = {
             headers: {
                 Accept: "application/json",
-                Authorization: "Bearer "+access_token,
+                Authorization: "Bearer "+ accessToken,
                 "Content-Type": "application/json"
             },
             method: "Get"
@@ -277,33 +283,13 @@
                                         draggable="true" data-title="${album.name}"
                                         data-artist="${album.artists[0].name}"
                                         data-releasedate="${album.release_date}"
-                                        data-spotifyid="${album.id}">
-<!--                                        <div class="album-details">-->
-<!--                                            ${albumString}-->
-<!--                                        </div>-->
-                                    </div>`;
+                                        data-spotifyid="${album.id}">`
 
-//                            This is code to render the albums as flip cards. However, the css is funky and they move to the side when you mouse over them.
-//                             `
-//                                     <div class="search-result col-4 flip-box">
-//                                         <div class="flip-box-inner">
-//                                             <div class="flip-box-front">
-// <!--                                              Whenever we adjust the size of the image, we'll need to adjust the size of the css flip-box elements accordingly-->
-//                                                 <img src="${albumArtUrl}" alt="${album.name} cover art" class="album-art" width="120" height="120" draggable="true">
-//                                             </div>
-//                                             <div class="album-details flip-box-back">
-//                                                 <p>${albumString}</p>
-//                                             </div>
-//                                         </div>
-//                                     </div>`;
-
-                    // searchResults.innerText += albumString;
                 });
             })
             .catch(error => console.error(error));
         onSearch();
     });
-    refreshAccessToken();
     changeSelection(); //This should cause non-selected topster types to be set to display-none
 </script>
 <script src="../js/drag-drop.js"></script>
