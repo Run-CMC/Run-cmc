@@ -19,7 +19,7 @@ public class RestTemplateTokenRequester {
         // Specify the http headers that we want to attach to the request
         HttpHeaders headers = new HttpHeaders();
         headers.setContentType(MediaType.APPLICATION_FORM_URLENCODED);
-        headers.add("Authorization", createAuthHeaderString("CLIENT_ID", "CLIENT_SECRET"));
+        headers.add("Authorization", createAuthHeaderString("104629a3a67d464783d1d801699dae9d", "48435d70aac7430fac02cc88b257137c"));
 
         // Create a map of the key/value pairs that we want to supply in the body of the request
         MultiValueMap<String, String> map = new LinkedMultiValueMap<>();

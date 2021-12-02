@@ -47,8 +47,10 @@ public class UserController {
 	String showProfile(Model viewModel){
 	    User principal = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
 	    User currentUser = userDao.getById(principal.getId());
-	    Topster usersTopster = topsterDao.getById(1L); //hardcoded temporarily
-	    List<Album> albums = albumRepository.selectWithTopsterFK(1L);
+	    List<Topster> usersTopster = topsterDao.findAll(); //hardcoded temporarily
+	    List<Album> albums = albumRepository.selectWithTopsterFK(2L);
+	    List<TopsterContent> contents = topsterContentRepository.selectTopsterContentWithTopsterID(1L);
+	    viewModel.addAttribute("topsterContents", contents);
 	    viewModel.addAttribute("albums", albums);
 	    viewModel.addAttribute("topster", usersTopster);
 	    viewModel.addAttribute("user", currentUser);

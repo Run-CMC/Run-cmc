@@ -5,7 +5,6 @@
 <body>
 	<nav th:replace="partials/partials.html :: navbar"></nav>
 	<main>
-<!--		<h1>Profile Page</h1>-->
 			<div th:object="${user}">
 				<h1 th:text="*{username}"></h1>
 				<h5>About me:</h5>
@@ -43,13 +42,23 @@
 					id="my-topsters"
 					role="tabpanel"
 					aria-labelledby="my-topsters-tab">
-				<div id="my-topster-tab-content"  th:object="${albums}">
-					<div  class="col-12 col-lg-6">
-						<div class="row row-cols-3 g-2 g-lg-3">
+				<div id="my-topster-tab-content" th:object="${albums}">
+					<div  class="col-12 col-lg-6" th:object="${topsterContents}">
+						<div class="row row-cols-3 g-2 g-lg-3" th:if="${#lists.size(topsterContents) lt 10}">
+							<div th:each="album : ${albums}" class="col">
+								<img th:src="${album.spotifyAlbumArt}" height="100%" width="100%">
+							</div>
+						</div>
+						<div class="row row-cols-4 g-2 g-lg-3" th:if="${#lists.size(topsterContents) gt 10 and #lists.size(topsterContents) lt 17}">
 							<div th:each="album : ${albums}" class="col">
 								<img th:src="${album.spotifyAlbumArt}" height="150" width="150">
 							</div>
+						</div><div class="row row-cols-5 g-2 g-lg-3" th:if="${#lists.size(topsterContents) gt 17}">
+						<div th:each="album : ${albums}" class="col">
+							<img th:src="${album.spotifyAlbumArt}" height="150" width="150">
 						</div>
+					</div>
+						<div th:unless="${#lists.size(topsterContents) gt 26}"></div>
 					</div>
 				</div>
 			</div>
