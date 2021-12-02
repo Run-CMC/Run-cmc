@@ -5,9 +5,30 @@
 
     <head th:replace="partials/partials.html :: head ('Edit A Topster')">
 </head>
-<body>
+<body onload="onPageLoad()">
 <nav th:replace="partials/partials.html :: navbar"></nav>
-    <h1>Edit your topster!</h1>
+<main>
+    <h1>Edit Your Topster!</h1>
+
+    <div id="instructions-upper-bar">
+        <button
+                class="btn btn-primary"
+                type="button"
+                data-mdb-toggle="collapse"
+                data-mdb-target="#create-instructions"
+                aria-expanded="false"
+                aria-controls="collapseExample"
+        >
+            Collapse instructions
+        </button>
+    </div>
+    <div id="create-instructions" class="collapse mt-3">
+        Anim pariatur cliche reprehenderit, enim eiusmod high life accusamus terry richardson ad
+        squid. Nihil anim keffiyeh helvetica, craft beer labore wes anderson cred nesciunt
+        sapiente ea proident.
+    </div>
+    <br>
+    <!--    <div id="album-art"></div><br>-->
     <input id="search-bar" type="text">
     <button id="search-button">Search</button>
     <label for="topster-type">Select a topster style</label>
@@ -16,6 +37,275 @@
         <option value="4x4" selected>4x4</option>
         <option value="3x3">3x3</option>
     </select>
-    <input type="submit" value="topster" />
+    <div class="container">
+        <div class="row">
+            <div class="col-6">
+                <div id="results" class="row"></div>
+            </div>
+            <div id="3x3" th:replace="partials/3x3-topster.html :: 3x3-topster"></div>
+            <div id="4x4" th:replace="partials/4x4-topster.html :: 4x4-topster"></div>
+            <div id="5x5" th:replace="partials/5x5-topster.html :: 5x5-topster"></div>
+            <hr>
+            <div class="col-12">
+                <label for="topster-title">Title: </label>
+                <input id="topster-title" type="text">
+            </div>
+            <div class="col-12">
+                <label for="topster-text-body">Body: </label>
+                <textarea id="topster-text-body"></textarea>
+            </div>
+            <div class="col-9"></div>
+            <div class="col-3">
+                <label for="public">Make public</label>
+                <input type="checkbox" id="public" value="public" checked>
+                <button>Create</button>
+            </div>
+        </div>
+    </div>
+
+</main>
+<script th:replace="partials/partials.html :: md-js"></script>
+<script src="https://code.jquery.com/jquery-3.6.0.min.js" integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4=" crossorigin="anonymous"></script>
+<script src="/keys.js"></script>
+<script>
+    'use strict';
+
+    // const threeByThreeTopster = $('#3x3');
+    // const fourByFourTopster = $('#4x4');
+    // const fiveByFiveTopster = $('#5x5');
+
+    const searchBar = $("#search-bar");
+    const searchButton = $("#search-button");
+    const searchResults = document.querySelector("#results");
+    const albumArtDiv= document.querySelector("#album-art");
+
+    //Following guide at https://www.youtube.com/watch?v=1vR3m0HupGI&ab_channel=MakerAtPlayCoding
+    var redirect_uri = "http://localhost:8080/create-topster";
+    const AUTHORIZE = "https://accounts.spotify.com/authorize";
+    const TOKEN = "https://accounts.spotify.com/api/token";
+
+    var access_token = null;
+    var refresh_token = null;
+
+    function changeSelection(){
+        console.log($("#topster-type").val());
+        switch ($("#topster-type").val()){
+            case "3x3":
+                $("#3x3").css("display", "block");
+                $("#4x4").css("display", "none");
+                $("#5x5").css("display", "none");
+                break;
+            case "4x4":
+                $("#3x3").css("display", "none");
+                $("#4x4").css("display", "block");
+                $("#5x5").css("display", "none");
+                break;
+            case "5x5":
+                $("#3x3").css("display", "none");
+                $("#4x4").css("display", "none");
+                $("#5x5").css("display", "block");
+                break;
+            default:
+                console.log("This should never happen")
+        }
+    }
+
+    function onPageLoad(){
+        if(window.location.search.length > 0){
+            handleRedirect();
+        }else{
+            requestAuthTokenIfLocalStorageDoesntHaveOne();
+        }
+    }
+
+    function handleRedirect(){
+        let code = getCode();
+        fetchAccessToken( code );
+        window.history.pushState("", "", redirect_uri); // remove param from url
+    }
+
+    function fetchAccessToken( code ){
+        let body = "grant_type=client_credentials";
+        body += "&code=" + code;
+        body += "&redirect_uri=" + encodeURI(redirect_uri);
+        body += "&client_id=" + SPOTIFY_CLIENT_ID;
+        body += "&client_secret=" + SPOTIFY_CLIENT_SECRET;
+        callAuthorizationApi(body);
+    }
+    function getCode(){
+        let code = null;
+        const queryString = window.location.search;
+        if ( queryString.length > 0 ){
+            const urlParams = new URLSearchParams(queryString);
+            code = urlParams.get('code')
+        }
+        return code;
+    }
+
+    function callAuthorizationApi(body){
+        let xhr = new XMLHttpRequest();
+        xhr.open("POST", TOKEN, true);
+        xhr.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
+        xhr.setRequestHeader('Authorization', 'Basic ' + btoa(SPOTIFY_CLIENT_ID + ":" + SPOTIFY_CLIENT_SECRET));
+        xhr.send(body);
+        xhr.onload = handleAuthorizationResponse;
+    }
+
+    function handleAuthorizationResponse(){
+        if ( this.status == 200 ){
+            var data = JSON.parse(this.responseText);
+            console.log(data);
+            var data = JSON.parse(this.responseText);
+
+            access_token = data.access_token;
+            localStorage.setItem("access_token", access_token);
+
+            if ( data.refresh_token  != undefined ){
+                refresh_token = data.refresh_token;
+                localStorage.setItem("refresh_token", refresh_token);
+            }
+            onPageLoad();
+        }
+        else {
+            console.log(this.responseText);
+            alert(this.responseText);
+        }
+    }
+
+    function base64EncodeUnicode(str) {
+        // First we escape the string using encodeURIComponent to get the UTF-8 encoding of the characters,
+        // then we convert the percent encodings into raw bytes, and finally feed it to btoa() function.
+        let utf8Bytes = encodeURIComponent(str).replace(/%([0-9A-F]{2})/g, function(match, p1) {
+            return String.fromCharCode('0x' + p1);
+        });
+
+        return btoa(utf8Bytes);
+    }
+
+    function requestAuthorization(){
+
+        localStorage.setItem("client_id", SPOTIFY_CLIENT_ID);
+        localStorage.setItem("client_secret", SPOTIFY_CLIENT_SECRET);
+
+        let url = AUTHORIZE;
+        url += "?client_id=" + SPOTIFY_CLIENT_ID;
+        url += "&response_type=code";
+        url += "&redirect_uri=" + encodeURI(redirect_uri);
+        url += "&shot_dialogue=true";
+        url += "&scope=user-modify-playback-state user-read-playback-position user-library-read streaming user-read-playback-state user-read-recently-played";
+        window.location.href = url;
+        // let options = {
+        //     method: 'POST',
+        //     headers: {
+        //         'Content-Type': 'application/x-www-form-urlencoded',
+        //         Authorization: 'Basic ' + (base64EncodeUnicode((SPOTIFY_CLIENT_ID) + ':' + (SPOTIFY_CLIENT_SECRET)))
+        //     },
+        //     body: {
+        //         "grant_type": 'client_credentials',
+        //         response_type: 'token',
+        //         scope: ""
+        //     }
+        // };
+        // fetch('https://accounts.spotify.com/api/token', options)
+        //         .then((res) =>{
+        //             console.log(res);
+        //
+        //         })
+        //         .catch(error =>{
+        //             console.log(error)
+        //         });
+    }
+
+    function refreshAccessToken(){
+        refresh_token = localStorage.getItem("refresh_token");
+        let body = "grant_type=refresh_token";
+        body += "&refresh_token=" + refresh_token;
+        body += "&client_id=" + SPOTIFY_CLIENT_ID;
+        callAuthorizationApi(body);
+    }
+
+    function handleApiResponse(){
+        if ( this.status == 200){
+            console.log(this.responseText);
+            setTimeout(currentlyPlaying, 2000);
+        }
+        else if ( this.status == 204 ){
+            setTimeout(currentlyPlaying, 2000);
+        }
+        else if ( this.status == 401 ){
+            refreshAccessToken()
+        }
+        else {
+            console.log(this.responseText);
+            alert(this.responseText);
+        }
+    }
+
+    function requestAuthTokenIfLocalStorageDoesntHaveOne(){
+        if (localStorage.getItem("access_token") === null){
+            requestAuthorization();
+        }
+    }
+
+    searchButton.click(function (){
+        refreshAccessToken();
+        // console.log(searchBar.val());
+        let options = {
+            headers: {
+                Accept: "application/json",
+                Authorization: "Bearer "+access_token,
+                "Content-Type": "application/json"
+            },
+            method: "Get"
+        };
+        fetch("https://api.spotify.com/v1/search?q=" + searchBar.val() +"&type=album,artist", options)
+            .then(res => res.json())
+            .then(data => {
+                console.log(data);
+                searchResults.innerHTML = "";
+                data.albums.items.forEach(function (album, iterator){
+                    let albumString = "Artist: " + album.artists[0].name;
+                    albumString += "\nAlbum: "+ album.name;
+                    albumString += "\nRelease Date: "+ album.release_date;
+                    let albumArtUrl = album.images[0].url;
+                    // console.log(albumArtUrl);
+                    // console.log(albumString);
+                    searchResults.innerHTML +=
+                        `<div id="result-${iterator}" class="search-result col-4">
+                                        <img title="${albumString}" src="${albumArtUrl}"
+                                        alt="${album.name} cover art" width="120" height="120"
+                                        draggable="true" data-title="${album.name}"
+                                        data-artist="${album.artists[0].name}"
+                                        data-releasedate="${album.release_date}"
+                                        data-spotifyid="${album.id}">
+<!--                                        <div class="album-details">-->
+<!--                                            ${albumString}-->
+<!--                                        </div>-->
+                                    </div>`;
+
+//                            This is code to render the albums as flip cards. However, the css is funky and they move to the side when you mouse over them.
+//                             `
+//                                     <div class="search-result col-4 flip-box">
+//                                         <div class="flip-box-inner">
+//                                             <div class="flip-box-front">
+// <!--                                              Whenever we adjust the size of the image, we'll need to adjust the size of the css flip-box elements accordingly-->
+//                                                 <img src="${albumArtUrl}" alt="${album.name} cover art" class="album-art" width="120" height="120" draggable="true">
+//                                             </div>
+//                                             <div class="album-details flip-box-back">
+//                                                 <p>${albumString}</p>
+//                                             </div>
+//                                         </div>
+//                                     </div>`;
+
+                    // searchResults.innerText += albumString;
+                });
+            })
+            .catch(error => console.error(error));
+        onSearch();
+    });
+    refreshAccessToken();
+    changeSelection(); //This should cause non-selected topster types to be set to display-none
+</script>
+<script src="../js/drag-drop.js"></script>
 </body>
 </html>
