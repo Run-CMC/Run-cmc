@@ -5,6 +5,13 @@
 <body>
 <nav th:replace="partials/partials :: navbar"></nav>
 <h1>Discover the Latest Topsters!</h1>
+    <div th:object="${topster}">
+        <div th:each="top : ${topster}">
+            <div th:text="${top.title}"></div>
+            <div th:text="${top.body}"></div>
+            <a th:href="@{'/discover/topster/' + ${top.id}}">Check Out This Topster!!!</a>
+        </div>
+    </div>
 
 <script th:replace="partials/partials :: md-js"></script>
 </body>
