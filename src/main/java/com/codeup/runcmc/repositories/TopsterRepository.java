@@ -5,5 +5,5 @@ import org.springframework.data.jpa.repository.JpaRepository;
 
 public interface TopsterRepository extends JpaRepository<Topster, Long> {
     Topster findByTitle(String title);
-    Topster findById(long id);
+    Topster getById(long id);
 }

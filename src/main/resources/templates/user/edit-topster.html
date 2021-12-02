@@ -44,20 +44,22 @@
             <div id="4x4" th:replace="partials/4x4-topster.html :: 4x4-topster"></div>
             <div id="5x5" th:replace="partials/5x5-topster.html :: 5x5-topster"></div>
             <hr>
+            <form th:action="@{'/edit-topster/'+*{id}}" th:method="post" th:object="${topster}">
             <div class="col-12">
                 <label for="topster-title">Title: </label>
-                <input id="topster-title" type="text">
+                <input th:field="*{title}" id="topster-title" type="text">
             </div>
             <div class="col-12">
                 <label for="topster-text-body">Description: </label>
-                <textarea id="topster-text-body"></textarea>
+                <textarea th:field="*{body}" id="topster-text-body"></textarea>
             </div>
             <div class="col-9"></div>
             <div class="col-3">
                 <label for="public">Make public</label>
-                <input type="checkbox" id="public" value="public" checked>
+                <input th:field="*{isPublic}" type="checkbox" id="public" value="public" checked>
                 <button>Create</button>
             </div>
+            </form>
         </div>
     </div>
 </main>

@@ -1,14 +1,13 @@
 package com.codeup.runcmc.controllers;
 
+import com.codeup.runcmc.models.Topster;
+import com.codeup.runcmc.repositories.TopsterRepository;
 import com.codeup.runcmc.services.RestTemplateTokenRequester;
 import com.codeup.runcmc.services.TokenResponse;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -28,12 +27,27 @@ public class TopsterController {
 
     private RestTemplateTokenRequester restTemplateTokenRequester;
 
-    public TopsterController(RestTemplateTokenRequester restTemplateTokenRequester) {
+    private TopsterRepository topsterRepository;
+
+    public TopsterController(TopsterRepository topsterRepository, RestTemplateTokenRequester restTemplateTokenRequester) {
+        this.topsterRepository = topsterRepository;
         this.restTemplateTokenRequester = restTemplateTokenRequester;
     }
 
-    @GetMapping("/edit-topster")
-    public String showEditProfilePage(){ return "user/edit-topster";}
+    @GetMapping("/edit-topster/{id}")
+    public String showEditProfilePage(Model model, @PathVariable long id){
+        model.addAttribute("topster",topsterRepository.getById(id));
+        return "user/edit-topster";
+    }
+
+    @PostMapping("/edit-topster/{id}")
+    public String editTopster(@ModelAttribute Topster topster) {
+        topster = topsterRepository.getById(topster.getId());
+        topster.setTitle(topster.getTitle());
+        topster.setBody(topster.getBody());
+        topsterRepository.save(topster);
+        return "user/edit-topster/{id}";
+    }
 
     @GetMapping("/create-topster")
     public String showCreateTopsterPage (Model viewModel){
