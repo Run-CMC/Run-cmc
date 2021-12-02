@@ -70,5 +70,5 @@ function drop(e) {
     e.target.innerHTML=newImgTag;
 
     // display the draggable element
-    draggable.classList.remove('hide');
+    // draggable.classList.remove('hide');
 }
