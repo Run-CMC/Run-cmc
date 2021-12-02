@@ -12,10 +12,12 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.Errors;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 
+import javax.validation.Valid;
 import java.util.List;
 
 @Controller
@@ -50,12 +52,17 @@ public class UserController {
 	    viewModel.addAttribute("albums", albums);
 	    viewModel.addAttribute("topster", usersTopster);
 	    viewModel.addAttribute("user", currentUser);
-        return "discover.html"; // Changed the redirect to discover when a user signs in
-//    	return "user/profile.html"; // this will lead user to their profile page after logging in
+//        return "discover.html"; // Changed the redirect to discover when a user signs in
+    	return "user/profile.html"; // this will lead user to their profile page after logging in
     }
 
     @PostMapping("/register")
-    public String saveUser(@ModelAttribute User user){
+    public String saveUser(@ModelAttribute @Valid User user, Errors validation, Model model){
+        if (validation.hasErrors()) {
+            model.addAttribute("errors", validation);
+            model.addAttribute("user", user);
+            return "/register";
+        }
         String hash = passwordEncoder.encode(user.getPassword());
         user.setPassword(hash);
         userDao.save(user);

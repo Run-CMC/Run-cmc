@@ -7,12 +7,15 @@
 <form th:action="@{/register}" method="POST" th:object="${user}">
     <label for="username">Username</label>
     <input id="username" th:field="*{username}" />
+    <p th:if="${#fields.hasErrors('username')}" th:errors="*{username}"></p>
     <br>
     <label for="email">Email</label>
     <input id="email" th:field="*{email}" />
+    <p th:if="${#fields.hasErrors('email')}" th:errors="*{email}"></p>
     <br>
     <label for="password">Password</label>
     <input id="password" type="password" th:field="*{password}" />
+    <p th:if="${#fields.hasErrors('password')}" th:errors="*{password}"></p>
     <br>
     <!--user will not be able to login because of the confirm password field-->
 <!--    <label for="confirmpassword">Confirm Password</label>-->
