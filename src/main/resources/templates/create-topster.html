@@ -39,30 +39,38 @@
             <div class="col-6">
                 <div id="results" class="row"></div>
             </div>
-            <div id="3x3" th:replace="partials/3x3-topster.html :: 3x3-topster"></div>
-            <div id="4x4" th:replace="partials/4x4-topster.html :: 4x4-topster"></div>
-            <div id="5x5" th:replace="partials/5x5-topster.html :: 5x5-topster"></div>
-            <hr>
-            <div class="col-12">
-                <label for="topster-title">Title: </label>
-                <input id="topster-title" type="text">
-            </div>
-            <div class="col-12">
-                <label for="topster-text-body">Description: </label>
-                <textarea id="topster-text-body"></textarea>
-            </div>
-            <div class="col-9"></div>
-            <div class="col-3">
-                <label for="public">Make public</label>
-                <input type="checkbox" id="public" value="public" checked>
-                <button>Create</button>
-            </div>
+
+            <form th:action="@{/create-topster}" th:method="POST">
+
+                <div id="3x3" th:replace="partials/3x3-topster.html :: 3x3-topster"></div>
+                <div id="4x4" th:replace="partials/4x4-topster.html :: 4x4-topster"></div>
+                <div id="5x5" th:replace="partials/5x5-topster.html :: 5x5-topster"></div>
+                <hr>
+                <div class="col-12">
+                    <label for="topster-title">Title: </label>
+                    <input id="topster-title" type="text">
+                </div>
+                <div class="col-12">
+                    <label for="topster-text-body">Description: </label>
+                    <textarea id="topster-text-body"></textarea>
+                </div>
+                <div class="col-9"></div>
+                <div class="col-3">
+                    <label for="public">Make public</label>
+                    <input type="checkbox" id="public" value="public" checked>
+                    <!--                <button>Create</button>-->
+                    <input type="submit">
+                </div>
+
+            </form>
+
         </div>
     </div>
 
 </main>
 <script th:replace="partials/partials.html :: md-js"></script>
-<script src="https://code.jquery.com/jquery-3.6.0.min.js" integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4=" crossorigin="anonymous"></script>
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"
+        integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4=" crossorigin="anonymous"></script>
 
 <!--<script src="/keys.js"></script>-->
 <!--    <script src="../js/auth.js"></script>-->
@@ -83,7 +91,7 @@
     const searchBar = $("#search-bar");
     const searchButton = $("#search-button");
     const searchResults = document.querySelector("#results");
-    const albumArtDiv= document.querySelector("#album-art");
+    const albumArtDiv = document.querySelector("#album-art");
 
     //Following guide at https://www.youtube.com/watch?v=1vR3m0HupGI&ab_channel=MakerAtPlayCoding
     var redirect_uri = "http://localhost:8080/create-topster";
@@ -93,9 +101,9 @@
     var access_token = null;
     var refresh_token = null;
 
-    function changeSelection(){
+    function changeSelection() {
         console.log($("#topster-type").val());
-        switch ($("#topster-type").val()){
+        switch ($("#topster-type").val()) {
             case "3x3":
                 $("#3x3").css("display", "block");
                 $("#4x4").css("display", "none");
@@ -254,24 +262,24 @@
     //     }
     // }
 
-    searchButton.click(function (){
+    searchButton.click(function () {
         let options = {
             headers: {
                 Accept: "application/json",
-                Authorization: "Bearer "+ accessToken,
+                Authorization: "Bearer " + accessToken,
                 "Content-Type": "application/json"
             },
             method: "Get"
         };
-        fetch("https://api.spotify.com/v1/search?q=" + searchBar.val() +"&type=album,artist", options)
+        fetch("https://api.spotify.com/v1/search?q=" + searchBar.val() + "&type=album,artist", options)
             .then(res => res.json())
             .then(data => {
                 console.log(data);
                 searchResults.innerHTML = "";
-                data.albums.items.forEach(function (album, iterator){
+                data.albums.items.forEach(function (album, iterator) {
                     let albumString = "Artist: " + album.artists[0].name;
-                    albumString += "\nAlbum: "+ album.name;
-                    albumString += "\nRelease Date: "+ album.release_date;
+                    albumString += "\nAlbum: " + album.name;
+                    albumString += "\nRelease Date: " + album.release_date;
                     let albumArtUrl = album.images[0].url;
                     // console.log(albumArtUrl);
                     // console.log(albumString);

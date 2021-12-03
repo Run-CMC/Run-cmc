@@ -62,8 +62,11 @@ function drop(e) {
             }
 
             theOriginalTag = document.querySelector(`.search-result [src='` + trimmedAlbumArtLink + `']`).outerHTML;
-            let newTag = theOriginalTag.replace("width=\"120\" height=\"120\"", "width=\"100%\" height=\"100%\"");
-            e.target.innerHTML = newTag;
+            let newImgTag = theOriginalTag.replace("width=\"120\" height=\"120\"", "width=\"100%\" height=\"100%\"");
+
+            let imgPlusHiddenForms = newImgTag + createAlbumInfoFields(newImgTag);
+
+            e.target.innerHTML = imgPlusHiddenForms;
         });
     }
 
@@ -79,6 +82,9 @@ function drop(e) {
 
         let newImgTag= theImgTagThatWeWantToCopy.outerHTML;
         newImgTag = newImgTag.replace("width=\"120\" height=\"120\"","width=\"100%\" height=\"100%\"") //here we're using the portion of the tag that defines the height and width to strip that out. If we change the results from appearing 120x120 we'll have to change or remove this
+
+        let imgPlusHiddenForms = newImgTag + createAlbumInfoFields(newImgTag);
+
         // let draggable;
         //
         // results.forEach(function (result){
@@ -92,12 +98,43 @@ function drop(e) {
 
         // add it to the drop target
         // e.target.appendChild(draggable);
-        e.target.innerHTML=newImgTag;
+        e.target.innerHTML = imgPlusHiddenForms;
 
         // display the draggable element
         // draggable.classList.remove('hide');
     }
-    function createAlbumInfoFields(){
+
+    function createAlbumInfoFields(imgTagHTML) {
+
+        let src = imgTagHTML.substring((imgTagHTML.indexOf("src=") + 5),
+            imgTagHTML.indexOf("\" alt=", (imgTagHTML.indexOf("src=") + 5)));
+
+        let title = imgTagHTML.substring((imgTagHTML.indexOf("data-title=") + 12),
+            imgTagHTML.indexOf("\" data-", (imgTagHTML.indexOf("data-title=") + 12)));
+
+        let artist = imgTagHTML.substring((imgTagHTML.indexOf("data-artist=") + 13),
+            imgTagHTML.indexOf("\" data-", (imgTagHTML.indexOf("data-artist=") + 13)));
+
+        let releaseDate = imgTagHTML.substring((imgTagHTML.indexOf("data-releasedate=") + 18),
+            imgTagHTML.indexOf("\" data-", (imgTagHTML.indexOf("data-releasedate=") + 18)));
+
+        let spotifyID = imgTagHTML.substring((imgTagHTML.indexOf("data-spotifyid=") + 16),
+            imgTagHTML.indexOf("\" width=", (imgTagHTML.indexOf("data-spotifyid=") + 16)));
+
+        console.log(src);
+        console.log(title);
+        console.log(artist);
+        console.log(releaseDate);
+        console.log(spotifyID);
+
+        return `<div class="form-group hide">
+                  <input type="text" value="src[]" name="src[]" id="src[]">
+                  <input type="text" value="title[]" name="title[]" id="title[]">
+                  <input type="text" value="artist[]" name="artist[]" id="artist[]">
+                  <input type="text" value="releaseDate[]" name="releaseDate[]" id="releaseDate[]">
+                  <input type="text" value="spotifyID[]" name="spotifyID[]" id="spotifyID[]">
+                </div>`
+
 
     }
 }

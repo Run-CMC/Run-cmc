@@ -10,6 +10,8 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
+import javax.mail.MessagingException;
+import javax.servlet.http.HttpServletRequest;
 import java.util.List;
 
 @Controller
@@ -58,8 +60,20 @@ public class TopsterController {
     }
 
     @PostMapping("/create-topster")
-    public String createTopster(@ModelAttribute Topster topster, @RequestParam List<String>position){
-        return "profile";
+    public String createTopster(
+            @ModelAttribute Topster topster,
+            @RequestParam(name = "src[]") String[] srcs,
+            @RequestParam(name = "title[]") String[] titles,
+            @RequestParam(name = "artist[]") String[] artists,
+            @RequestParam(name = "releaseDate[]") String[] releaseDates,
+            @RequestParam(name = "spotifyID[]") String[] spotifyIDs, HttpServletRequest request) throws MessagingException {
+
+        for (String title : titles) {
+            System.out.println(title);
+        }
+
+
+        return "redirect:/profile";
     }
 
     @GetMapping("dragdropdemo")
