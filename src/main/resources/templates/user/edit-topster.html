@@ -47,11 +47,11 @@
             <form th:action="@{'/edit-topster/'+*{id}}" th:method="post" th:object="${topster}">
             <div class="col-12">
                 <label for="topster-title">Title: </label>
-                <input th:field="*{title}" id="topster-title" type="text">
+                <input th:field="*{title}" id="topster-title" type="text" placeholder="Please enter a title.">
             </div>
             <div class="col-12">
                 <label for="topster-text-body">Description: </label>
-                <textarea th:field="*{body}" id="topster-text-body"></textarea>
+                <textarea th:field="*{body}" id="topster-text-body" placeholder="Please enter a description."></textarea>
             </div>
             <div class="col-9"></div>
             <div class="col-3">
