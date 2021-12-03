@@ -43,7 +43,7 @@
 		     role="tabpanel"
 		     aria-labelledby="my-topsters-tab">
 			<div id="my-topster-tab-content" th:object="${albums}">
-				<div  class="col-12 col-lg-6" th:object="${topsterContents}">
+				<div  class="col-8" th:object="${topsterContents}">
 					<div class="row row-cols-3 g-2 g-lg-3" th:if="${#lists.size(topsterContents) lt 10}">
 						<div th:each="album : ${albums}" class="col">
 							<img th:src="${album.spotifyAlbumArt}" height="100%" width="100%">
@@ -51,11 +51,15 @@
 					</div>
 					<div class="row row-cols-4 g-2 g-lg-3" th:if="${#lists.size(topsterContents) gt 10 and #lists.size(topsterContents) lt 17}">
 						<div th:each="album : ${albums}" class="col">
-							<img th:src="${album.spotifyAlbumArt}" height="150" width="150">
+							<img th:src="${album.spotifyAlbumArt}" th:alt="${album.spotifyAlbumName} + ' cover art'" height="100%" width="100%">
 						</div>
 					</div><div class="row row-cols-5 g-2 g-lg-3" th:if="${#lists.size(topsterContents) gt 17}">
 					<div th:each="album : ${albums}" class="col">
-						<img th:src="${album.spotifyAlbumArt}" height="150" width="150">
+						<img th:src="${album.spotifyAlbumArt}" height="100%" width="100%" th:title="'Artist: ' + ${album.spotifyArtist} +   '   Album: ' + ${album.spotifyAlbumName} + '   Release Date:' + ${album.releaseDate}"
+						     data-title="${album.name}"
+						     data-artist="${album.artists[0].name}"
+						     data-releasedate="${album.release_date}"
+						     data-spotifyid="${album.id}">
 					</div>
 				</div>
 					<div th:unless="${#lists.size(topsterContents) gt 26}"></div>
@@ -67,7 +71,6 @@
 		</div>
 	</div>
 </main>
-
 
 <script th:replace="partials/partials.html :: md-js"></script>
 </body>
