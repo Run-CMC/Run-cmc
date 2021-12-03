@@ -1,14 +1,38 @@
 <!DOCTYPE html>
-<html lang="en">
-<head>
-	<meta charset="UTF-8">
-	<title>View Topster</title>
+<html xmlns:th="http://www.thymeleaf.org" lang="en">
+<head th:replace="partials/partials :: head ('View Topster')">
 </head>
 <body>
-	<div>Navbar</div>
-	<h1 id="topster-title">Topster Title Here</h1>
-	<div id="topster-container">Topster in this div</div>
-	<div id="album-info">Album info field</div>
-	<div id="topster-description">Topster description field</div>
+<nav th:replace="partials/partials :: navbar"></nav>
+<main>
+	<h1>View the individual topster!</h1>
+	<div th:object="${topster}">
+			<div th:text="*{title}"></div>
+			<div th:text="*{body}"></div>
+
+			<div class="col-6">
+				<div class="row row-cols-3 g-2 g-lg-3" th:if="${#lists.size(topster.topsterContents) == 9}">
+					<div class="col" th:each="tc : *{topsterContents}">
+						<a th:href="@{'/album/' + ${tc.album.id}}">Go to this album!</a>
+						<img th:src="${tc.album.spotifyAlbumArt}" height="100%" width="100%">
+					</div>
+				</div>
+				<div class="row row-cols-4 g-2 g-lg-3" th:if="${#lists.size(topster.topsterContents) == 16}">
+					<div class="col" th:each="tc : *{topsterContents}">
+						<a th:href="@{'/album/' + ${tc.album.id}}">Go to this album!</a>
+						<img th:src="${tc.album.spotifyAlbumArt}" height="100%" width="100%">
+					</div>
+				</div>
+				<div class="row row-cols-5 g-2 g-lg-3" th:if="${#lists.size(topster.topsterContents) == 25}">
+					<div class="col" th:each="tc : *{topsterContents}">
+						<a th:href="@{'/album/' + ${tc.album.id}}">Go to this album!</a>
+						<img th:src="${tc.album.spotifyAlbumArt}" height="100%" width="100%">
+					</div>
+				</div>
+			</div>
+		</div>
+
+</main>
+<script th:replace="partials/partials :: md-js"></script>
 </body>
 </html>
