@@ -10,8 +10,6 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
-import javax.mail.MessagingException;
-import javax.servlet.http.HttpServletRequest;
 import java.util.List;
 
 @Controller
@@ -23,11 +21,6 @@ public class TopsterController {
 //    @Value("${spotify_client_secret}")
 //    private String spotifyClientSecret;
 
-    @GetMapping("discover/topster/{id}")
-    public String showIndividualTopsterPage(){
-        return "topster.html";
-    }
-
     private RestTemplateTokenRequester restTemplateTokenRequester;
 
     private TopsterRepository topsterRepository;
@@ -35,6 +28,12 @@ public class TopsterController {
     public TopsterController(TopsterRepository topsterRepository, RestTemplateTokenRequester restTemplateTokenRequester) {
         this.topsterRepository = topsterRepository;
         this.restTemplateTokenRequester = restTemplateTokenRequester;
+    }
+
+    @GetMapping("discover/topster/{id}")
+    public String showIndividualTopsterPage(Model model, @PathVariable long id) {
+        model.addAttribute("topster",topsterRepository.getById(id));
+        return "topster.html";
     }
 
     @GetMapping("/edit-topster/{id}")
@@ -60,20 +59,8 @@ public class TopsterController {
     }
 
     @PostMapping("/create-topster")
-    public String createTopster(
-            @ModelAttribute Topster topster,
-            @RequestParam(name = "src[]") String[] srcs,
-            @RequestParam(name = "title[]") String[] titles,
-            @RequestParam(name = "artist[]") String[] artists,
-            @RequestParam(name = "releaseDate[]") String[] releaseDates,
-            @RequestParam(name = "spotifyID[]") String[] spotifyIDs, HttpServletRequest request) throws MessagingException {
-
-        for (String title : titles) {
-            System.out.println(title);
-        }
-
-
-        return "redirect:/profile";
+    public String createTopster(@ModelAttribute Topster topster, @RequestParam List<String>position){
+        return "profile";
     }
 
     @GetMapping("dragdropdemo")
