@@ -14,9 +14,10 @@ public class AlbumController {
     @GetMapping("/album/{id}")
     public String show(@PathVariable String id, Model viewModel) {
 
-        AlbumResponse albumResponse = RestTemplateAlbumRequester.requestAccessAlbum("AUTH_TOKEN", id);
+        AlbumResponse albumResponse = RestTemplateAlbumRequester.requestAccessAlbum("somebody gotta figure out how to get this authorized, bruh", id);
 
         viewModel.addAttribute("album", albumResponse);
+        viewModel.addAttribute("albumID", id);
 
         return "album.html";
     }
