@@ -76,6 +76,7 @@ function drop(e) {
 
         //having to improvise a way to select the img element with said src attribute
         let theImgTagThatWeWantToCopy = document.querySelector(`.search-result [src=${CSS.escape(id)}]`); //works on firefox but not chrome
+
         let newImgTag= theImgTagThatWeWantToCopy.outerHTML;
         newImgTag = newImgTag.replace("width=\"120\" height=\"120\"","width=\"100%\" height=\"100%\"") //here we're using the portion of the tag that defines the height and width to strip that out. If we change the results from appearing 120x120 we'll have to change or remove this
         // let draggable;
@@ -95,5 +96,8 @@ function drop(e) {
 
         // display the draggable element
         // draggable.classList.remove('hide');
+    }
+    function createAlbumInfoFields(){
+
     }
 }
