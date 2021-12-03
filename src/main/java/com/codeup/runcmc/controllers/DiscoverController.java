@@ -1,6 +1,7 @@
 package com.codeup.runcmc.controllers;
 
 import com.codeup.runcmc.models.Topster;
+import com.codeup.runcmc.models.TopsterContent;
 import com.codeup.runcmc.models.User;
 import com.codeup.runcmc.repositories.AlbumRepository;
 import com.codeup.runcmc.repositories.TopsterRepository;

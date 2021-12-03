@@ -48,8 +48,8 @@ public class UserController {
 		User principal = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
 		User currentUser = userDao.getById(principal.getId());
 		List<Topster> usersTopster = topsterDao.findAll(); //hardcoded temporarily
-		List<Album> albums = albumRepository.selectWithTopsterFK(3L);
-		List<TopsterContent> contents = topsterContentRepository.selectTopsterContentWithTopsterID(3L);
+		List<Album> albums = albumRepository.findAll();
+		List<TopsterContent> contents = topsterContentRepository.findAll();
 		viewModel.addAttribute("topsterContents", contents);
 		viewModel.addAttribute("albums", albums);
 		viewModel.addAttribute("topster", usersTopster);
