@@ -2,6 +2,7 @@ package com.codeup.runcmc.controllers;
 
 import com.codeup.runcmc.models.Topster;
 import com.codeup.runcmc.repositories.TopsterRepository;
+
 import com.codeup.runcmc.services.RestTemplateTokenRequester;
 import com.codeup.runcmc.services.TokenResponse;
 import org.springframework.beans.factory.annotation.Value;
@@ -54,6 +55,11 @@ public class TopsterController {
         TokenResponse authToken = restTemplateTokenRequester.requestAccessToken();
         viewModel.addAttribute("authToken", authToken);
         return "create-topster";
+    }
+
+    @PostMapping("/create-topster")
+    public String createTopster(@ModelAttribute Topster topster, @RequestParam List<String>position){
+        return "profile";
     }
 
     @GetMapping("dragdropdemo")
