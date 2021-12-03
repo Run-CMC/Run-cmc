@@ -47,15 +47,10 @@ public class UserController {
 	String showProfile(Model viewModel){
 		User principal = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
 		User currentUser = userDao.getById(principal.getId());
-		List<Topster> usersTopster = topsterDao.findAll(); //hardcoded temporarily
-		List<Album> albums = albumRepository.findAll();
-		List<TopsterContent> contents = topsterContentRepository.findAll();
-		viewModel.addAttribute("topsterContents", contents);
-		viewModel.addAttribute("albums", albums);
-		viewModel.addAttribute("topster", usersTopster);
+		List<Topster> usersTopster = topsterDao.findAllByUser(currentUser.getId());
+		viewModel.addAttribute("topsters", usersTopster);
 		viewModel.addAttribute("user", currentUser);
-//        return "discover.html"; // Changed the redirect to discover when a user signs in
-		return "user/profile.html"; // this will lead user to their profile page after logging in
+		return "user/profile.html";
 	}
 
 	@PostMapping("/register")
