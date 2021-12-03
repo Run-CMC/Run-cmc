@@ -44,23 +44,24 @@
             <div id="4x4" th:replace="partials/4x4-topster.html :: 4x4-topster"></div>
             <div id="5x5" th:replace="partials/5x5-topster.html :: 5x5-topster"></div>
             <hr>
+            <form th:action="@{'/edit-topster/'+*{id}}" th:method="post" th:object="${topster}">
             <div class="col-12">
                 <label for="topster-title">Title: </label>
-                <input id="topster-title" type="text">
+                <input th:field="*{title}" name="title" id="topster-title" type="text" placeholder="Please enter a title.">
             </div>
             <div class="col-12">
-                <label for="topster-text-body">Body: </label>
-                <textarea id="topster-text-body"></textarea>
+                <label for="topster-text-body">Description: </label>
+                <textarea th:field="*{body}" name="body" id="topster-text-body" placeholder="Please enter a description."></textarea>
             </div>
             <div class="col-9"></div>
-            <div class="col-3">
-                <label for="public">Make public</label>
-                <input type="checkbox" id="public" value="public" checked>
-                <button>Create</button>
-            </div>
+<!--            <div class="col-3">-->
+<!--                <label for="public">Make public</label>-->
+<!--                <input th:field="*{isPublic}" name="isPublic" type="checkbox" id="public" value="public" checked>-->
+                <button class="btn btn-primary" type="submit" value="Submit">Submit</button>
+<!--            </div>-->
+            </form>
         </div>
     </div>
-
 </main>
 <script th:replace="partials/partials.html :: md-js"></script>
 <script src="https://code.jquery.com/jquery-3.6.0.min.js" integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4=" crossorigin="anonymous"></script>
