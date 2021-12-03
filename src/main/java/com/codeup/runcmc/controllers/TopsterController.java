@@ -1,6 +1,7 @@
 package com.codeup.runcmc.controllers;
 
 import com.codeup.runcmc.models.Topster;
+import com.codeup.runcmc.repositories.TopsterRepository;
 import com.codeup.runcmc.services.RestTemplateTokenRequester;
 import com.codeup.runcmc.services.TokenResponse;
 import org.springframework.beans.factory.annotation.Value;
@@ -26,23 +27,33 @@ public class TopsterController {
 
     private RestTemplateTokenRequester restTemplateTokenRequester;
 
-    public TopsterController(RestTemplateTokenRequester restTemplateTokenRequester) {
+    private TopsterRepository topsterRepository;
+
+    public TopsterController(TopsterRepository topsterRepository, RestTemplateTokenRequester restTemplateTokenRequester) {
+        this.topsterRepository = topsterRepository;
         this.restTemplateTokenRequester = restTemplateTokenRequester;
     }
 
-    @GetMapping("/edit-topster")
-    public String showEditProfilePage(){ return "user/edit-topster";}
+    @GetMapping("/edit-topster/{id}")
+    public String showEditProfilePage(Model model, @PathVariable long id){
+        model.addAttribute("topster",topsterRepository.getById(id));
+        return "user/edit-topster";
+    }
+
+    @PostMapping("/edit-topster/{id}")
+    public String editTopster(@ModelAttribute Topster topster) {
+        Topster editTopsterInfo = topsterRepository.getById(topster.getId());
+        editTopsterInfo.setTitle(topster.getTitle());
+        editTopsterInfo.setBody(topster.getBody());
+        topsterRepository.save(editTopsterInfo);
+        return "redirect:/profile";
+    }
 
     @GetMapping("/create-topster")
     public String showCreateTopsterPage (Model viewModel){
         TokenResponse authToken = restTemplateTokenRequester.requestAccessToken();
         viewModel.addAttribute("authToken", authToken);
         return "create-topster";
-    }
-
-    @PostMapping("/create-topster")
-    public String createTopster(@ModelAttribute Topster topster, @RequestParam List<String>position){
-        return "profile";
     }
 
     @GetMapping("dragdropdemo")
