@@ -21,11 +21,6 @@ public class TopsterController {
 //    @Value("${spotify_client_secret}")
 //    private String spotifyClientSecret;
 
-    @GetMapping("discover/topster/{id}")
-    public String showIndividualTopsterPage(){
-        return "topster.html";
-    }
-
     private RestTemplateTokenRequester restTemplateTokenRequester;
 
     private TopsterRepository topsterRepository;
@@ -33,6 +28,12 @@ public class TopsterController {
     public TopsterController(TopsterRepository topsterRepository, RestTemplateTokenRequester restTemplateTokenRequester) {
         this.topsterRepository = topsterRepository;
         this.restTemplateTokenRequester = restTemplateTokenRequester;
+    }
+
+    @GetMapping("discover/topster/{id}")
+    public String showIndividualTopsterPage(Model model, @PathVariable long id) {
+        model.addAttribute("topster",topsterRepository.getById(id));
+        return "topster.html";
     }
 
     @GetMapping("/edit-topster/{id}")
