@@ -42,11 +42,11 @@ public class TopsterController {
 
     @PostMapping("/edit-topster/{id}")
     public String editTopster(@ModelAttribute Topster topster) {
-        topster = topsterRepository.getById(topster.getId());
-        topster.setTitle(topster.getTitle());
-        topster.setBody(topster.getBody());
-        topsterRepository.save(topster);
-        return "user/edit-topster/{id}";
+        Topster editTopsterInfo = topsterRepository.getById(topster.getId());
+        editTopsterInfo.setTitle(topster.getTitle());
+        editTopsterInfo.setBody(topster.getBody());
+        topsterRepository.save(editTopsterInfo);
+        return "redirect:/profile";
     }
 
     @GetMapping("/create-topster")
