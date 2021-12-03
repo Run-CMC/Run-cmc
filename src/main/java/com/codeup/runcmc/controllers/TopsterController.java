@@ -21,11 +21,6 @@ public class TopsterController {
 //    @Value("${spotify_client_secret}")
 //    private String spotifyClientSecret;
 
-    @GetMapping("discover/topster/{id}")
-    public String showIndividualTopsterPage(){
-        return "topster.html";
-    }
-
     private RestTemplateTokenRequester restTemplateTokenRequester;
 
     private TopsterRepository topsterRepository;
