@@ -46,49 +46,96 @@ function drop(e) {
     e.preventDefault();
     e.target.classList.remove('drag-over');
 
-
     if(!(navigator.userAgent.toLowerCase().indexOf('firefox') > -1)){
         let theOriginalTag;
-        e.dataTransfer.items[0].getAsString(function (s) {
-            console.log(s); //In firefox the alt attribute gets included in the string for some reason. In chrome, it's just the img link
-            let trimmedAlbumArtLink;
-            //Code to strip out the alt portion
-            if (s.indexOf(" ") !== -1) {
-                trimmedAlbumArtLink = s.substring(0, s.indexOf(" "));
-                console.log(trimmedAlbumArtLink);
-            } else {
-                trimmedAlbumArtLink = s;
-            }
+        // console.log("Is p-3 tag: "+(e.target.className=="p-3"));
+        // console.log(e.target.tagName);
+        // console.log(e.target.tagName=="IMG");
 
-            theOriginalTag = document.querySelector(`.search-result [src='` + trimmedAlbumArtLink + `']`).outerHTML;
-            let newImgTag = theOriginalTag.replace("width=\"120\" height=\"120\"", "width=\"100%\" height=\"100%\"");
+        if(e.target.className=="p-3"){
+            e.dataTransfer.items[0].getAsString(function (s) {
+                // console.log(s); //In firefox the alt attribute gets included in the string for some reason. In chrome, it's just the img link
+                let trimmedAlbumArtLink;
+                //Code to strip out the alt portion
+                if (s.indexOf(" ") !== -1) {
+                    trimmedAlbumArtLink = s.substring(0, s.indexOf(" "));
+                    console.log(trimmedAlbumArtLink);
+                } else {
+                    trimmedAlbumArtLink = s;
+                }
+
+                theOriginalTag = document.querySelector(`.search-result [src='` + trimmedAlbumArtLink + `']`).outerHTML;
+                let newImgTag = theOriginalTag.replace("width=\"120\" height=\"120\"", "width=\"100%\" height=\"100%\"");
+
+                let imgPlusHiddenForms = newImgTag + createAlbumInfoFields(newImgTag, e.target.parentNode.getAttribute("value"));
+
+                e.target.innerHTML = imgPlusHiddenForms;
+                // console.log(e.target.outerHTML);
+            });
+        } else if(e.target.tagName=="IMG"){
+            e.dataTransfer.items[0].getAsString(function (s) {
+                // console.log(s); //In firefox the alt attribute gets included in the string for some reason. In chrome, it's just the img link
+                let trimmedAlbumArtLink;
+                //Code to strip out the alt portion
+                if (s.indexOf(" ") !== -1) {
+                    trimmedAlbumArtLink = s.substring(0, s.indexOf(" "));
+                    console.log(trimmedAlbumArtLink);
+                } else {
+                    trimmedAlbumArtLink = s;
+                }
+
+                theOriginalTag = document.querySelector(`.search-result [src='` + trimmedAlbumArtLink + `']`).outerHTML;
+                let newImgTag = theOriginalTag.replace("width=\"120\" height=\"120\"", "width=\"100%\" height=\"100%\"");
+
+                let imgPlusHiddenForms = newImgTag + createAlbumInfoFields(newImgTag, e.target.parentNode.parentNode.getAttribute("value"));
+                e.target.nextSibling.outerHTML = "";
+                e.target.outerHTML = imgPlusHiddenForms;
+
+                // console.log(e.target.outerHTML);
+            });
+        }
+    }
+
+    // console.log("Using firefox = " + (navigator.userAgent.toLowerCase().indexOf('firefox') > -1));
+    //Firefox path
+    if(navigator.userAgent.toLowerCase().indexOf('firefox') > -1) {
+
+
+        if(e.target.className=="p-3"){// get the draggable element
+            const id = e.dataTransfer.getData('text/plain'); //this is just the image src address in this case
+
+            //having to improvise a way to select the img element with said src attribute
+            let theImgTagThatWeWantToCopy = document.querySelector(`.search-result [src=${CSS.escape(id)}]`); //works on firefox but not chrome
+
+            let newImgTag = theImgTagThatWeWantToCopy.outerHTML;
+            newImgTag = newImgTag.replace("width=\"120\" height=\"120\"", "width=\"100%\" height=\"100%\"") //here we're using the portion of the tag that defines the height and width to strip that out. If we change the results from appearing 120x120 we'll have to change or remove this
+            //this next line logs the position value of the drop area (it's attached to the parent div we're dropping the img tag into)
+            // console.log(e.target.parentNode.getAttribute("value"));
 
             let imgPlusHiddenForms = newImgTag + createAlbumInfoFields(newImgTag, e.target.parentNode.getAttribute("value"));
 
             e.target.innerHTML = imgPlusHiddenForms;
-            // console.log(e.target.outerHTML);
-        });
-    }
 
-    // console.log("Using firefox = " + (navigator.userAgent.toLowerCase().indexOf('firefox') > -1));
-    if(navigator.userAgent.toLowerCase().indexOf('firefox') > -1) {
+        }
+        //this defines what to do if user drops over an image already in a tag
+        else if(e.target.tagName=="IMG"){
+            // get the draggable element
+            const id = e.dataTransfer.getData('text/plain'); //this is just the image src address in this case
 
+            //having to improvise a way to select the img element with said src attribute
+            let theImgTagThatWeWantToCopy = document.querySelector(`.search-result [src=${CSS.escape(id)}]`); //works on firefox but not chrome
 
-        // get the draggable element
-        const id = e.dataTransfer.getData('text/plain'); //this is just the image src address in this case
+            let newImgTag = theImgTagThatWeWantToCopy.outerHTML;
+            newImgTag = newImgTag.replace("width=\"120\" height=\"120\"", "width=\"100%\" height=\"100%\"") //here we're using the portion of the tag that defines the height and width to strip that out. If we change the results from appearing 120x120 we'll have to change or remove this
 
-        //having to improvise a way to select the img element with said src attribute
-        let theImgTagThatWeWantToCopy = document.querySelector(`.search-result [src=${CSS.escape(id)}]`); //works on firefox but not chrome
+            //this next line logs the position value of the drop area (it's attached to the parent div we're dropping the img tag into)
+            // console.log(e.target.parentNode.getAttribute("value"));
 
-        let newImgTag= theImgTagThatWeWantToCopy.outerHTML;
-        newImgTag = newImgTag.replace("width=\"120\" height=\"120\"","width=\"100%\" height=\"100%\"") //here we're using the portion of the tag that defines the height and width to strip that out. If we change the results from appearing 120x120 we'll have to change or remove this
-        //this line logs the position value of the drop area (it's attached to the parent div we're dropping the img tag into)
-        console.log(e.target.parentNode.getAttribute("value"));
+            let imgPlusHiddenForms = newImgTag + createAlbumInfoFields(newImgTag, e.target.parentNode.parentNode.getAttribute("value"));
 
-        let imgPlusHiddenForms = newImgTag + createAlbumInfoFields(newImgTag, e.target.parentNode.getAttribute("value"));
-
-
-        e.target.innerHTML = imgPlusHiddenForms;
+            e.target.nextSibling.outerHTML = "";    //clears out the form affiliated with the former image
+            e.target.outerHTML = imgPlusHiddenForms;
+        }
     }
 
     function createAlbumInfoFields(imgTagHTML, positionValue) {
