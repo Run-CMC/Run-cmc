@@ -9,9 +9,9 @@
 <main class="container">
 
 
-    <h3 th:text="${album.albumName}"></h3>
-    <img th:src="${album.albumArt}" alt="album art" width="200"/>
-    <h3 th:text="${album.artist}"></h3><a th:href="'https://open.spotify.com/album/' + ${albumID}"><i class="fas fa-play"></i></a>
+    <h3 th:text="${album.spotifyAlbumName}"></h3>
+    <img th:src="${album.spotifyAlbumArt}" alt="album art" width="200"/>
+    <h3 th:text="${album.spotifyArtist}"></h3><a th:href="'https://open.spotify.com/album/' + ${albumID}"><i class="fas fa-play"></i></a>
     <h3 th:text="${album.releaseDate}"></h3>
 
 <script th:replace="partials/partials.html :: md-js"></script>
