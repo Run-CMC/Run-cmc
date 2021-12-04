@@ -28,7 +28,6 @@ topsterImageSlots.forEach(topsterImageSlot => {
     topsterImageSlot.addEventListener('drop', drop);
 });
 
-
 function dragEnter(e) {
     e.preventDefault();
     e.target.classList.add('drag-over');
@@ -64,9 +63,10 @@ function drop(e) {
             theOriginalTag = document.querySelector(`.search-result [src='` + trimmedAlbumArtLink + `']`).outerHTML;
             let newImgTag = theOriginalTag.replace("width=\"120\" height=\"120\"", "width=\"100%\" height=\"100%\"");
 
-            let imgPlusHiddenForms = newImgTag + createAlbumInfoFields(newImgTag);
+            let imgPlusHiddenForms = newImgTag + createAlbumInfoFields(newImgTag, e.target.parentNode.getAttribute("value"));
 
             e.target.innerHTML = imgPlusHiddenForms;
+            // console.log(e.target.outerHTML);
         });
     }
 
@@ -82,29 +82,16 @@ function drop(e) {
 
         let newImgTag= theImgTagThatWeWantToCopy.outerHTML;
         newImgTag = newImgTag.replace("width=\"120\" height=\"120\"","width=\"100%\" height=\"100%\"") //here we're using the portion of the tag that defines the height and width to strip that out. If we change the results from appearing 120x120 we'll have to change or remove this
+        //this line logs the position value of the drop area (it's attached to the parent div we're dropping the img tag into)
+        console.log(e.target.parentNode.getAttribute("value"));
 
-        let imgPlusHiddenForms = newImgTag + createAlbumInfoFields(newImgTag);
+        let imgPlusHiddenForms = newImgTag + createAlbumInfoFields(newImgTag, e.target.parentNode.getAttribute("value"));
 
-        // let draggable;
-        //
-        // results.forEach(function (result){
-        //     console.log(result.firstChild.src);
-        //     if(result.firstChild.src === id){
-        //         draggable = result;
-        //     }
-        // });
-        //
-        // console.log(draggable);
 
-        // add it to the drop target
-        // e.target.appendChild(draggable);
         e.target.innerHTML = imgPlusHiddenForms;
-
-        // display the draggable element
-        // draggable.classList.remove('hide');
     }
 
-    function createAlbumInfoFields(imgTagHTML) {
+    function createAlbumInfoFields(imgTagHTML, positionValue) {
 
         let src = imgTagHTML.substring((imgTagHTML.indexOf("src=") + 5),
             imgTagHTML.indexOf("\" alt=", (imgTagHTML.indexOf("src=") + 5)));
@@ -121,20 +108,20 @@ function drop(e) {
         let spotifyID = imgTagHTML.substring((imgTagHTML.indexOf("data-spotifyid=") + 16),
             imgTagHTML.indexOf("\" width=", (imgTagHTML.indexOf("data-spotifyid=") + 16)));
 
-        console.log(src);
-        console.log(title);
-        console.log(artist);
-        console.log(releaseDate);
-        console.log(spotifyID);
+        // console.log(src);
+        // console.log(title);
+        // console.log(artist);
+        // console.log(releaseDate);
+        // console.log(spotifyID);
 
         return `<div class="form-group hide">
-                  <input type="text" value="src[]" name="src[]" id="src[]">
-                  <input type="text" value="title[]" name="title[]" id="title[]">
-                  <input type="text" value="artist[]" name="artist[]" id="artist[]">
-                  <input type="text" value="releaseDate[]" name="releaseDate[]" id="releaseDate[]">
-                  <input type="text" value="spotifyID[]" name="spotifyID[]" id="spotifyID[]">
+                  <input type="text" value="${src}" name="src[]">
+                  <input type="text" value="${title}" name="title[]">
+                  <input type="text" value="${artist}" name="artist[]">
+                  <input type="text" value="${releaseDate}" name="releaseDate[]">
+                  <input type="text" value="${spotifyID}" name="spotifyID[]">
+                  <input type="text" value="${positionValue}" name="position[]">
                 </div>`
-
 
     }
 }
