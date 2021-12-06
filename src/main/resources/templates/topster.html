@@ -31,6 +31,27 @@
 				</div>
 			</div>
 		</div>
+	<br>
+	<br>
+	<div id="instructions-upper-bar">
+		<button
+				class="btn btn-primary"
+				type="button"
+				data-mdb-toggle="collapse"
+				data-mdb-target="#comment-thread"
+				aria-expanded="false"
+				aria-controls="collapseExample"
+		>
+			Expand to view comments
+		</button>
+	</div>
+	<div id="comment-thread" class="collapse mt-3">
+		<div th:each="comment : *{topster.comments}">
+			<div th:text="'User: ' + ${comment.user.username}"></div>
+			<div th:text="${comment.body}"></div>
+			<br>
+		</div>
+	</div>
 
 </main>
 <script th:replace="partials/partials :: md-js"></script>
