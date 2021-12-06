@@ -54,4 +54,14 @@ public class TopsterContent {
     public void setPosition(int position) {
         this.position = position;
     }
+
+    public TopsterContent() {
+    }
+
+    public TopsterContent(long id, Topster topster, Album album, int position) {
+        this.id = id;
+        this.topster = topster;
+        this.album = album;
+        this.position = position;
+    }
 }

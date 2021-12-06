@@ -1,6 +1,9 @@
 package com.codeup.runcmc.controllers;
 
+import com.codeup.runcmc.models.Album;
 import com.codeup.runcmc.models.Topster;
+import com.codeup.runcmc.models.TopsterContent;
+import com.codeup.runcmc.repositories.AlbumRepository;
 import com.codeup.runcmc.repositories.TopsterRepository;
 
 import com.codeup.runcmc.services.RestTemplateTokenRequester;
@@ -12,6 +15,8 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.mail.MessagingException;
 import javax.servlet.http.HttpServletRequest;
+import java.sql.Date;
+import java.util.ArrayList;
 import java.util.List;
 
 @Controller
@@ -27,9 +32,12 @@ public class TopsterController {
 
     private TopsterRepository topsterRepository;
 
-    public TopsterController(TopsterRepository topsterRepository, RestTemplateTokenRequester restTemplateTokenRequester) {
+    private AlbumRepository albumRepository;
+
+    public TopsterController(TopsterRepository topsterRepository, RestTemplateTokenRequester restTemplateTokenRequester, AlbumRepository albumRepository) {
         this.topsterRepository = topsterRepository;
         this.restTemplateTokenRequester = restTemplateTokenRequester;
+        this.albumRepository = albumRepository;
     }
 
     @GetMapping("discover/topster/{id}")
@@ -57,23 +65,54 @@ public class TopsterController {
     public String showCreateTopsterPage (Model viewModel){
         TokenResponse authToken = restTemplateTokenRequester.requestAccessToken();
         viewModel.addAttribute("authToken", authToken);
+        viewModel.addAttribute("topster", new Topster());
         return "create-topster";
     }
 
     @PostMapping("/create-topster")
     public String createTopster(
             @ModelAttribute Topster topster,
+            @RequestParam (name = "topster-type") String topsterType,
             @RequestParam(name = "src[]") String[] srcs,
             @RequestParam(name = "title[]") String[] titles,
             @RequestParam(name = "artist[]") String[] artists,
             @RequestParam(name = "releaseDate[]") String[] releaseDates,
+            @RequestParam(name = "position[]") int[] positions,
             @RequestParam(name = "spotifyID[]") String[] spotifyIDs, HttpServletRequest request) throws MessagingException {
+        System.out.println(topsterType);
+        List<TopsterContent> topsterContents = new ArrayList<TopsterContent>();
+        if(topsterType.equals("3x3")){
+            for(int i = 0; i > 9; i++){
+                Album album;
+                if(albumRepository.findBySpotifyAlbumID(spotifyIDs[i]) == null){
+                    album = new Album();
+                    album.setSpotifyAlbumArt(srcs[i]);
+                    album.setReleaseDate(Date.valueOf(releaseDates[i]));
+                    album.setSpotifyAlbumName(titles[i]);
+                    album.setSpotifyArtist(artists[i]);
+                    album.setSpotifyAlbumID(spotifyIDs[i]);
+                } else {
+                    album = albumRepository.findBySpotifyAlbumID(spotifyIDs[i]);
+                }
 
-        System.out.println(titles.length);
+                TopsterContent topsterContent = new TopsterContent();
+                topsterContent.setTopster(topster);
+                topsterContent.setPosition(positions[i]);
+                topsterContent.setAlbum(album);
+                List<TopsterContent> copyOfTopsterContents = album.getTopsterContents();
+                copyOfTopsterContents.add(topsterContent);
+                album.setTopsterContents(copyOfTopsterContents);
 
-        for (String title : titles) {
-            System.out.println(title);
+                topsterContents.add(topsterContent);
+            }
+        } else if(topsterType.equals("4x4")){
+
+        }else if(topsterType.equals("5x5")){
+
+        } else{
+            System.out.println("Uhhhh.... this shouldn't be happening");
         }
+
 
         return "redirect:/profile";
     }

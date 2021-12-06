@@ -28,20 +28,18 @@
     <!--    <div id="album-art"></div><br>-->
     <input id="search-bar" type="text">
     <button id="search-button">Search</button>
-    <label for="topster-type">Select a topster style</label>
-    <select name="topster-type" id="topster-type" onchange="changeSelection()">
-        <option value="5x5">5x5</option>
-        <option value="4x4" selected>4x4</option>
-        <option value="3x3">3x3</option>
-    </select>
-    <div class="container">
-        <div class="row">
-            <div class="col-6">
-                <div id="results" class="row"></div>
-            </div>
-
-            <form th:action="@{/create-topster}" th:method="POST">
-
+    <form th:action="@{/create-topster}" th:method="POST" th:object="${topster}">
+        <label for="topster-type">Select a topster style</label>
+        <select name="topster-type" id="topster-type" onchange="changeSelection()">
+            <option value="5x5">5x5</option>
+            <option value="4x4" selected>4x4</option>
+            <option value="3x3">3x3</option>
+        </select>
+        <div class="container">
+            <div class="row">
+                <div class="col-6">
+                    <div id="results" class="row"></div>
+                </div>
                 <div id="3x3" th:replace="partials/3x3-topster.html :: 3x3-topster"></div>
                 <div id="4x4" th:replace="partials/4x4-topster.html :: 4x4-topster"></div>
                 <div id="5x5" th:replace="partials/5x5-topster.html :: 5x5-topster"></div>
@@ -59,14 +57,11 @@
                     <label for="public">Make public</label>
                     <input type="checkbox" id="public" value="public" checked>
                     <!--                <button>Create</button>-->
-                    <input type="submit">
+                    <input id="submit-topster" type="submit">
                 </div>
-
-            </form>
-
+            </div>
         </div>
-    </div>
-
+    </form>
 </main>
 <script th:replace="partials/partials.html :: md-js"></script>
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"
@@ -80,7 +75,7 @@
     var accessToken = [[${authToken}]].access_token;
     /*]]>*/
 </script>
-
+<script src="../js/topster-html.js"></script>
 <script>
     'use strict';
 
@@ -92,6 +87,7 @@
     const searchButton = $("#search-button");
     const searchResults = document.querySelector("#results");
     const albumArtDiv = document.querySelector("#album-art");
+    const submitButton = $("#submit-topster");
 
     //Following guide at https://www.youtube.com/watch?v=1vR3m0HupGI&ab_channel=MakerAtPlayCoding
     var redirect_uri = "http://localhost:8080/create-topster";
@@ -118,6 +114,25 @@
                 $("#3x3").css("display", "none");
                 $("#4x4").css("display", "none");
                 $("#5x5").css("display", "block");
+                break;
+            default:
+                console.log("This should never happen")
+        }
+    }
+
+    function clearUnselectedPartials(){
+        switch ($("#topster-type").val()) {
+            case "3x3":
+                $("#4x4").outerHTML = "";
+                $("#5x5").outerHTML = "";
+                break;
+            case "4x4":
+                $("#3x3").outerHTML = "";
+                $("#5x5").outerHTML = "";
+                break;
+            case "5x5":
+                $("#3x3").outerHTML = "";
+                $("#4x4").outerHTML = "";
                 break;
             default:
                 console.log("This should never happen")

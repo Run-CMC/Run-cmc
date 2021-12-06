@@ -33,6 +33,19 @@ public class Album {
     @Column
     private String genre;
 
+    public Album(Album album){
+        this.id=album.getId();
+        this.releaseDate=album.getReleaseDate();
+        this.spotifyAlbumArt=album.getSpotifyAlbumArt();
+        this.spotifyAlbumID=album.getSpotifyAlbumID();
+        this.spotifyAlbumName=album.getSpotifyAlbumName();
+        this.spotifyArtist=album.getSpotifyArtist();
+        this.topsterContents=album.getTopsterContents();
+    }
+
+    public Album() {
+    }
+
     public List<TopsterContent> getTopsterContents() {
         return topsterContents;
     }
