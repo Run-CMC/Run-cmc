@@ -1,5 +1,6 @@
 package com.codeup.runcmc.controllers;
 
+import com.codeup.runcmc.models.Comment;
 import com.codeup.runcmc.models.Topster;
 import com.codeup.runcmc.repositories.TopsterRepository;
 
@@ -35,6 +36,7 @@ public class TopsterController {
     @GetMapping("discover/topster/{id}")
     public String showIndividualTopsterPage(Model model, @PathVariable long id) {
         model.addAttribute("topster",topsterRepository.getById(id));
+        model.addAttribute("comment", new Comment());
         return "topster.html";
     }
 
