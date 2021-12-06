@@ -1,5 +1,8 @@
 package com.codeup.runcmc.models;
 
+import org.springframework.data.jpa.repository.Query;
+import org.springframework.data.repository.query.Param;
+
 import javax.persistence.*;
 
 @Entity
@@ -59,7 +62,12 @@ public class Comment {
         return topster;
     }
 
+
     public void setTopster(Topster topster) {
         this.topster = topster;
     }
+
+//    @Query(nativeQuery = true, value =  "SET foreign_key_checks = 0; UPDATE comments SET topster_id = :t;")
+//    public void setTopster(@Param("t") long id) {
+//    }
 }
