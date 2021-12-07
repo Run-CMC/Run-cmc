@@ -70,6 +70,7 @@ function drop(e) {
                 let imgPlusHiddenForms = newImgTag + createAlbumInfoFields(newImgTag, e.target.parentNode.getAttribute("value"));
 
                 e.target.innerHTML = imgPlusHiddenForms;
+                e.dataTransfer.items.clear();
                 // console.log(e.target.outerHTML);
             });
         } else if(e.target.tagName=="IMG"){
@@ -153,7 +154,8 @@ function drop(e) {
             imgTagHTML.indexOf("\" data-", (imgTagHTML.indexOf("data-releasedate=") + 18)));
 
         let spotifyID = imgTagHTML.substring((imgTagHTML.indexOf("data-spotifyid=") + 16),
-            imgTagHTML.indexOf("\" width=", (imgTagHTML.indexOf("data-spotifyid=") + 16)));
+            imgTagHTML.indexOf("\"", (imgTagHTML.indexOf("data-spotifyid=") + 16)));
+        console.log(spotifyID);
 
         // console.log(src);
         // console.log(title);
