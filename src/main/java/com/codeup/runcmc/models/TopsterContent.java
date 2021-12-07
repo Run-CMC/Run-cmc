@@ -11,7 +11,7 @@ public class TopsterContent {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
 
-    @ManyToOne
+    @ManyToOne(cascade=CascadeType.PERSIST)
     @JoinColumn(name = "topster_id")
     private Topster topster;
 

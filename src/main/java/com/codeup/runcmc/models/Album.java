@@ -28,7 +28,7 @@ public class Album {
     private String spotifyArtist;
 
     @Column
-    private Date releaseDate;
+    private String releaseDate;
 
     @Column
     private String genre;
@@ -96,11 +96,11 @@ public class Album {
         this.spotifyArtist = spotifyArtist;
     }
 
-    public Date getReleaseDate() {
+    public String getReleaseDate() {
         return releaseDate;
     }
 
-    public void setReleaseDate(Date releaseDate) {
+    public void setReleaseDate(String releaseDate) {
         this.releaseDate = releaseDate;
     }
 
