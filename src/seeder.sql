@@ -59,11 +59,11 @@ insert into albums (spotify_album_id, release_date, spotify_album_art, spotify_a
 # Foreign Key Checks are disabled to allow inserting foreign keys
 SET foreign_key_checks = 0;
 # 3x3 Topster
-insert into topsters (body, is_public, title, user_id) values (null, true, "BABYMETAL OR BUST", 1);
+insert into topsters (body, publicity, title, user_id) values (null, true, "BABYMETAL OR BUST", 1);
 # 4x4 Topster
-insert into topsters (body, is_public, title, user_id) values (null, true, "BABYMETAL IS A MUST", 2);
+insert into topsters (body, publicity, title, user_id) values (null, true, "BABYMETAL IS A MUST", 2);
 # 5x5 Topster
-insert into topsters (body, is_public, title, user_id) values (null, true, "IN FF WE TRUST", 1);
+insert into topsters (body, publicity, title, user_id) values (null, true, "IN FF WE TRUST", 1);
 
 # Foreign Key Checks are disabled to allow inserting foreign keys
 SET foreign_key_checks = 0;

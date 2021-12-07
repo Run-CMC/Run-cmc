@@ -52,7 +52,7 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
                 .and()
                 .authorizeRequests()
                 .antMatchers(
-            "/posts/create", // only authenticated users can create posts (CHANGE THIS TO CREATE TOPSTERS)
+            "/create-topster", // only authenticated users can create posts (CHANGE THIS TO CREATE TOPSTERS)
                         "/posts/{id}/edit", // only authenticated users can edit posts
                         "/posts/{id}/delete",
 		                "/profile"

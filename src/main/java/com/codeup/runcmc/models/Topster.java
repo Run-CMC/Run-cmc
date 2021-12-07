@@ -33,7 +33,11 @@ public class Topster {
     private String body;
 
     @Column
-    private boolean isPublic;
+    private Boolean publicity;
+
+    public User getUser() {
+        return user;
+    }
 
     public List<TopsterContent> getTopsterContents() {
         return topsterContents;
@@ -59,9 +63,7 @@ public class Topster {
         this.id = id;
     }
 
-    public User getUser() {
-        return user;
-    }
+
 
     public void setUser(User user) {
         this.user = user;
@@ -92,11 +94,11 @@ public class Topster {
         this.body = body;
     }
 
-    public boolean isPublic() {
-        return isPublic;
+    public Boolean isPublic() {
+        return publicity;
     }
 
-    public void setPublic(boolean aPublic) {
-        isPublic = aPublic;
+    public void setPublic(Boolean isPublic) {
+        this.publicity = isPublic;
     }
 }

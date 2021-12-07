@@ -28,10 +28,23 @@ public class Album {
     private String spotifyArtist;
 
     @Column
-    private Date releaseDate;
+    private String releaseDate;
 
     @Column
     private String genre;
+
+    public Album(Album album){
+        this.id=album.getId();
+        this.releaseDate=album.getReleaseDate();
+        this.spotifyAlbumArt=album.getSpotifyAlbumArt();
+        this.spotifyAlbumID=album.getSpotifyAlbumID();
+        this.spotifyAlbumName=album.getSpotifyAlbumName();
+        this.spotifyArtist=album.getSpotifyArtist();
+        this.topsterContents=album.getTopsterContents();
+    }
+
+    public Album() {
+    }
 
     public List<TopsterContent> getTopsterContents() {
         return topsterContents;
@@ -83,11 +96,11 @@ public class Album {
         this.spotifyArtist = spotifyArtist;
     }
 
-    public Date getReleaseDate() {
+    public String getReleaseDate() {
         return releaseDate;
     }
 
-    public void setReleaseDate(Date releaseDate) {
+    public void setReleaseDate(String releaseDate) {
         this.releaseDate = releaseDate;
     }
 

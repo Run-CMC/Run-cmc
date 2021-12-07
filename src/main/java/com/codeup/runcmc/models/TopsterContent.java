@@ -11,7 +11,7 @@ public class TopsterContent {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
 
-    @ManyToOne
+    @ManyToOne(cascade=CascadeType.PERSIST)
     @JoinColumn(name = "topster_id")
     private Topster topster;
 
@@ -52,6 +52,16 @@ public class TopsterContent {
     }
 
     public void setPosition(int position) {
+        this.position = position;
+    }
+
+    public TopsterContent() {
+    }
+
+    public TopsterContent(long id, Topster topster, Album album, int position) {
+        this.id = id;
+        this.topster = topster;
+        this.album = album;
         this.position = position;
     }
 }
