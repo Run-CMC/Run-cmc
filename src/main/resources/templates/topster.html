@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org" lang="en">
+<html xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.w3.org/1999/xhtml" lang="en">
 <head th:replace="partials/partials :: head ('View Topster')">
 </head>
 <body>
@@ -9,7 +9,6 @@
     <div th:object="${topster}">
         <div th:text="*{title}"></div>
         <div th:text="*{body}"></div>
-
         <div class="col-6">
             <div class="row row-cols-3 g-2 g-lg-3" th:if="${#lists.size(topster.topsterContents) == 9}">
                 <div class="col" th:each="tc : *{topsterContents}">
@@ -43,28 +42,30 @@
                 aria-controls="collapseExample">
             Expand to view comments
         </button>
-    </div>
-    <div id="comment-thread" class="collapse mt-3">
+        <div id="comment-thread" class="collapse mt-3">
 
-			<form th:action="@{'/discover/topster/' + ${topster.id}}" method="post" th:object="${comment}">
-<!--				<textarea th:field="*{body}">Comment here...</textarea>-->
-                <textarea name="body">Comment here...</textarea>
+            <form th:action="@{'/discover/topster/' + ${topster.id}}" method="post" th:object="${comment}">
+                <!--				<textarea th:field="*{body}">Comment here...</textarea>-->
+                <textarea name="body" placeholder="Write your comment here."></textarea>
 
-<!--					<input type="hidden" th:field="${topster.id}">-->
+                <!--					<input type="hidden" th:field="${topster.id}">-->
 
-				<button class="btn btn-primary" type="submit" value="Submit">Submit</button>
-
-			</form>
-
-
-
+                <button class="btn btn-primary" type="submit" value="Submit">Submit</button>
+            </form>
+        </div>
         <div th:each="comment : *{topster.comments}">
             <div th:text="'User: ' + ${comment.user.username}"></div>
             <div th:text="${comment.body}"></div>
             <br>
+            <div sec:authorize="isAuthenticated()">
+                <form th:action="@{'/discover/topster/' + ${topster.id} + '/delete'}" method="post">
+                    <input type="hidden" th:value="${comment.id}" th:attr="name='id'"/>
+                    <button type="submit" value="Delete">Delete</button>
+                </form>
+                <br>
+            </div>
         </div>
     </div>
-
 </main>
 <script th:replace="partials/partials :: md-js"></script>
 </body>
