@@ -55,18 +55,35 @@
         </div>
         <div th:each="comment : *{topster.comments}">
             <div th:text="'User: ' + ${comment.user.username}"></div>
-            <div th:text="${comment.body}"></div>
+            <div th:attr="data-editid=${comment.id}" id="comment-body" th:text="${comment.body}"></div>
+<!--            <textarea style="display:none" th:attr="data-editid=${comment.id}" class="edit-comment-field" th:field="*{body}"></textarea>-->
             <br>
-            <div sec:authorize="isAuthenticated()">
+<!--            <div sec:authorize="isAuthenticated()">-->
                 <form th:action="@{'/discover/topster/' + ${topster.id} + '/delete'}" method="post">
                     <input type="hidden" th:value="${comment.id}" th:attr="name='id'"/>
                     <button type="submit" value="Delete">Delete</button>
                 </form>
+                <form>
+<!--                    <input type="hidden" th:value="${}"-->
+                    <button class="edit-button" th:attr="data-editid=${comment.id}" type="button" value="Edit">Edit</button>
+                </form>
                 <br>
-            </div>
+<!--            </div>-->
         </div>
     </div>
 </main>
 <script th:replace="partials/partials :: md-js"></script>
+<script>
+    btns = document.querySelectorAll(".edit-button");
+    btns.forEach(function(btn) {
+        btn.addEventListener("click", function(e) {
+            let commentId = (e.target.dataset.editid);
+            console.log(commentId);
+            let commentEditField = document.querySelectorAll(`[data-editid='` + commentId + `']`)[1];
+            commentEditField.style.display="inline-block";
+            // document.getElementById("comment-body").innerHTML = "<h1>test2</h1>";
+        });
+    });
+</script>
 </body>
 </html>
