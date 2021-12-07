@@ -102,7 +102,7 @@ public class TopsterController {
                 System.out.println(srcs[i]);
                 System.out.println(positions[i]);
                 Album album;
-                if(albumRepository.findBySpotifyAlbumID(spotifyIDs[i]) == null){
+                if(!albumRepository.existsAlbumBySpotifyAlbumID(spotifyIDs[i])){
                     album = new Album();
                     album.setSpotifyAlbumArt(srcs[i]);
                     album.setReleaseDate(releaseDates[i]);

@@ -16,6 +16,8 @@ public interface AlbumRepository extends JpaRepository <Album, Long> {
 
 	Album findBySpotifyAlbumID(String spotifyAlbumID);
 
+	boolean existsAlbumBySpotifyAlbumID(String spotifyAlbumID);
+
 	@Query(nativeQuery = true, value = "select * from albums join topster_contents tc on albums.id = tc.album_id join albums a on a.id = tc.album_id join topsters t on t.id = tc.topster_id where topster_id = :i")
 	List<Album> selectWithTopsterFK(@Param("i") long id);
 
