@@ -42,9 +42,9 @@
 		     id="my-topsters"
 		     role="tabpanel"
 		     aria-labelledby="my-topsters-tab">
-			<div id="my-topster-tab-content" th:object="${topsters}">
+			<div id="my-topster-tab-content">
 				<div class="row">
-					<div class="col-12 col-md-6 border border-dark" th:each="topster : ${topsters}">
+					<div class="col-12 col-md-6 border border-dark" th:each="topster : ${user.topsters}">
 						<h2 th:text="${topster.title}"></h2>
 						<div>
 							<div class="row row-cols-3 g-2 g-lg-3" th:if="${#lists.size(topster.topsterContents) == 9}">
@@ -68,7 +68,28 @@
 			</div>
 		</div>
 		<div class="tab-pane fade" id="favorite-topsters" role="tabpanel" aria-labelledby="favorite-topsters-tab">
-			These are my favorite topsters.
+			<div class="row">
+				<div class="col-12 col-md-6 border border-dark" th:each="topster : ${user.favoritedTopsters}">
+					<h2 th:text="${topster.title}"></h2>
+					<div>
+						<div class="row row-cols-3 g-2 g-lg-3" th:if="${#lists.size(topster.topsterContents) == 9}">
+							<div class="col" th:each="topsterContent : ${topster.topsterContents}">
+								<img th:src="${topsterContent.album.spotifyAlbumArt}" height="100%" width="100%">
+							</div>
+						</div>
+						<div class="row row-cols-4 g-2 g-lg-3" th:if="${#lists.size(topster.topsterContents) == 16}">
+							<div class="col" th:each="topsterContent : ${topster.topsterContents}">
+								<img th:src="${topsterContent.album.spotifyAlbumArt}" height="100%" width="100%">
+							</div>
+						</div>
+						<div class="row row-cols-5 g-2 g-lg-3" th:if="${#lists.size(topster.topsterContents) == 25}">
+							<div class="col" th:each="topsterContent : ${topster.topsterContents}">
+								<img th:src="${topsterContent.album.spotifyAlbumArt}" height="100%" width="100%">
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
 		</div>
 	</div>
 </main>
