@@ -2,6 +2,8 @@ package com.codeup.runcmc.controllers;
 
 import com.codeup.runcmc.models.User;
 import com.codeup.runcmc.repositories.UserRepository;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.http.MediaType;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Controller;
@@ -18,7 +20,12 @@ public class ProfileEditController {
     public ProfileEditController(UserRepository userDao) {
         this.userDao = userDao;
     }
+    @Value("${filestack.api.key}")
+    private String filestackApiKey;
 
+    @RequestMapping(path = "/keys.js", produces = "application/javascript")
+    @ResponseBody
+    public String apikey(){return "const filestackAPIKey = `" + filestackApiKey +"`";}
     @GetMapping("/profile-edit/{id}")
     public String profileEdit(Model viewModel, @PathVariable long id) {
         viewModel.addAttribute("user", userDao.getById(id));
@@ -31,6 +38,7 @@ public class ProfileEditController {
         editedUser.setUsername(user.getUsername());
         editedUser.setEmail(user.getEmail());
         editedUser.setBio(user.getBio());
+        editedUser.setProfilePhotoURL(user.getProfilePhotoURL());
         userDao.save(editedUser);
         return "redirect:/profile";
     }

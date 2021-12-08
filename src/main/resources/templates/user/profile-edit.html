@@ -1,13 +1,27 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org" lang="en">
 <head th:replace="partials/partials.html :: head ('Edit Your Profile')">
+
 </head>
+
 <body>
+
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+
 	<nav th:replace="partials/partials.html :: navbar"></nav>
 	<main>
 	    <h1>Edit your User Profile!</h1>
+
+
+
+
+		<button onclick="openFilePicker()">Upload Profile Picture</button>
+
 	    <div>
-	        <form th:action="@{'/profile-edit/'+*{id}}" method="POST" th:object="${user}">
+			<form th:action="@{'/profile-edit/'+*{id}}" method="POST" th:object="${user}">
+				<input id="profile-photo-input" type="hidden" name="profilePhotoURL" th:field="${user.profilePhotoURL}">
+				<img id="profile-photo" th:src="${user.profilePhotoURL}" alt="No Profile Photo" width="100px" height="100px">
+
 		        <div class="form-outline col-4">
 			        <input th:field="*{username}" type="text" id="typeText" class="form-control" />
 			        <label class="form-label" for="typeText">Username</label>
@@ -31,5 +45,8 @@
 	<script th:replace="partials/partials :: jquery"></script>
 	<script th:replace="partials/partials.html :: md-js"></script>
 	<script type="text/javascript" src="../js/char-count.js"></script>
+	<script src="/js/filestack.js"></script>
+	<script src="//static.filestackapi.com/filestack-js/3.x.x/filestack.min.js"></script>
+	<script src="/js/keys.js"></script>
 </body>
 </html>
