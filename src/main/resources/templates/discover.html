@@ -6,12 +6,12 @@
 <nav th:replace="partials/partials :: navbar"></nav>
 <main>
 <h1>Discover the Latest Topsters!</h1>
-    <div th:object="${topster}">
-        <div th:each="top : ${topster}">
+    <div th:object="${topster}" class="row">
+        <div th:each="top : ${topster}" class="col-12 col-lg-6">
             <div th:text="${top.title}"></div>
             <div th:text="${top.body}"></div>
             <a th:href="@{'/discover/topster/' + ${top.id}}">Check Out This Topster!!!</a>
-	        <div class="col-6">
+	        <div>
 	            <div class="row row-cols-3 g-2 g-lg-3" th:if="${#lists.size(top.topsterContents) == 9}">
 		            <div class="col" th:each="tc : ${top.topsterContents}">
 		                <img th:src="${tc.album.spotifyAlbumArt}" height="100%" width="100%">

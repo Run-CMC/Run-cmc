@@ -117,6 +117,16 @@ public class User {
         this.favoritedTopsters = favoritedTopsters;
     }
 
+    public void addToFavorites(Topster topster){
+	    favoritedTopsters.add(topster); // add tag to list of tags for this ad
+	    topster.getUsersWhoFavorited().add(this);
+    }
+
+	public void removeFromFavorites(Topster topster) {
+		favoritedTopsters.remove(topster); // remove tag from list of tags for this ad
+		topster.getUsersWhoFavorited().remove(this); // remove this ad from the tag list of ads
+	}
+
     public void setBio(String bio) {
         this.bio = bio;
     }
