@@ -56,31 +56,49 @@
         <div th:each="comment : *{topster.comments}">
             <div th:text="'User: ' + ${comment.user.username}"></div>
             <div th:attr="data-editid=${comment.id}" id="comment-body" th:text="${comment.body}"></div>
-<!--            <textarea style="display:none" th:attr="data-editid=${comment.id}" class="edit-comment-field" th:field="*{body}"></textarea>-->
+            <textarea style="display:none" th:attr="data-editid=${comment.id}" class="edit-comment-field"></textarea>
             <br>
-<!--            <div sec:authorize="isAuthenticated()">-->
-                <form th:action="@{'/discover/topster/' + ${topster.id} + '/delete'}" method="post">
-                    <input type="hidden" th:value="${comment.id}" th:attr="name='id'"/>
-                    <button type="submit" value="Delete">Delete</button>
-                </form>
-                <form>
-<!--                    <input type="hidden" th:value="${}"-->
-                    <button class="edit-button" th:attr="data-editid=${comment.id}" type="button" value="Edit">Edit</button>
-                </form>
-                <br>
-<!--            </div>-->
+            <input th:attr="data-editid=${comment.id}" style="display:none" type="submit" class="comment-edit-submit">
+            <button class="edit-button" th:attr="data-editid=${comment.id}" type="button" value="Edit">Edit</button>
+
+            <!--            <div sec:authorize="isAuthenticated()">-->
+            <form th:action="@{'/discover/topster/' + ${topster.id} + '/delete'}" method="post">
+                <input type="hidden" th:value="${comment.id}" th:attr="name='id'"/>
+                <button type="submit" value="Delete">Delete</button>
+            </form>
+            <br>
+            <!--            </div>-->
         </div>
     </div>
 </main>
 <script th:replace="partials/partials :: md-js"></script>
 <script>
+    var editSubmits = document.querySelectorAll(".comment-edit-submit");
+    editSubmits.forEach(function(editSubmitTag) {
+        let commentId = editSubmitTag.dataset.editid;
+        let commentEditField = document.querySelectorAll(`[data-editid='` + commentId + `']`)[1];
+        let editedCommentBody = commentEditField.textContent;
+    //    AND THEN SEBASTIAN WRITES THE AJAX POST...MUAHAHAHA
+    });
+
     btns = document.querySelectorAll(".edit-button");
-    btns.forEach(function(btn) {
-        btn.addEventListener("click", function(e) {
+    btns.forEach(function (btn) {
+        btn.addEventListener("click", function (e) {
             let commentId = (e.target.dataset.editid);
             console.log(commentId);
             let commentEditField = document.querySelectorAll(`[data-editid='` + commentId + `']`)[1];
-            commentEditField.style.display="inline-block";
+            let commentBody = document.querySelectorAll(`[data-editid='` + commentId + `']`)[0];
+            let submitEditCommentButton = document.querySelectorAll(`[data-editid='` + commentId + `']`)[2];
+            commentEditField.textContent = commentBody.textContent;
+
+            // this if-else manipulates the edit button to toggle the view
+            if(commentEditField.style.display === "none") {
+                commentEditField.style.display = "inline-block";
+                submitEditCommentButton.style.display = "inline-block";
+            } else {
+                commentEditField.style.display = "none";
+                submitEditCommentButton.style.display = "none";
+            }
             // document.getElementById("comment-body").innerHTML = "<h1>test2</h1>";
         });
     });
