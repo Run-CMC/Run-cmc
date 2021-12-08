@@ -11,6 +11,7 @@ import com.codeup.runcmc.repositories.TopsterRepository;
 import com.codeup.runcmc.repositories.UserRepository;
 import com.codeup.runcmc.services.RestTemplateTokenRequester;
 import com.codeup.runcmc.services.TokenResponse;
+import com.codeup.runcmc.services.TopsterCreation;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
@@ -82,7 +83,7 @@ public class TopsterController {
     @PostMapping("/create-topster")
     public String createTopster(
             @ModelAttribute Topster topster,
-            @RequestParam(name= "isPublic") String isPublic,
+            @RequestParam(name= "isPublic", required = false, defaultValue = "") String isPublic,
             @RequestParam (name = "topster-type") String topsterType,
             @RequestParam(name = "src[]") String[] srcs,
             @RequestParam(name = "title[]") String[] titles,
@@ -91,104 +92,8 @@ public class TopsterController {
             @RequestParam(name = "position[]") int[] positions,
             @RequestParam(name = "spotifyID[]") String[] spotifyIDs, HttpServletRequest request) throws MessagingException {
         System.out.println(topster.isPublic());
-        List<TopsterContent> topsterContents = new ArrayList<TopsterContent>();
-        if(topsterType.equals("3x3")){
-            System.out.println("going down the 3x3 path");
-//            parsing the first 9 values (which will be from the 3x3) into albums
-            for(int i = 0; i < 9; i++){
-                System.out.println(titles[i]);
-                System.out.println(artists[i]);
-                System.out.println(releaseDates[i]);
-                System.out.println(srcs[i]);
-                System.out.println(positions[i]);
-                Album album;
-                if(!albumRepository.existsAlbumBySpotifyAlbumID(spotifyIDs[i])){
-                    album = new Album();
-                    album.setSpotifyAlbumArt(srcs[i]);
-                    album.setReleaseDate(releaseDates[i]);
-                    album.setSpotifyAlbumName(titles[i]);
-                    album.setSpotifyArtist(artists[i]);
-                    album.setSpotifyAlbumID(spotifyIDs[i]);
-                } else {
-//                    get the album INCLUDING topsterContent List from db if it already exists
-                    album = new Album(albumRepository.findBySpotifyAlbumID(spotifyIDs[i]));
-                }
-//                set values on TopsterContent object
-                TopsterContent topsterContent = new TopsterContent();
-                topsterContent.setTopster(topster);
-                topsterContent.setPosition(positions[i]);
-                topsterContent.setAlbum(album);
 
-                topsterContents.add(topsterContent);
-//                maybe this shouldn't happen here
-                albumRepository.save(album);
-                topsterContentRepository.save(topsterContent);
-            }
-        } else if(topsterType.equals("4x4")){
-            System.out.println("going down the 4x4 path");
-            for(int i = 9; i < 25; i++){
-                System.out.println(titles[i]);
-                System.out.println(artists[i]);
-                System.out.println(releaseDates[i]);
-                System.out.println(srcs[i]);
-                System.out.println(positions[i]);
-                Album album;
-                if(albumRepository.findBySpotifyAlbumID(spotifyIDs[i]) == null){
-                    album = new Album();
-                    album.setSpotifyAlbumArt(srcs[i]);
-                    album.setReleaseDate(releaseDates[i]);
-                    album.setSpotifyAlbumName(titles[i]);
-                    album.setSpotifyArtist(artists[i]);
-                    album.setSpotifyAlbumID(spotifyIDs[i]);
-                } else {
-//                    get the album INCLUDING topsterContent List from db if it already exists
-                    album = new Album(albumRepository.findBySpotifyAlbumID(spotifyIDs[i]));
-                }
-//                set values on TopsterContent object
-                TopsterContent topsterContent = new TopsterContent();
-                topsterContent.setTopster(topster);
-                topsterContent.setPosition(positions[i]);
-                topsterContent.setAlbum(album);
-
-                topsterContents.add(topsterContent);
-//                maybe this shouldn't happen here
-                albumRepository.save(album);
-                topsterContentRepository.save(topsterContent);
-            }
-        }else if(topsterType.equals("5x5")){
-            System.out.println("going down the 5x5 path");
-            for(int i = 25; i < 50; i++){
-                System.out.println(titles[i]);
-                System.out.println(artists[i]);
-                System.out.println(releaseDates[i]);
-                System.out.println(srcs[i]);
-                System.out.println(positions[i]);
-                Album album;
-                if(albumRepository.findBySpotifyAlbumID(spotifyIDs[i]) == null){
-                    album = new Album();
-                    album.setSpotifyAlbumArt(srcs[i]);
-                    album.setReleaseDate(releaseDates[i]);
-                    album.setSpotifyAlbumName(titles[i]);
-                    album.setSpotifyArtist(artists[i]);
-                    album.setSpotifyAlbumID(spotifyIDs[i]);
-                } else {
-//                    get the album INCLUDING topsterContent List from db if it already exists
-                    album = new Album(albumRepository.findBySpotifyAlbumID(spotifyIDs[i]));
-                }
-//                set values on TopsterContent object
-                TopsterContent topsterContent = new TopsterContent();
-                topsterContent.setTopster(topster);
-                topsterContent.setPosition(positions[i]);
-                topsterContent.setAlbum(album);
-
-                topsterContents.add(topsterContent);
-//                maybe this shouldn't happen here
-                albumRepository.save(album);
-                topsterContentRepository.save(topsterContent);
-            }
-        } else{
-            System.out.println("Uhhhh.... this shouldn't be happening");
-        }
+        List<TopsterContent> topsterContents = TopsterCreation.createTopsters(topster, topsterType, srcs, titles, artists, releaseDates, positions, spotifyIDs, albumRepository, topsterContentRepository);
         User principal = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
         User author = userRepository.getById(principal.getId());
         System.out.println(principal.getUsername());
