@@ -31,6 +31,9 @@ public class User {
     @Column
     private String bio;
 
+    @Column(columnDefinition = "VARCHAR(500)")
+    private String profilePhotoURL;
+
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "user")
     private List<Topster> topsters;
 
@@ -43,11 +46,28 @@ public class User {
             inverseJoinColumns = { @JoinColumn(name = "topster_id") })
     private List<Topster> favoritedTopsters;
 
+    public User(String username, String email, String password, String bio, String profilePhotoURL) {
+        this.username = username;
+        this.email = email;
+        this.password = password;
+        this.bio= bio;
+        this.profilePhotoURL= profilePhotoURL;
+    }
+
+    public User(long id, String username, String email, String password, String bio, String profilePhotoURL) {
+        this.id = id;
+        this.username = username;
+        this.email = email;
+        this.password = password;
+        this.bio = bio;
+        this.profilePhotoURL = profilePhotoURL;
+    }
     public User(String username, String email, String password, String bio) {
         this.username = username;
         this.email = email;
         this.password = password;
         this.bio= bio;
+
     }
 
     public User(long id, String username, String email, String password, String bio) {
@@ -56,6 +76,7 @@ public class User {
         this.email = email;
         this.password = password;
         this.bio = bio;
+
     }
     public User(){}
 
@@ -73,6 +94,15 @@ public class User {
         this.bio = user.getBio();
         this.username = user.getUsername();
         this.password = user.getPassword();
+
+    }
+
+    public String getProfilePhotoURL() {
+        return profilePhotoURL;
+    }
+
+    public void setProfilePhotoURL(String profilePhotoURL) {
+        this.profilePhotoURL = profilePhotoURL;
     }
 
     public String getBio() {
@@ -138,6 +168,8 @@ public class User {
     public void setComments(List<Comment> comments) {
         this.comments = comments;
     }
+
+
 
 //    public static boolean isValidUser(User user) {
 //        return user != null && Strings.isNotBlank(user.getUsername())
