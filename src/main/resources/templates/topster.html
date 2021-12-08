@@ -9,11 +9,11 @@
     <div th:object="${topster}">
         <div th:text="*{title}"></div>
         <div th:text="*{body}"></div>
-	    <form th:if="${#lists.contains(topster.user.favoritedTopsters, topster)}" method="post" th:action="@{'/favorites/user/' + ${topster.user.id} + '/topster/' + ${topster.id} + '/remove'}">
+	    <form th:if="${#lists.contains(topster.user.favoritedTopsters, topster)}" method="post" th:action="@{'/favorites/user/' + ${user.id} + '/topster/' + ${topster.id} + '/remove'}">
 		    <button sec:authorize="isAuthenticated()" class="favorite btn btn-outline-danger btn-floating" type="submit" value="submit"><i class="fas fa-heart"></i>
 		    </button>
 	    </form>
-	    <form th:if="${!#lists.contains(topster.user.favoritedTopsters, topster)}" method="post" th:action="@{'/favorites/user/' + ${topster.user.id} + '/topster/' + ${topster.id}}">
+	    <form th:if="${!#lists.contains(topster.user.favoritedTopsters, topster)}" method="post" th:action="@{'/favorites/user/' + ${user.id} + '/topster/' + ${topster.id}}">
 		    <button sec:authorize="isAuthenticated()" class="favorite btn btn-outline-dark btn-floating" type="submit" value="submit"><i class="fas fa-heart"></i>
 		    </button>
 	    </form>

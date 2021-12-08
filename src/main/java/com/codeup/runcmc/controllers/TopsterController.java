@@ -53,12 +53,15 @@ public class TopsterController {
 
     @GetMapping("discover/topster/{id}")
     public String showIndividualTopsterPage(Model model, @PathVariable long id) {
+	    User principal = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+	    User currentUser = userRepository.getById(principal.getId());
+	    model.addAttribute("user", currentUser);
         model.addAttribute("topster",topsterRepository.getById(id));
         return "topster.html";
     }
 
     @GetMapping("/edit-topster/{id}")
-    public String showEditProfilePage(Model model, @PathVariable long id){
+    public String showEditTopsterPage(Model model, @PathVariable long id){
         model.addAttribute("topster",topsterRepository.getById(id));
         return "user/edit-topster";
     }
