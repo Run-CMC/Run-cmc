@@ -1,6 +1,7 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org" lang="en">
 <head th:replace="partials/partials.html :: head ('Your Profile')">
+	<script src="//static.filestackapi.com/filestack-js/3.x.x/filestack.min.js"></script>
 </head>
 <body>
 <nav th:replace="partials/partials.html :: navbar"></nav>
@@ -8,6 +9,7 @@
 	<div th:object="${user}">
 		<h1 th:text="*{username}"></h1>
 		<h5>About me:</h5>
+		<img id="profile-photo" th:src="*{profilePhotoURL}" alt="No Profile Photo" width="100px" height="100px">
 		<p th:text="*{bio}"></p>
 		<a th:href="@{'/profile-edit/' + *{id}}">Edit Profile<i class="fas fa-pen"></i></a>
 	</div>
@@ -95,5 +97,6 @@
 </main>
 
 <script th:replace="partials/partials.html :: md-js"></script>
+<script src="/js/keys.js"></script>
 </body>
 </html>
