@@ -12,4 +12,5 @@ public interface TopsterRepository extends JpaRepository<Topster, Long> {
     Topster getById(long id);
 	@Query(nativeQuery = true, value = "select * from topsters where user_id = :i")
     List<Topster> findAllByUser(@Param("i") long id);
+    List<Topster> findAllByTitle(String title);
 }
