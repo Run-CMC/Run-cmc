@@ -6,6 +6,10 @@
 <nav th:replace="partials/partials :: navbar"></nav>
 <main>
 <h1>Discover the Latest Topsters!</h1>
+	<form th:action="@{/search}" method="post" >
+	<input id="search-bar" type="text" name="search-bar">
+	<button id="search-button">Search</button>
+	</form>
     <div th:object="${topster}" class="row">
         <div th:each="top : ${topster}" class="col-12 col-lg-6">
             <div th:text="${top.title}"></div>
@@ -32,6 +36,8 @@
     </div>
 
 </main>
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"
+		integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4=" crossorigin="anonymous"></script>
 <script th:replace="partials/partials :: md-js"></script>
 </body>
 </html>

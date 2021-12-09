@@ -25,7 +25,8 @@ public class ProfileEditController {
 
     @RequestMapping(path = "/keys.js", produces = "application/javascript")
     @ResponseBody
-    public String apikey(){return "const filestackAPIKey = `" + filestackApiKey +"`";}
+    public String apikey(){return "const filestackAPIKey = `" + filestackApiKey +"`";
+    }
     @GetMapping("/profile-edit/{id}")
     public String profileEdit(Model viewModel, @PathVariable long id) {
         viewModel.addAttribute("user", userDao.getById(id));
