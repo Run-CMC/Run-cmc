@@ -9,14 +9,20 @@
     <div th:object="${topster}">
         <div th:text="*{title}"></div>
         <div th:text="*{body}"></div>
-	    <form th:if="${#lists.contains(user.favoritedTopsters, topster)}" method="post" th:action="@{'/favorites/user/' + ${user.id} + '/topster/' + ${topster.id} + '/remove'}">
-		    <button sec:authorize="isAuthenticated()" class="favorite btn btn-outline-danger btn-floating" type="submit" value="submit"><i class="fas fa-heart"></i>
-		    </button>
-	    </form>
-	    <form th:if="${!#lists.contains(user.favoritedTopsters, topster)}" method="post" th:action="@{'/favorites/user/' + ${user.id} + '/topster/' + ${topster.id}}">
-		    <button sec:authorize="isAuthenticated()" class="favorite btn btn-outline-dark btn-floating" type="submit" value="submit"><i class="fas fa-heart"></i>
-		    </button>
-	    </form>
+
+        <th:block sec:authorize="isAuthenticated()">
+            <form th:if="${#lists.contains(user.favoritedTopsters, topster)}" method="post" th:action="@{'/favorites/user/' + ${user.id} + '/topster/' + ${topster.id} + '/remove'}">
+                <button  class="favorite btn btn-outline-danger btn-floating" type="submit" value="submit"><i class="fas fa-heart"></i>
+                </button>
+            </form>
+            <form th:if="${!#lists.contains(user.favoritedTopsters, topster)}" method="post" th:action="@{'/favorites/user/' + ${user.id} + '/topster/' + ${topster.id}}">
+                <button class="favorite btn btn-outline-dark btn-floating" type="submit" value="submit"><i class="fas fa-heart"></i>
+                </button>
+            </form>
+        </th:block>
+
+
+
         <div class="col-6">
             <div class="row row-cols-3 g-2 g-lg-3" th:if="${#lists.size(topster.topsterContents) == 9}">
                 <div class="col" th:each="tc : *{topsterContents}">
@@ -80,7 +86,6 @@
                     </form>
                     <br>
                 </div>
-
             </div>
 
         </div>
