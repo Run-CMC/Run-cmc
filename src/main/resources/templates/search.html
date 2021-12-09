@@ -6,12 +6,12 @@
 <nav th:replace="partials/partials :: navbar"></nav>
 <main>
     <h1>Search the Latest Topsters!</h1>
-    <form th:action="@{/search}" method="post" >
+    <form th:action="@{/search}" method="get" >
         <input id="search-bar" type="text" name="search-bar">
         <button id="search-button">Search</button>
     </form>
-    <div th:object="${searchedTopster}" class="row">
-        <div th:each="top : ${searchedTopster}" class="col-12 col-lg-6">
+    <div th:object="${searchedTopsters}" class="row">
+        <div th:each="top : ${searchedTopsters}" class="col-12 col-lg-6">
             <div th:text="${top.title}"></div>
             <div th:text="${top.body}"></div>
             <a th:href="@{'/discover/topster/' + ${top.id}}">Check Out This Topster!!!</a>

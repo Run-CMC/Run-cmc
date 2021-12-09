@@ -13,4 +13,12 @@ public interface TopsterRepository extends JpaRepository<Topster, Long> {
 	@Query(nativeQuery = true, value = "select * from topsters where user_id = :i")
     List<Topster> findAllByUser(@Param("i") long id);
     List<Topster> findAllByTitle(String title);
+    List<Topster> findByTitleIgnoreCaseContaining(String title);
+
+    @Query(nativeQuery = true, value = "select * from topsters where title like lower(concat('%', concat(:title, '%')))")
+    List<Topster> findByTitleLike(@Param("title")String title);
+
+    List<Topster> findByTitleIgnoreCase(String title);
+
+
 }
