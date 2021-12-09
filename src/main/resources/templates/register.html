@@ -3,26 +3,58 @@
 <head th:replace="partials/partials :: head ('Register')">
 <body>
 <nav th:replace="partials/partials :: navbar"></nav>
-<h1>Create an account</h1>
-<form th:action="@{/register}" method="POST" th:object="${user}">
-    <label for="username">Username</label>
-    <input id="username" th:field="*{username}" />
-    <p th:if="${#fields.hasErrors('username')}" th:errors="*{username}"></p>
-    <br>
-    <label for="email">Email</label>
-    <input id="email" th:field="*{email}" />
-    <p th:if="${#fields.hasErrors('email')}" th:errors="*{email}"></p>
-    <br>
-    <label for="password">Password</label>
-    <input id="password" type="password" th:field="*{password}" />
-    <p th:if="${#fields.hasErrors('password')}" th:errors="*{password}"></p>
-    <br>
-    <!--user will not be able to login because of the confirm password field-->
-<!--    <label for="confirmpassword">Confirm Password</label>-->
-<!--    <input id="confirmpassword" type="password" th:field="*{password}" />-->
-    <br>
-    <input value="Login" type="submit" />
-</form>
+<section class="vh-100 bg-image">
+    <div class="mask d-flex align-items-center h-100 gradient-custom-3">
+        <div class="container h-100">
+            <div class="row d-flex justify-content-center align-items-center h-100">
+                <div class="col-12 col-md-9 col-lg-7 col-xl-6">
+                    <div class="card" style="border-radius: 15px;">
+                        <div class="card-body p-5">
+<!--                            <h2 class="text-uppercase text-center mb-5">Create an account</h2>-->
+                            <h2 class="text-uppercase text-center fs-1 text-gradient text-gradient-primary mb-5"
+                                style="font-weight: 900;">Create an account</h2>
+                            <form th:action="@{/register}" method="POST" th:object="${user}">
+                                <div class="form-outline col-12 mb-4">
+                                    <input th:field="*{username}" type="text" id="typeText"
+                                           class="form-control form-control-lg"/>
+                                    <label class="form-label" for="typeText">Username</label>
+                                    <p th:if="${#fields.hasErrors('username')}" th:errors="*{username}"></p>
+                                </div>
+                                <div class="form-outline mb-4">
+                                    <input type="email" id="email" th:field="*{email}"
+                                           class="form-control form-control-lg"/>
+                                    <label class="form-label" for="email">Email</label>
+                                    <p th:if="${#fields.hasErrors('email')}" th:errors="*{email}"></p>
+                                </div>
+                                <div class="form-outline mb-4">
+                                    <input type="password" id="password" th:field="*{password}"
+                                           class="form-control form-control-lg"/>
+                                    <label class="form-label" for="password">Password</label>
+                                    <p th:if="${#fields.hasErrors('password')}" th:errors="*{password}"></p>
+                                </div>
+                                <div class="form-check d-flex justify-content-center mb-5"></div>
+                                <div class="d-flex justify-content-center">
+                                    <button type="submit" value="Login" id="register"
+                                            class="btn btn-success btn-block btn-lg gradient-custom-4 text-body">
+                                        Register
+                                    </button>
+                                </div>
+                                <p class="text-center text-muted mt-5 mb-0">Already have an account? <a href="/"
+                                                                                                        class="fw-bold text-body"><u>Login
+                                    here</u></a></p>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
 <script th:replace="partials/partials :: md-js"></script>
 </body>
 </html>
+
+
+<!--user will not be able to login because of the confirm password field-->
+<!--    <label for="confirmpassword">Confirm Password</label>-->
+<!--    <input id="confirmpassword" type="password" th:field="*{password}" />-->

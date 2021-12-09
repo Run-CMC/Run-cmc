@@ -38,3 +38,51 @@ main {
 .hide {
 	display: none;
 }
+
+.p-3{
+	height: 100%;
+	width: 100%;
+}
+
+.gradient-custom-3 { /* css for background on register page */
+	/* fallback for old browsers */
+	background: #84fab0;
+
+	/* Chrome 10-25, Safari 5.1-6 */
+	background: -webkit-linear-gradient(to right, #023591, #7c2eb2);
+
+	/* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
+	background: linear-gradient(to right, #023591, #7c2eb2);
+}
+.gradient-custom-4 { /* css for register button on register page */
+
+	/* fallback for old browsers */
+	background: #84fab0;
+
+	/* Chrome 10-25, Safari 5.1-6 */
+	background: -webkit-linear-gradient(to right, #023591, #7c2eb2);
+
+	/* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
+	background: linear-gradient(to right, #023591, #7c2eb2);
+}
+
+.bg-image {
+	background-image: url("../img/topster_bg.jpeg");
+}
+
+/* for the create an account wording */
+.text-gradient.text-gradient-primary {
+	background-image: linear-gradient(310deg,#023591,#7c2eb2);
+}
+
+.text-gradient {
+	background-clip: text;
+	-webkit-background-clip: text;
+	-webkit-text-fill-color: transparent;
+	position: relative;
+	z-index: 1;
+}
+
+/*#text {*/
+/*	color: white;*/
+/*}*/
