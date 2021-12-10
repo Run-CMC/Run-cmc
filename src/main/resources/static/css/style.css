@@ -79,3 +79,70 @@ main {
 	position: relative;
 	z-index: 1;
 }
+
+/* for the index page new styling */
+/* Height for devices larger than 576px */
+@media (min-width: 992px) {
+	#intro {
+		margin-top: -58.59px;
+		height: 50vh !important;
+	}
+}
+
+.navbar .nav-link {
+	color: #fff !important;
+}
+
+.index-logo {
+	background-image: url("../img/runcmclogotemp.jpg");
+}
+
+/* for the discover music and get social on index page */
+.page-header {
+	padding: 0;
+	position: relative;
+	overflow: hidden;
+	display: flex;
+	align-items: center;
+	background-size: cover;
+	background-position: 50%;
+}
+.min-vh-85 {
+	min-height: 85vh;
+}
+.border-radius-section {
+	border-radius: 10rem;
+}
+.border-top-start-radius-0 {
+	border-top-left-radius: 0;
+}
+.border-top-end-radius-0 {
+	border-top-right-radius: 0;
+}
+.border-bottom-end-radius-0 {
+	border-bottom-right-radius: 0;
+}
+.z-index-0 {
+	z-index: 0;
+}
+.blur {
+	-webkit-backdrop-filter: saturate(200%) blur(30px);
+	backdrop-filter: saturate(200%) blur(30px);
+	background-color: hsla(0,0%,100%,.8);
+}
+.text-gradient.text-gradient-primary {
+	background-image: linear-gradient(310deg,#023591,#7c2eb2);
+}
+.text-gradient {
+	background-clip: text;
+	-webkit-background-clip: text;
+	-webkit-text-fill-color: transparent;
+	position: relative;
+	z-index: 1;
+}
+.btn.bg-gradient-primary {
+	color: #fff;
+}
+.bg-gradient-primary {
+	background-image: linear-gradient(310deg,#023591,#7c2eb2);
+}
