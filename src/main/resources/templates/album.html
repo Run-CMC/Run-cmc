@@ -14,6 +14,31 @@
     <h3 th:text="${album.spotifyArtist}"></h3><a target="_blank" th:href="'https://open.spotify.com/album/' + ${album.spotifyAlbumID}"><i class="fas fa-play"></i></a>
     <h3 th:text="${album.releaseDate}"></h3>
 
+    <div th:object="${topsters}" class="row">
+        <div th:each="top : ${topsters}" class="col-12 col-lg-6">
+            <div th:text="${top.title}"></div>
+            <div th:text="${top.body}"></div>
+            <a th:href="@{'/discover/topster/' + ${top.id}}">Check Out This Topster!!!</a>
+            <div>
+                <div class="row row-cols-3 g-2 g-lg-3" th:if="${#lists.size(top.topsterContents) == 9}">
+                    <div class="col" th:each="tc : ${top.topsterContents}">
+                        <img th:src="${tc.album.spotifyAlbumArt}" height="100%" width="100%">
+                    </div>
+                </div>
+                <div class="row row-cols-4 g-2 g-lg-3" th:if="${#lists.size(top.topsterContents) == 16}">
+                    <div class="col" th:each="tc : ${top.topsterContents}">
+                        <img th:src="${tc.album.spotifyAlbumArt}" height="100%" width="100%">
+                    </div>
+                </div>
+                <div class="row row-cols-5 g-2 g-lg-3" th:if="${#lists.size(top.topsterContents) == 25}">
+                    <div class="col" th:each="tc : ${top.topsterContents}">
+                        <img th:src="${tc.album.spotifyAlbumArt}" height="100%" width="100%">
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
 <script th:replace="partials/partials.html :: md-js"></script>
 
 </main>
