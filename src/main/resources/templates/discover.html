@@ -18,17 +18,17 @@
 	        <div>
 	            <div class="row row-cols-3 g-2 g-lg-3" th:if="${#lists.size(top.topsterContents) == 9}">
 		            <div class="col" th:each="tc : ${top.topsterContents}">
-		                <img th:src="${tc.album.spotifyAlbumArt}" height="100%" width="100%">
+		                <img th:src="${tc.album.spotifyAlbumArt}" th:title="'Artist: '+${tc.album.spotifyArtist}+'&#010;Album: '+${tc.album.spotifyAlbumName} + '&#010;Release Date: '+${tc.album.releaseDate}" height="100%" width="100%">
 		            </div>
 	            </div>
 		        <div class="row row-cols-4 g-2 g-lg-3" th:if="${#lists.size(top.topsterContents) == 16}">
 		            <div class="col" th:each="tc : ${top.topsterContents}">
-		                <img th:src="${tc.album.spotifyAlbumArt}" height="100%" width="100%">
+		                <img th:src="${tc.album.spotifyAlbumArt}" th:title="'Artist: '+${tc.album.spotifyArtist}+'&#010;Album: '+${tc.album.spotifyAlbumName} + '&#010;Release Date: '+${tc.album.releaseDate}" height="100%" width="100%">
 		            </div>
 	            </div>
 		        <div class="row row-cols-5 g-2 g-lg-3" th:if="${#lists.size(top.topsterContents) == 25}">
 		            <div class="col" th:each="tc : ${top.topsterContents}">
-		                <img th:src="${tc.album.spotifyAlbumArt}" height="100%" width="100%">
+		                <img th:src="${tc.album.spotifyAlbumArt}" th:title="'Artist: '+${tc.album.spotifyArtist}+'&#010;Album: '+${tc.album.spotifyAlbumName} + '&#010;Release Date: '+${tc.album.releaseDate}" height="100%" width="100%">
 		            </div>
 	            </div>
 	        </div>
