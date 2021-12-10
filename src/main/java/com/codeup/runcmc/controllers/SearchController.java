@@ -18,19 +18,18 @@ import java.util.List;
 public class SearchController {
 
    private TopsterRepository topsterDao;
-   private AlbumRepository albumDao;
 
-    public SearchController(TopsterRepository topsterDao, AlbumRepository albumDao) {
+    public SearchController(TopsterRepository topsterDao) {
         this.topsterDao = topsterDao;
-        this.albumDao = albumDao;
     }
+
     @GetMapping("/search")
-    public String showSearchPage(@RequestParam (name = "search-bar", required = false)String searchterms, Model model){
-        List<Topster> searchedTopsters = topsterDao.findByTitleIgnoreCaseContaining(searchterms);
-        model.addAttribute("searchedTopsters",searchedTopsters);
-        for(Topster topster : searchedTopsters){
-            System.out.println(topster.getTitle());
-        }
+    public String showSearchPage(@RequestParam(name = "search-bar", required = false) String searchterms, Model model){
+        List<Topster> resultSet = topsterDao.findAllBySearchTerm(searchterms);
+        model.addAttribute("searchedTopsters", resultSet);
+//        for(Topster topster : resultSet){
+//            System.out.println(topster.getTitle());
+//        }
         return "search";
     }
 
