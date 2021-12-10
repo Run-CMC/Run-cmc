@@ -11,10 +11,6 @@
 	<nav th:replace="partials/partials.html :: navbar"></nav>
 	<main>
 	    <h1>Edit your User Profile!</h1>
-
-
-
-
 		<button onclick="openFilePicker()">Upload Profile Picture</button>
 
 	    <div>
@@ -26,17 +22,20 @@
 			        <input th:field="*{username}" type="text" id="typeText" class="form-control" />
 			        <label class="form-label" for="typeText">Username</label>
 		        </div>
+				<p id="username-error" th:if="${#fields.hasErrors('username')}" th:errors="*{username}"></p>
 		        <br>
 		        <div class="form-outline col-4">
 			        <input th:field="*{email}" type="email" id="typeEmail" class="form-control" />
 			        <label class="form-label" for="typeEmail">Email</label>
 		        </div>
+				<p id="email-error" th:if="${#fields.hasErrors('email')}" th:errors="*{email}"></p>
 		        <br>
 		        <div class="form-outline col-4">
 			        <textarea th:field="*{bio}" class="form-control" id="bio" rows="6" maxlength="255"></textarea>
 			        <label class="form-label" for="bio">Bio</label>
 		        </div>
 		        <div id="char-count"></div>
+				<p id="password-error" th:if="${#fields.hasErrors('password')}" th:errors="*{password}"></p>
 		        <br>
 		        <button class="btn btn-primary" type="submit" value="Submit">Submit</button>
 	        </form>
@@ -49,5 +48,10 @@
 	<script src="//static.filestackapi.com/filestack-js/3.x.x/filestack.min.js"></script>
 <!--	<script src="/js/keys.js"></script>-->
 	<script src="/keys.js"></script>
+<script>
+	console.log(document.getElementById("username-error").innerHTML);
+	console.log(document.getElementById("email-error").innerHTML);
+	console.log(document.getElementById("password-error").innerHTML);
+</script>
 </body>
 </html>

@@ -45,14 +45,25 @@ public class UserController {
 
 	@GetMapping("/profile")
 	String showProfile(Model viewModel){
-		User principal = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-		User currentUser = userDao.getById(principal.getId());
-		viewModel.addAttribute("user", currentUser);
-		return "user/profile.html";
+		if(SecurityContextHolder.getContext().getAuthentication().getPrincipal().equals("anonymousUser")) {
+			return "redirect:/";
+		} else {
+			User principal = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+			User currentUser = userDao.getById(principal.getId());
+			viewModel.addAttribute("user", currentUser);
+			return "user/profile.html";
+		}
 	}
 
 	@PostMapping("/register")
 	public String saveUser(@ModelAttribute @Valid User user, Errors validation, Model model){
+		if (user.getPassword().isBlank()) {
+			validation.rejectValue(
+					"password",
+					"user.password",
+					"Password is blank."
+			);
+		}
 		if (validation.hasErrors()) {
 			model.addAttribute("errors", validation);
 			model.addAttribute("user", user);
