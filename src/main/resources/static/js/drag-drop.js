@@ -12,7 +12,7 @@ function onSearch(){
 function dragStart(e) {
     e.dataTransfer.setData('text/plain', e.target.id);
     e.dataTransfer.items.add(e.target.id,'text/plain');
-    console.log(e.target.id);
+    // console.log(e.target.id);
     setTimeout(() => {
         e.target.classList.add('hide');
     }, 0);
@@ -85,7 +85,7 @@ function dragLeave(e) {
 function drop(e) {
     e.preventDefault();
     e.target.classList.remove('drag-over');
-    console.log(e.target);
+    // console.log(e.target);
     if (!(navigator.userAgent.toLowerCase().indexOf('firefox') > -1)) {
         dropNonFirefoxPath(e);
         //Firefox path
@@ -105,11 +105,11 @@ function dropNonFirefoxPath(e){
             //Code to strip out the alt portion
             if (s.indexOf(" ") !== -1) {
                 trimmedAlbumArtLink = s.substring(0, s.indexOf(" "));
-                console.log(trimmedAlbumArtLink);
+                // console.log(trimmedAlbumArtLink);
             } else {
                 trimmedAlbumArtLink = s;
             }
-            console.log(trimmedAlbumArtLink);
+            // console.log(trimmedAlbumArtLink);
             if((document.querySelector(`.search-result [src='` + trimmedAlbumArtLink + `']`))==null){
                 theOriginalTag = document.querySelector(`[src='` + trimmedAlbumArtLink + `']`).outerHTML;
             } else{
@@ -117,7 +117,7 @@ function dropNonFirefoxPath(e){
             }
             let newImgTag = theOriginalTag.replace("width=\"120\" height=\"120\"", "width=\"100%\" height=\"100%\"");
             if (e.target.className == "p-3") { //dropped on the p-3 class tag path
-                console.log(s); //In firefox the alt attribute gets included in the string for some reason. In chrome, it's just the img link
+                // console.log(s); //In firefox the alt attribute gets included in the string for some reason. In chrome, it's just the img link
                 let imgPlusHiddenForms = newImgTag + createAlbumInfoFields(newImgTag, e.target.parentNode.getAttribute("value"));
 
                 e.target.innerHTML = imgPlusHiddenForms;
@@ -130,7 +130,7 @@ function dropNonFirefoxPath(e){
                 e.target.outerHTML = imgPlusHiddenForms;
                 e.target.addEventListener('dragstart',dragStartButForAlreadyDroppedAlbums);
 
-                console.log(e.dataTransfer.items[0]);
+                // console.log(e.dataTransfer.items[0]);
 
             } else if(e.target.className == "col"){
                 let imgPlusHiddenForms = newImgTag + createAlbumInfoFields(newImgTag, e.target.getAttribute("value"));
@@ -142,25 +142,25 @@ function dropNonFirefoxPath(e){
         } else{
             let imgTag= s;
             if((e.target.className == "col")){
-                console.log("is it reaching this?")
+                // console.log("is it reaching this?")
                 let imgPlusHiddenForms = imgTag + createAlbumInfoFields(imgTag, e.target.getAttribute("value"));
-                console.log(imgPlusHiddenForms);
+                // console.log(imgPlusHiddenForms);
                 e.target.firstChild.innerHTML = imgPlusHiddenForms;
-                console.log(e.target.firstChild.firstChild);
+                // console.log(e.target.firstChild.firstChild);
                 e.target.firstChild.addEventListener('dragstart',dragStartButForAlreadyDroppedAlbums);
             }else if((e.target.className == "p-3")){
-                console.log("is it reaching this?")
+                // console.log("is it reaching this?")
                 let imgPlusHiddenForms = imgTag + createAlbumInfoFields(imgTag, e.target.parentNode.getAttribute("value"));
-                console.log(imgPlusHiddenForms);
+                // console.log(imgPlusHiddenForms);
                 e.target.innerHTML = imgPlusHiddenForms;
-                console.log(e.target.firstChild);
+                // console.log(e.target.firstChild);
                 e.target.firstChild.addEventListener('dragstart',dragStartButForAlreadyDroppedAlbums);
             }else if((e.target.tagName == "IMG")){
                 console.log("is it reaching this?")
                 let imgPlusHiddenForms = imgTag + createAlbumInfoFields(imgTag, e.target.parentNode.parentNode.getAttribute("value"));
-                console.log(imgPlusHiddenForms);
+                // console.log(imgPlusHiddenForms);
                 e.target.parentNode.innerHTML = imgPlusHiddenForms;
-                console.log(e.target.firstChild);
+                // console.log(e.target.firstChild);
                 e.target.addEventListener('dragstart',dragStartButForAlreadyDroppedAlbums);
             }
         }
@@ -171,31 +171,31 @@ function dropFireFoxPath(e){
     let transferData = e.dataTransfer.getData('text/plain');
     if(transferData.indexOf("<img ")==-1){//In this case, tData is the image link from a search result
         //having to improvise a way to select the img element with said src attribute
-        console.log(transferData);
+        // console.log(transferData);
         let theImgTagThatWeWantToCopy = document.querySelector(`.search-result [src=${CSS.escape(transferData)}]`);
         if(theImgTagThatWeWantToCopy == null){
             theImgTagThatWeWantToCopy= document.querySelector(`[src=${CSS.escape(transferData)}]`);
         }
-        console.log(theImgTagThatWeWantToCopy);
+        // console.log(theImgTagThatWeWantToCopy);
         let newImgTag = theImgTagThatWeWantToCopy.outerHTML;
         newImgTag = newImgTag.replace("width=\"120\" height=\"120\"", "width=\"100%\" height=\"100%\"") //here we're using the portion of the tag that defines the height and width to strip that out. If we change the results from appearing 120x120 we'll have to change or remove this
 
         if (e.target.className == "col") {// get the draggable element
-            console.log(transferData);
+            // console.log(transferData);
             let imgPlusHiddenForms = newImgTag + createAlbumInfoFields(newImgTag, e.target.getAttribute("value"));
             //this next line logs the position value of the drop area (it's attached to the parent div we're dropping the img tag into)
             // console.log(e.target.parentNode.getAttribute("value"));
             e.target.firstChild.innerHTML = imgPlusHiddenForms;
-            console.log(e.target.firstChild);
+            // console.log(e.target.firstChild);
             e.target.firstChild.firstChild.addEventListener('dragstart',dragStartButForAlreadyDroppedAlbums);
-            console.log(id);
+            // console.log(id);
         }else if (e.target.className == "p-3") {// get the draggable element
-            console.log(transferData);
+            // console.log(transferData);
             let imgPlusHiddenForms = newImgTag + createAlbumInfoFields(newImgTag, e.target.parentNode.getAttribute("value"));
             //this next line logs the position value of the drop area (it's attached to the parent div we're dropping the img tag into)
             // console.log(e.target.parentNode.getAttribute("value"));
             e.target.innerHTML = imgPlusHiddenForms;
-            console.log(e.target.firstChild);
+            // console.log(e.target.firstChild);
             e.target.firstChild.addEventListener('dragstart',dragStartButForAlreadyDroppedAlbums);
         } //this defines what to do if user drops over an image already in a tag
         else if (e.target.tagName == "IMG") {
@@ -204,7 +204,7 @@ function dropFireFoxPath(e){
             // console.log(e.target.parentNode.getAttribute("value"));
             e.target.nextSibling.outerHTML = "";    //clears out the form affiliated with the former image
             e.target.outerHTML = imgPlusHiddenForms;
-            console.log(e.target);
+            // console.log(e.target);
             // e.target.removeEventListener('dragstart', dragStart);
             e.target.addEventListener('dragstart',dragStartButForAlreadyDroppedAlbums);
         }
@@ -212,20 +212,20 @@ function dropFireFoxPath(e){
         if((e.target.className == "p-3")){
             let imgPlusHiddenForms = transferData + createAlbumInfoFields(transferData, e.target.parentNode.getAttribute("value"));
             e.target.innerHTML = imgPlusHiddenForms;
-            console.log(e.target.firstChild);
+            // console.log(e.target.firstChild);
             e.target.firstChild.addEventListener('dragstart',dragStartButForAlreadyDroppedAlbums);
         } else if((e.target.tagName == "IMG")){
             let imgPlusHiddenForms = transferData + createAlbumInfoFields(transferData, e.target.parentNode.parentNode.getAttribute("value"));
-            console.log(e.target.outerHTML);
+            // console.log(e.target.outerHTML);
             e.target.nextSibling.outerHTML="";
             e.target.outerHTML = imgPlusHiddenForms;
             // console.log(e.target.nextSibling.innerHTML);
-            console.log(e.target);
+            // console.log(e.target);
             e.target.addEventListener('dragstart',dragStartButForAlreadyDroppedAlbums);
         } else if((e.target.className == "col")){
             let imgPlusHiddenForms = transferData + createAlbumInfoFields(transferData, e.target.getAttribute("value"));
             e.target.firstChild.innerHTML = imgPlusHiddenForms;
-            console.log(e.target.firstChild.firstChild);
+            // console.log(e.target.firstChild.firstChild);
             e.target.firstChild.firstChild.addEventListener('dragstart',dragStartButForAlreadyDroppedAlbums);
         }
     }
