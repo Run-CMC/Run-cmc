@@ -17,7 +17,7 @@ public class User {
 
     @Column(unique = true)
     @NotBlank(message = "Username invalid.")
-    @Size(min = 5, message = "Username must be five characters long.")
+    @Size(min = 5, message = "Username must be at least five characters long.")
     private String username;
 
     @Column (unique = true)
@@ -25,7 +25,6 @@ public class User {
     private String email;
 
     @Column
-    @NotBlank(message = "Password invalid.")
     private String password;
 
     @Column
