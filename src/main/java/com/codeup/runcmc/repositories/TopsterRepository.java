@@ -33,6 +33,13 @@ public interface TopsterRepository extends JpaRepository<Topster, Long> {
     List<Topster> findAllBySearchTerm(@Param("title") String title);
 
 
+    @Query(nativeQuery = true, value = "select title, topsters.id, topsters.body, topsters.publicity, topsters.user_id from topsters " +
+            "join topster_contents tc on topsters.id = tc.topster_id " +
+            "join albums on albums.id = tc.album_id " +
+            "where albums.id = :albumID and publicity = true")
+    List<Topster> findAllByAlbumID(@Param("albumID") long albumID);
+
+
 
 
 }
