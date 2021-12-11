@@ -15,4 +15,9 @@ public class LoginController {
     public String showHomePage(){
         return "index";
     }
+
+    @GetMapping("/aboutus")
+    public String showAboutUsPage(){
+        return "aboutus";
+    }
 }
