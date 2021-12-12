@@ -7,6 +7,7 @@ import com.codeup.runcmc.repositories.AlbumRepository;
 import com.codeup.runcmc.repositories.TopsterContentRepository;
 import com.codeup.runcmc.repositories.TopsterRepository;
 import com.codeup.runcmc.repositories.UserRepository;
+import org.springframework.validation.Errors;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -23,6 +24,34 @@ public class TopsterCreation {
 //
 //    private static TopsterContentRepository topsterContentRepository;
 
+    //returns true if none of the relevant album fields are blank
+    public static boolean topsterValidator(String topsterType, String[] srcs, String[] titles){
+        if(topsterType.equals("3x3")){
+            for(int i = 0; i < 9; i++){
+                if(srcs[i].equals("")||titles[i].equals("")){
+                    return false;
+                }
+            }
+            return true;
+        }else if(topsterType.equals("4x4")){
+            for(int i = 9; i < 25; i++){
+                if(srcs[i].equals("")||titles[i].equals("")){
+                    return false;
+                }
+            }
+            return true;
+        }else if(topsterType.equals("5x5")){
+            for(int i = 25; i < 50; i++){
+                if(srcs[i].equals("")||titles[i].equals("")){
+                    return false;
+                }
+            }
+            return true;
+        } else {
+            System.out.println("This should never happen if you coded things right.");
+            return false;
+        }
+    }
     public static List<TopsterContent> createTopsters(
             Topster topster,
             String topsterType,
@@ -33,7 +62,8 @@ public class TopsterCreation {
             int[] positions,
             String[] spotifyIDs,
             AlbumRepository albumRepository,
-            TopsterContentRepository topsterContentRepository){
+            TopsterContentRepository topsterContentRepository,
+            Errors validation){
         List<TopsterContent> topsterContents = new ArrayList<TopsterContent>();
         if(topsterType.equals("3x3")){
             System.out.println("going down the 3x3 path");

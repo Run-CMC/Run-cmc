@@ -1,6 +1,8 @@
 package com.codeup.runcmc.models;
 
 import javax.persistence.*;
+import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.Size;
 import java.util.List;
 
 @Entity
@@ -24,9 +26,12 @@ public class Topster {
     private List<User> usersWhoFavorited;
 
     @Column
+    @NotBlank(message = "Topsters must have a title")
+    @Size(min = 3, message = "A title must have at least 3 characters.")
     private String title;
 
     @Column
+    @NotBlank(message = "Topsters must have a description")
     private String body;
 
     @Column

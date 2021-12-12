@@ -16,10 +16,12 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.Errors;
 import org.springframework.web.bind.annotation.*;
 
 import javax.mail.MessagingException;
 import javax.servlet.http.HttpServletRequest;
+import javax.validation.Valid;
 import java.sql.Date;
 import java.util.ArrayList;
 import java.util.List;
@@ -89,7 +91,9 @@ public class TopsterController {
 
     @PostMapping("/create-topster")
     public String createTopster(
-            @ModelAttribute Topster topster,
+            Model viewModel,
+            @ModelAttribute @Valid Topster topster,
+            Errors validation,
             @RequestParam(name= "isPublic", required = false, defaultValue = "") String isPublic,
             @RequestParam (name = "topster-type") String topsterType,
             @RequestParam(name = "src[]") String[] srcs,
@@ -99,8 +103,19 @@ public class TopsterController {
             @RequestParam(name = "position[]") int[] positions,
             @RequestParam(name = "spotifyID[]") String[] spotifyIDs, HttpServletRequest request) throws MessagingException {
         System.out.println(topster.isPublic());
-
-        List<TopsterContent> topsterContents = TopsterCreation.createTopsters(topster, topsterType, srcs, titles, artists, releaseDates, positions, spotifyIDs, albumRepository, topsterContentRepository);
+        if(!TopsterCreation.topsterValidator(topsterType,srcs,titles)){
+            validation.rejectValue(
+                    "title",
+                    "blank_album_fields",
+                    "Topsters must be completely filled with albums."
+            );
+        }
+        if(validation.hasErrors()){
+            viewModel.addAttribute("errors", validation);
+            viewModel.addAttribute("topster", topster);
+            return "/create-topster";
+        }
+        List<TopsterContent> topsterContents = TopsterCreation.createTopsters(topster, topsterType, srcs, titles, artists, releaseDates, positions, spotifyIDs, albumRepository, topsterContentRepository, validation);
         User principal = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
         User author = userRepository.getById(principal.getId());
         System.out.println(principal.getUsername());
