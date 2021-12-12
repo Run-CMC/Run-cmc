@@ -1,39 +1,10 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org"
-      xmlns:sec="http://www.w3.org/1999/xhtml" lang="en">
-<head th:replace="partials/partials :: head ('Run//CMC')">
-
-</head>
-<body>
-<!--<nav th:replace="partials/partials :: navbar"></nav>-->
-<main>
-    <!--	Login -->
-    <div sec:authorize="!isAuthenticated()">
-        <h1>Log In</h1>
-        <div th:if="${param.error}">
-            Invalid Username and Password.
-        </div>
-        <div th:if="${param.logout}">
-            You have been logged out.
-        </div>
-        <div>
-            <form th:action="@{/}" method="post">
-                <label for="username">Username</label>
-                <input id="username" name="username" type="text"/>
-                <label for="password">Password</label>
-                <input id="password" name="password" type="password"/>
-                <input type="submit" value="Log In"/>
-            </form>
-        </div>
-    </div>
-</main>
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security" lang="en">
+<head th:replace="partials/partials :: head ('Run//CMC')"></head>
 <script th:replace="partials/partials :: md-js"></script>
-</body>
-</html>
-
 
 <!--new styling code-->
-
 <!--Main Navigation-->
 <header>
     <!--Section: Navbar-->
@@ -54,44 +25,24 @@
                         <a class="nav-link" th:href="@{/profile}">Profile</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" th:href="@{/create-topster}">Create a new topster</a>
+                        <a class="nav-link" th:href="@{/create-topster}">Create</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" th:href="@{/aboutus}">About Us</a>
+                    </li>
+                    <li sec:authorize="isAuthenticated()">
+                        <form th:action="@{/logout}" th:method="post">
+                            <button class="btn bth-primary btn-small active" sec:authorize="isAuthenticated()">Logout
+                            </button>
+                        </form>
                     </li>
                 </ul>
             </div>
         </div>
     </nav>
     <!--End section: Navbar-->
-	<!-- Navbar -->
-	<nav class="navbar navbar-expand-lg navbar-dark d-none d-lg-block" style="z-index: 2000;">
-		<div class="container-fluid">
-			<!-- Navbar brand -->
-			<a class="navbar-brand nav-link me-2" th:href="@{/}">Run<i class="fas fa-play"></i>CMC</a>
-			<button class="navbar-toggler" type="button" data-mdb-toggle="collapse" data-mdb-target="#navbarButtons"
-					aria-controls="navbarButtons" aria-expanded="false" aria-label="Toggle navigation">
-				<i class="fas fa-bars"></i>
-			</button>
-			<div class="collapse navbar-collapse" id="navbarButtons">
-				<ul class="navbar-nav me-auto mb-2 mb-lg-0">
-					<li class="nav-item active">
-						<a class="nav-link" th:href="@{/discover}">Discover</a>
-					</li>
-					<li class="nav-item">
-						<a class="nav-link" th:href="@{/profile}">Profile</a>
-					</li>
-					<li class="nav-item">
-						<a class="nav-link" th:href="@{/create-topster}">Create a new topster</a>
-					</li>
-					<li class="nav-item">
-						<a class="nav-link" th:href="@{/about-us}">About Us</a>
-					</li>
-				</ul>
-			</div>
-		</div>
-	</nav>
-	<!-- Navbar -->
 
-
-    <!--Section: Background image-->
+    <!--Section: jumbotron area-->
     <div id="intro" class="bg-image vh-100 shadow-1-strong">
         <video style="min-width: 100%; min-height: 100%;" playsinline autoplay muted loop>
             <source class="h-100"
@@ -110,18 +61,61 @@
                 <div class="text-white">
                     <h1 class="mb-3">Run<i class="fas fa-play"></i>CMC</h1>
                     <h5 class="mb-4">Immerse yourself in a world of music discovery</h5>
-                    <a class="btn btn-outline-light btn-lg m-2" href="https://www.youtube.com/watch?v=c9B4TPnak1A"
-                       role="button"
-                       rel="nofollow" target="_blank">Login</a>
+                    <a
+                            class="btn btn-outline-light btn-lg m-2"
+                            data-mdb-toggle="collapse"
+                            href="#collapseExample"
+                            role="button"
+                            aria-expanded="false"
+                            aria-controls="collapseExample"
+                    >
+                        Login
+                    </a>
                     <a class="btn btn-outline-light btn-lg m-2" th:href="register" target="_blank"
                        role="button">Register</a>
                 </div>
             </div>
         </div>
     </div>
-    <!--End section: Background image-->
+    <!--End section: jumbotron area-->
 </header>
 <!--Main Navigation-->
+<!--Section: potential login form-->
+<div sec:authorize="!isAuthenticated()" class="collapse mb-5" id="collapseExample">
+    <h2 class="mb-2 pt-2 text-center">
+        <strong>Log In</strong>
+    </h2>
+    <div class="row d-flex justify-content-center">
+        <div class="col-md-6">
+            <div th:if="${param.error}"><strong>
+                Invalid username and password.</strong>
+            </div>
+            <div th:if="${param.logout}"><strong>
+                You have been successfully logged out.</strong>
+            </div>
+            <br>
+            <div>
+                <form th:action="@{/}" method="post">
+                    <!-- Username input -->
+                    <div class="form-outline col-12 mb-4">
+                        <input type="text" id="username-input"
+                               class="form-control form-control-lg"/>
+                        <label class="form-label" for="username-input">Username</label>
+                    </div>
+                    <!-- Password input -->
+                    <div class="form-outline col-12 mb-4">
+                        <input type="password" id="password-input"
+                               class="form-control form-control-lg"/>
+                        <label class="form-label" for="password-input">Password</label>
+                    </div>
+                    <!-- Submit button -->
+                    <input type="submit" class="d-flex justify-center btn btn-primary mb-4" value="Submit"/>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+<!--End Section: potential login form-->
 
 <!--Main layout-->
 <main class="mt-5">
@@ -131,7 +125,7 @@
             <div class="row">
                 <div class="col-md-6 gx-5 mb-4">
                     <div class="bg-image hover-overlay ripple shadow-2-strong rounded-5" data-mdb-ripple-color="light">
-                        <img/>
+                        <img src="https://mdbootstrap.com/img/new/slides/031.jpg" class="img-fluid"/>
                         <a href="#!">
                             <div class="mask" style="background-color: rgba(251, 251, 251, 0.15);"></div>
                         </a>
@@ -141,10 +135,10 @@
                     <h4><strong>CMC<i class="fas fa-play"></i>Curated Music Collage</strong></h4>
                     <p class="text-muted">
                         There is a truly overwhelming amount of recorded music in existence today--so much that it can
-                        be difficult even for a dedicated music fan to keep track of or determine what they've heard or
-                        want to hear, or what they might be interested in. Run<i class="fas fa-play"></i>CMC is an
+                        be difficult even for a dedicated music fan to keep track of what they've heard or
+                        want to hear. Run<i class="fas fa-play"></i>CMC is an
                         online community that curates a music collage topster, ignites music discovery, and provides a
-                        platform to discuss favorite albums and topsters.
+                        platform to discuss favorite albums and topsters. Special thanks to <strong>Spotify</strong> for powering this application to give users the opportunity to search for their favorite artists and albums.
                         <br>
                         <br>
                         Register today to get the full experience!
@@ -153,7 +147,8 @@
             </div>
         </section>
         <!--End Section: Logo and pitch summary-->
-        <hr class="my-5"/>
+
+        <hr>
         <!--Section: Carousel-->
         <section class="text-center" style="justify-content: center">
             <h2 class="fs-1 text-gradient text-gradient-primary mb-0" style="font-weight: 900;">Curate your own
@@ -185,58 +180,12 @@
                 <br>
                 <br>
             </div>
-            <hr class="my-5"/>
+        <hr/>
             <!--End Section: Carousel-->
 
-            <!--Section: potential login form-->
-            <!--		<section class="mb-5">-->
-            <!--			<h4 class="mb-5 text-center">-->
-            <!--				<strong>Log In</strong>-->
-            <!--			</h4>-->
-
-            <!--			<div class="row d-flex justify-content-center">-->
-            <!--				<div class="col-md-6">-->
-            <!--					<form>-->
-            <!--						&lt;!&ndash; 2 column grid layout with text inputs for the first and last names &ndash;&gt;-->
-            <!--						<div class="row mb-4">-->
-            <!--							<div class="col">-->
-            <!--								<div class="form-outline">-->
-            <!--									<input type="text" id="form3Example1" class="form-control" />-->
-            <!--									<label class="form-label" for="form3Example1">First name</label>-->
-            <!--								</div>-->
-            <!--							</div>-->
-            <!--							<div class="col">-->
-            <!--								<div class="form-outline">-->
-            <!--									<input type="text" id="form3Example2" class="form-control" />-->
-            <!--									<label class="form-label" for="form3Example2">Last name</label>-->
-            <!--								</div>-->
-            <!--							</div>-->
-            <!--						</div>-->
-
-            <!--						&lt;!&ndash; Email input &ndash;&gt;-->
-            <!--						<div class="form-outline mb-4">-->
-            <!--							<input type="email" id="form3Example3" class="form-control" />-->
-            <!--							<label class="form-label" for="form3Example3">Email address</label>-->
-            <!--						</div>-->
-
-            <!--						&lt;!&ndash; Password input &ndash;&gt;-->
-            <!--						<div class="form-outline mb-4">-->
-            <!--							<input type="password" id="form3Example4" class="form-control" />-->
-            <!--							<label class="form-label" for="form3Example4">Password</label>-->
-            <!--						</div>-->
-
-            <!--						&lt;!&ndash; Submit button &ndash;&gt;-->
-            <!--						<button type="submit" class="btn btn-primary btn-block mb-4">-->
-            <!--							Sign up-->
-            <!--						</button>-->
-            <!--					</form>-->
-            <!--				</div>-->
-            <!--			</div>-->
-            <!--		</section>-->
-            <!--End Section: potential login form-->
 
             <!-- Container for discover music part of index -->
-            <div class="container my-5 py-5">
+            <div class="container py-5">
                 <!-- Section: Discover music -->
                 <section class="position-relative">
                     <div class="row gx-0">
@@ -268,7 +217,7 @@
                                     style="z-index: -10"
                             >
                                 <div class="ps-5">
-                                    <h1 class="fw-bold mb-4">Discover music</h1>
+                                    <h1 class="fw-bold mb-4 fa-3x">Discover music</h1>
                                 </div>
                             </div>
                         </div>
@@ -279,7 +228,7 @@
             <!-- End Container for discover music part of index -->
 
             <!-- Container for get social part of index -->
-            <div class="container my-5 py-5">
+            <div class="container py-5">
                 <!-- Section: Get social -->
                 <section class="position-relative">
                     <div class="row gx-0">
@@ -311,7 +260,7 @@
                                     style="z-index: -10"
                             >
                                 <div class="ps-5">
-                                    <h1 class="fw-bold mb-4">Get social</h1>
+                                    <h1 class="fw-bold mb-4 fa-3x">Get social</h1>
                                 </div>
                             </div>
                         </div>
@@ -344,3 +293,4 @@
         Made with <i class="fab fa-gratipay"></i> by Chris, Sebastian, Ian, O.J., & Amanda
     </div>
 </footer>
+</html>

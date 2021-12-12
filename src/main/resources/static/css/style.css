@@ -93,10 +93,6 @@ main {
 	color: #fff !important;
 }
 
-.index-logo {
-	background-image: url("../img/runcmclogotemp.jpg");
-}
-
 /* for the discover music and get social wording on index page */
 .page-header {
 	padding: 0;
@@ -170,4 +166,20 @@ main {
 		margin-left: 50px;
 	}
 /**/
+
+	#collapseExample {
+		background: linear-gradient(
+				45deg,
+				rgba(29, 236, 197, 0.7),
+				rgba(91, 14, 214, 0.7) 100%
+		);
+	}
+
+	#username-input {
+		background-color: white;
+	}
+
+	#password-input {
+		background-color: white;
+	}
 }
