@@ -1,314 +1,317 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org"
-	  xmlns:sec="http://www.w3.org/1999/xhtml" lang="en">
-<head th:replace="partials/partials :: head ('RUN//CMC')">
+      xmlns:sec="http://www.w3.org/1999/xhtml" lang="en">
+<head th:replace="partials/partials :: head ('Run//CMC')">
 
 </head>
 <body>
-<nav th:replace="partials/partials :: navbar"></nav>
+<!--<nav th:replace="partials/partials :: navbar"></nav>-->
 <main>
-	<h1 class="d-flex justify-content-center">Run//CMC</h1>
-	<div>
-		There is a truly overwhelming amount of recorded music in existence today--so much that it can be difficult even for a dedicated music fan to keep track of or determine what they've heard or want to hear, or what they might be interested in. Run//CMC is an online community that curates a music collage topster, ignites music discovery, and provides a platform to discuss favorite albums and topsters.
-
-		Register today to get the full experience!
-	</div>
-
-<!--	Login -->
-<div sec:authorize="!isAuthenticated()">
-	<h1>Log In</h1>
-	<div th:if="${param.error}">
-		Invalid Username and Password.
-	</div>
-	<div th:if="${param.logout}">
-		You have been logged out.
-	</div>
-	<div>
-		<form th:action="@{/}" method="post">
-			<label for="username">Username</label>
-			<input id="username" name="username" type="text" />
-			<label for="password">Password</label>
-			<input id="password" name="password" type="password" />
-			<input type="submit" value="Log In" />
-		</form>
-	</div>
-	<div>
-		<a th:href="register"><button>Register</button></a>
-	</div>
-</div>
+    <!--	Login -->
+    <div sec:authorize="!isAuthenticated()">
+        <h1>Log In</h1>
+        <div th:if="${param.error}">
+            Invalid Username and Password.
+        </div>
+        <div th:if="${param.logout}">
+            You have been logged out.
+        </div>
+        <div>
+            <form th:action="@{/}" method="post">
+                <label for="username">Username</label>
+                <input id="username" name="username" type="text"/>
+                <label for="password">Password</label>
+                <input id="password" name="password" type="password"/>
+                <input type="submit" value="Log In"/>
+            </form>
+        </div>
+    </div>
 </main>
 <script th:replace="partials/partials :: md-js"></script>
 </body>
 </html>
 
 
-
-
-
-
 <!--new styling code-->
 
 <!--Main Navigation-->
 <header>
-	<!-- Navbar -->
-	<nav class="navbar navbar-expand-lg navbar-dark d-none d-lg-block" style="z-index: 2000;">
-		<div class="container-fluid">
-			<!-- Navbar brand -->
-			<a class="navbar-brand nav-link me-2" th:href="@{/}">Run<i class="fas fa-play"></i>CMC</a>
-			<button class="navbar-toggler" type="button" data-mdb-toggle="collapse" data-mdb-target="#navbarButtons"
-					aria-controls="navbarButtons" aria-expanded="false" aria-label="Toggle navigation">
-				<i class="fas fa-bars"></i>
-			</button>
-			<div class="collapse navbar-collapse" id="navbarButtons">
-				<ul class="navbar-nav me-auto mb-2 mb-lg-0">
-					<li class="nav-item active">
-						<a class="nav-link" th:href="@{/discover}">Discover</a>
-					</li>
-					<li class="nav-item">
-						<a class="nav-link" th:href="@{/profile}">Profile</a>
-					</li>
-					<li class="nav-item">
-						<a class="nav-link" th:href="@{/create-topster}">Create a new topster</a>
-					</li>
-				</ul>
-			</div>
-		</div>
-	</nav>
-	<!-- Navbar -->
+    <!--Section: Navbar-->
+    <nav class="navbar navbar-expand-lg navbar-dark d-none d-lg-block" style="z-index: 2000;">
+        <div class="container-fluid">
+            <!-- Navbar brand -->
+            <a class="navbar-brand nav-link me-2" th:href="@{/}">Run<i class="fas fa-play"></i>CMC</a>
+            <button class="navbar-toggler" type="button" data-mdb-toggle="collapse" data-mdb-target="#navbarButtons"
+                    aria-controls="navbarButtons" aria-expanded="false" aria-label="Toggle navigation">
+                <i class="fas fa-bars"></i>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarButtons">
+                <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+                    <li class="nav-item active">
+                        <a class="nav-link" th:href="@{/discover}">Discover</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" th:href="@{/profile}">Profile</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" th:href="@{/create-topster}">Create a new topster</a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+    <!--End section: Navbar-->
 
-	<!-- Background image -->
-	<div id="intro" class="bg-image vh-100 shadow-1-strong">
-		<video style="min-width: 100%; min-height: 100%;" playsinline autoplay muted loop>
-			<source class="h-100"
-					src="https://mdbootstrap.com/img/video/animation-intro-min.mp4"
-					type="video/mp4"
-			/>
-		</video>
-		<div class="mask" style="
+    <!--Section: Background image-->
+    <div id="intro" class="bg-image vh-100 shadow-1-strong">
+        <video style="min-width: 100%; min-height: 100%;" playsinline autoplay muted loop>
+            <source class="h-100"
+                    src="https://mdbootstrap.com/img/video/animation-intro-min.mp4"
+                    type="video/mp4"
+            />
+        </video>
+        <div class="mask" style="
             background: linear-gradient(
               45deg,
               rgba(29, 236, 197, 0.7),
               rgba(91, 14, 214, 0.7) 100%
             );
           ">
-			<div class="container d-flex align-items-center justify-content-center text-center h-100">
-				<div class="text-white">
-					<h1 class="mb-3">Run<i class="fas fa-play"></i>CMC</h1>
-					<h5 class="mb-4">Immerse yourself in a world of music discovery</h5>
-					<a class="btn btn-outline-light btn-lg m-2" href="https://www.youtube.com/watch?v=c9B4TPnak1A" role="button"
-					   rel="nofollow" target="_blank">Login</a>
-					<a class="btn btn-outline-light btn-lg m-2" th:href="register" target="_blank"
-					   role="button">Register</a>
-				</div>
-			</div>
-		</div>
-	</div>
-	<!-- Background image -->
+            <div class="container d-flex align-items-center justify-content-center text-center h-100">
+                <div class="text-white">
+                    <h1 class="mb-3">Run<i class="fas fa-play"></i>CMC</h1>
+                    <h5 class="mb-4">Immerse yourself in a world of music discovery</h5>
+                    <a class="btn btn-outline-light btn-lg m-2" href="https://www.youtube.com/watch?v=c9B4TPnak1A"
+                       role="button"
+                       rel="nofollow" target="_blank">Login</a>
+                    <a class="btn btn-outline-light btn-lg m-2" th:href="register" target="_blank"
+                       role="button">Register</a>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!--End section: Background image-->
 </header>
 <!--Main Navigation-->
 
 <!--Main layout-->
 <main class="mt-5">
-	<div class="container">
-		<!--Section: Content-->
-		<section>
-			<div class="row">
-				<div class="col-md-6 gx-5 mb-4">
-					<div class="bg-image hover-overlay ripple shadow-2-strong rounded-5" data-mdb-ripple-color="light">
-						<img />
-						<a href="#!">
-							<div class="mask" style="background-color: rgba(251, 251, 251, 0.15);"></div>
-						</a>
-					</div>
-				</div>
+    <div class="container">
+        <!--Section: Logo and pitch summary-->
+        <section>
+            <div class="row">
+                <div class="col-md-6 gx-5 mb-4">
+                    <div class="bg-image hover-overlay ripple shadow-2-strong rounded-5" data-mdb-ripple-color="light">
+                        <img/>
+                        <a href="#!">
+                            <div class="mask" style="background-color: rgba(251, 251, 251, 0.15);"></div>
+                        </a>
+                    </div>
+                </div>
+                <div class="col-md-6 gx-5 mb-4">
+                    <h4><strong>CMC<i class="fas fa-play"></i>Curated Music Collage</strong></h4>
+                    <p class="text-muted">
+                        There is a truly overwhelming amount of recorded music in existence today--so much that it can
+                        be difficult even for a dedicated music fan to keep track of or determine what they've heard or
+                        want to hear, or what they might be interested in. Run<i class="fas fa-play"></i>CMC is an
+                        online community that curates a music collage topster, ignites music discovery, and provides a
+                        platform to discuss favorite albums and topsters.
+                        <br>
+                        <br>
+                        Register today to get the full experience!
+                    </p>
+                </div>
+            </div>
+        </section>
+        <!--End Section: Logo and pitch summary-->
+        <hr class="my-5"/>
+        <!--Section: Carousel-->
+        <section class="text-center" style="justify-content: center">
+            <h2 class="fs-1 text-gradient text-gradient-primary mb-0" style="font-weight: 900;">Curate your own
+                collage</h2>
+            <div id="carouselExampleIndicators" class="carousel slide" data-mdb-ride="carousel">
+                <div class="carousel-inner">
+                    <div class="carousel-item active">
+                        <img
+                                src="../img/topster1.png"
+                                class="mw-100"
+                                alt="Topster-one"
+                        />
+                    </div>
+                    <div class="carousel-item">
+                        <img
+                                src="../img/topster2.png"
+                                class="mw-100"
+                                alt="Topster-two"
+                        />
+                    </div>
+                    <div class="carousel-item">
+                        <img
+                                src="../img/topster3.png"
+                                class="mw-100"
+                                alt="Topster-three"
+                        />
+                    </div>
+                </div>
+                <br>
+                <br>
+            </div>
+            <hr class="my-5"/>
+            <!--End Section: Carousel-->
 
-				<div class="col-md-6 gx-5 mb-4">
-					<h4><strong>CMC<i class="fas fa-play"></i>Curated Music Collage</strong></h4>
-					<p class="text-muted">
-						There is a truly overwhelming amount of recorded music in existence today--so much that it can be difficult even for a dedicated music fan to keep track of or determine what they've heard or want to hear, or what they might be interested in. Run<i class="fas fa-play"></i>CMC is an online community that curates a music collage topster, ignites music discovery, and provides a platform to discuss favorite albums and topsters.
-						<br>
-						<br>
-						Register today to get the full experience!
-					</p>
-				</div>
-			</div>
-		</section>
-		<!--Section: Content-->
+            <!--Section: potential login form-->
+            <!--		<section class="mb-5">-->
+            <!--			<h4 class="mb-5 text-center">-->
+            <!--				<strong>Log In</strong>-->
+            <!--			</h4>-->
 
-		<hr class="my-5" />
+            <!--			<div class="row d-flex justify-content-center">-->
+            <!--				<div class="col-md-6">-->
+            <!--					<form>-->
+            <!--						&lt;!&ndash; 2 column grid layout with text inputs for the first and last names &ndash;&gt;-->
+            <!--						<div class="row mb-4">-->
+            <!--							<div class="col">-->
+            <!--								<div class="form-outline">-->
+            <!--									<input type="text" id="form3Example1" class="form-control" />-->
+            <!--									<label class="form-label" for="form3Example1">First name</label>-->
+            <!--								</div>-->
+            <!--							</div>-->
+            <!--							<div class="col">-->
+            <!--								<div class="form-outline">-->
+            <!--									<input type="text" id="form3Example2" class="form-control" />-->
+            <!--									<label class="form-label" for="form3Example2">Last name</label>-->
+            <!--								</div>-->
+            <!--							</div>-->
+            <!--						</div>-->
 
-		<!--Section: Content-->
-		<section class="text-center">
-			<h4 class="mb-5"><strong>Curate your own collage</strong></h4>
-			<div id="carouselExampleIndicators" class="carousel slide" data-mdb-ride="carousel">
-				<div class="carousel-indicators">
-					<button
-							type="button"
-							data-mdb-target="#carouselExampleIndicators"
-							data-mdb-slide-to="0"
-							class="active"
-							aria-current="true"
-							aria-label="Slide 1"
-					></button>
-					<button
-							type="button"
-							data-mdb-target="#carouselExampleIndicators"
-							data-mdb-slide-to="1"
-							aria-label="Slide 2"
-					></button>
-					<button
-							type="button"
-							data-mdb-target="#carouselExampleIndicators"
-							data-mdb-slide-to="2"
-							aria-label="Slide 3"
-					></button>
-				</div>
-				<div class="carousel-inner">
-					<div class="carousel-item active">
-						<img
-								src="../img/ariana.png"
-								class="d-block w-60 h-50"
-								alt="Wild Landscape"
-						/>
-					</div>
-					<div class="carousel-item">
-						<img
-								src="../img/topster2.png"
-								class="d-block w-60 h-50"
-								alt="Camera"
-						/>
-					</div>
-					<div class="carousel-item">
-						<img
-								src="../img/topster3.png"
-								class="d-block w-60 h-50"
-								alt="Exotic Fruits"
-						/>
-					</div>
-				</div>
-				<button
-						class="carousel-control-prev"
-						type="button"
-						data-mdb-target="#carouselExampleIndicators"
-						data-mdb-slide="prev"
-				>
-					<span class="carousel-control-prev-icon" aria-hidden="true"></span>
-					<span class="visually-hidden">Previous</span>
-				</button>
-				<button
-						class="carousel-control-next"
-						type="button"
-						data-mdb-target="#carouselExampleIndicators"
-						data-mdb-slide="next"
-				>
-					<span class="carousel-control-next-icon" aria-hidden="true"></span>
-					<span class="visually-hidden">Next</span>
-				</button>
-			</div>
+            <!--						&lt;!&ndash; Email input &ndash;&gt;-->
+            <!--						<div class="form-outline mb-4">-->
+            <!--							<input type="email" id="form3Example3" class="form-control" />-->
+            <!--							<label class="form-label" for="form3Example3">Email address</label>-->
+            <!--						</div>-->
 
+            <!--						&lt;!&ndash; Password input &ndash;&gt;-->
+            <!--						<div class="form-outline mb-4">-->
+            <!--							<input type="password" id="form3Example4" class="form-control" />-->
+            <!--							<label class="form-label" for="form3Example4">Password</label>-->
+            <!--						</div>-->
 
+            <!--						&lt;!&ndash; Submit button &ndash;&gt;-->
+            <!--						<button type="submit" class="btn btn-primary btn-block mb-4">-->
+            <!--							Sign up-->
+            <!--						</button>-->
+            <!--					</form>-->
+            <!--				</div>-->
+            <!--			</div>-->
+            <!--		</section>-->
+            <!--End Section: potential login form-->
 
-		<hr class="my-5" />
+            <!-- Container for discover music part of index -->
+            <div class="container my-5 py-5">
+                <!-- Section: Discover music -->
+                <section class="position-relative">
+                    <div class="row gx-0">
+                        <div class="col-md-5 mb-4 mb-md-0">
+                            <div class="d-flex py-md-5">
+                                <img
+                                        src="../img/manheadphones.jpeg"
+                                        class="w-100 rounded-5 shadow-3-strong"
+                                        id="cta-img-nml-50"
+                                        style="z-index: 10;"
+                                        alt="headphones"
+                                />
+                            </div>
+                        </div>
 
-		<!--Section: Content-->
-		<section class="mb-5">
-			<h4 class="mb-5 text-center">
-				<strong>Log In</strong>
-			</h4>
+                        <div class="col-md-7 mb-4 mb-md-0">
+                            <div
+                                    class="
+                    bg-gradient-primary
+                    h-100
+                    rounded-6
+                    p-4
+                    ps-md-5
+                    text-white
+                    d-flex
+                    justify-content-center
+                    align-items-center
+                    "
+                                    style="z-index: -10"
+                            >
+                                <div class="ps-5">
+                                    <h1 class="fw-bold mb-4">Discover music</h1>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+                <!-- End Section: Discover music -->
+            </div>
+            <!-- End Container for discover music part of index -->
 
-			<div class="row d-flex justify-content-center">
-				<div class="col-md-6">
-					<form>
-						<!-- 2 column grid layout with text inputs for the first and last names -->
-						<div class="row mb-4">
-							<div class="col">
-								<div class="form-outline">
-									<input type="text" id="form3Example1" class="form-control" />
-									<label class="form-label" for="form3Example1">First name</label>
-								</div>
-							</div>
-							<div class="col">
-								<div class="form-outline">
-									<input type="text" id="form3Example2" class="form-control" />
-									<label class="form-label" for="form3Example2">Last name</label>
-								</div>
-							</div>
-						</div>
+            <!-- Container for get social part of index -->
+            <div class="container my-5 py-5">
+                <!-- Section: Get social -->
+                <section class="position-relative">
+                    <div class="row gx-0">
+                        <div class="col-md-5 mb-4 mb-md-0">
+                            <div class="d-flex py-md-5">
+                                <img
+                                        src="../img/girlphone.jpg"
+                                        class="w-100 rounded-5 shadow-3-strong"
+                                        id="cta-img-nml-50"
+                                        style="z-index: 10;"
+                                        alt="texting"
+                                />
+                            </div>
+                        </div>
 
-						<!-- Email input -->
-						<div class="form-outline mb-4">
-							<input type="email" id="form3Example3" class="form-control" />
-							<label class="form-label" for="form3Example3">Email address</label>
-						</div>
-
-						<!-- Password input -->
-						<div class="form-outline mb-4">
-							<input type="password" id="form3Example4" class="form-control" />
-							<label class="form-label" for="form3Example4">Password</label>
-						</div>
-
-						<!-- Submit button -->
-						<button type="submit" class="btn btn-primary btn-block mb-4">
-							Sign up
-						</button>
-
-						<!-- Register buttons -->
-					</form>
-				</div>
-			</div>
-		</section>
-			<!-- Container for demo purpose -->
-			<div>
-
-				<!-- Section: Design Block -->
-				<section class="mb-8">
-					<header>
-						<div class="page-header min-vh-85">
-							<div>
-								<img
-										class="position-absolute fixed-top ms-auto w-50 h-100 z-index-0 d-none d-sm-none d-md-block border-radius-section border-top-end-radius-0 border-top-start-radius-0 border-bottom-end-radius-0"
-										src="../img/discovermusic.jpg"
-										alt="image"
-								/>
-							</div>
-							<div class="container">
-								<div class="row">
-									<div class="col-lg-7 d-flex">
-										<div class="card blur shadow-6">
-											<div class="card-body text-md-start text-center p-sm-5 mt-md-3">
-												<h2
-														class="fs-1 text-gradient text-gradient-primary mb-0"
-														style="font-weight: 900;"
-												>
-													Discover music
-												</h2>
-											</div>
-										</div>
-									</div>
-								</div>
-							</div>
-						</div>
-					</header>
-
-				</section>
-				<!-- Section: Design Block -->
-
-			</div>
-			<!-- Container for demo purpose -->
-		<!--Section: Content-->
-	</div>
+                        <div class="col-md-7 mb-4 mb-md-0">
+                            <div
+                                    class="
+                    bg-gradient-secondary
+                    h-100
+                    rounded-6
+                    p-4
+                    ps-md-5
+                    text-white
+                    d-flex
+                    justify-content-center
+                    align-items-center
+                    "
+                                    style="z-index: -10"
+                            >
+                                <div class="ps-5">
+                                    <h1 class="fw-bold mb-4">Get social</h1>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+                <!-- Section: Get social -->
+            </div>
+            <!-- End container for get social part of index -->
+    </div>
+    <div>
+        <button
+                type="button"
+                class="btn btn-outline-secondary btn-rounded"
+                id="btn-back-to-top"
+                data-mdb-ripple-color="dark"
+        >
+            Run it back, from the top!
+        </button>
+    </div>
 </main>
-<!--Main layout-->
-
-<!--Footer-->
-
-	<hr class="m-0" />
-
-	<!-- Copyright -->
-	<div class="text-center p-3" style="background-color: rgba(0, 0, 0, 0.2);">
-		© 2020 Copyright:
-		<a class="text-dark" href="https://mdbootstrap.com/">MDBootstrap.com</a>
-	</div>
-	<!-- Copyright -->
+<footer>
+    <hr class="m-0"/>
+    <div class="text-center p-3" style="
+            background: linear-gradient(
+              45deg,
+              rgba(29, 236, 197, 0.7),
+              rgba(91, 14, 214, 0.7) 100%
+            );
+          ">
+        Made with <i class="fab fa-gratipay"></i> by Chris, Sebastian, Ian, O.J., & Amanda
+    </div>
 </footer>
-<!--Footer-->
