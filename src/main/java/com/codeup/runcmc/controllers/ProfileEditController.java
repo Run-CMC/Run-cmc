@@ -8,7 +8,10 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.Errors;
 import org.springframework.web.bind.annotation.*;
+
+import javax.validation.Valid;
 
 // why is this page not loading correctly in the browser?
 
@@ -25,7 +28,8 @@ public class ProfileEditController {
 
     @RequestMapping(path = "/keys.js", produces = "application/javascript")
     @ResponseBody
-    public String apikey(){return "const filestackAPIKey = `" + filestackApiKey +"`";}
+    public String apikey(){return "const filestack_api_key = `" + filestackApiKey +"`";
+    }
     @GetMapping("/profile-edit/{id}")
     public String profileEdit(Model viewModel, @PathVariable long id) {
         viewModel.addAttribute("user", userDao.getById(id));
@@ -33,13 +37,19 @@ public class ProfileEditController {
     }
 
     @PostMapping("/profile-edit/{id}")
-    public String updateProfile(@ModelAttribute User user) {
-        User editedUser = userDao.getById(user.getId());
-        editedUser.setUsername(user.getUsername());
-        editedUser.setEmail(user.getEmail());
-        editedUser.setBio(user.getBio());
-        editedUser.setProfilePhotoURL(user.getProfilePhotoURL());
-        userDao.save(editedUser);
-        return "redirect:/profile";
+    public String updateProfile(@ModelAttribute @Valid User user, Errors validation, Model model) {
+	    if (validation.hasErrors()) {
+		    model.addAttribute("errors", validation);
+		    model.addAttribute("user", user);
+		    return "user/profile-edit";
+	    } else {
+		    User editedUser = userDao.getById(user.getId());
+		    editedUser.setUsername(user.getUsername());
+		    editedUser.setEmail(user.getEmail());
+		    editedUser.setBio(user.getBio());
+		    editedUser.setProfilePhotoURL(user.getProfilePhotoURL());
+		    userDao.save(editedUser);
+		    return "redirect:/profile";
+	    }
     }
 }

@@ -28,6 +28,7 @@
     <!--    <div id="album-art"></div><br>-->
     <input id="search-bar" type="text">
     <button id="search-button">Search</button>
+    <span id="topster-submission-restriction">Your topster/collage can only be submitted once it is full and has a title and description of sufficient length</span>
     <form th:action="@{/create-topster}" th:method="POST" th:object="${topster}">
         <label for="topster-type">Select a topster style</label>
         <select name="topster-type" id="topster-type" onchange="changeSelection()">
@@ -44,20 +45,23 @@
                 <div id="4x4" th:replace="partials/4x4-topster.html :: 4x4-topster"></div>
                 <div id="5x5" th:replace="partials/5x5-topster.html :: 5x5-topster"></div>
                 <hr>
-                <div class="col-12">
-                    <label for="topster-title">Title: </label>
-                    <input id="topster-title" th:field="*{title}" type="text">
+                <h5 th:if="${#fields.hasErrors('title')}" th:errors="*{title}" />
+                <div class="col-12 form-outline">
+                    <input id="topster-title" class="form-control" th:field="*{title}" type="text" maxlength="255">
+                    <label class="form-label" for="topster-title">Title: </label>
                 </div>
-                <div class="col-12">
-                    <label for="topster-text-body">Description: </label>
-                    <textarea id="topster-text-body" th:field="*{body}"></textarea>
+                <h5 th:if="${#fields.hasErrors('body')}" th:errors="*{body}" />
+                <div class="col-12 form-outline">
+                    <textarea id="topster-text-body" class="form-control" th:field="*{body}" maxlength="255"></textarea>
+                    <label class="form-label" for="topster-text-body">Description: </label>
                 </div>
+                <div id="char-count"></div>
                 <div class="col-9"></div>
                 <div class="col-3">
                     <label for="public">Make public</label>
                     <input type="checkbox" id="public" name="isPublic" text="public" value="public" checked>
                     <!--                <button>Create</button>-->
-                    <input id="submit-topster" type="submit">
+                    <input id="submit-topster" type="submit" value="Create">
                 </div>
             </div>
         </div>
@@ -76,18 +80,20 @@
     /*]]>*/
 </script>
 <script src="../js/topster-html.js"></script>
+<script src="../js/char-count.js"></script>
 <script>
     'use strict';
 
-    // const threeByThreeTopster = $('#3x3');
-    // const fourByFourTopster = $('#4x4');
-    // const fiveByFiveTopster = $('#5x5');
+    const threeByThreeTopster = $('#3x3');
+    const fourByFourTopster = $('#4x4');
+    const fiveByFiveTopster = $('#5x5');
 
     const searchBar = $("#search-bar");
     const searchButton = $("#search-button");
     const searchResults = document.querySelector("#results");
     const albumArtDiv = document.querySelector("#album-art");
-    const submitButton = $("#submit-topster");
+    const submitButton = document.querySelector("#submit-topster");
+    const submissionRestriction = $("#topster-submission-restriction");
 
     //Following guide at https://www.youtube.com/watch?v=1vR3m0HupGI&ab_channel=MakerAtPlayCoding
     var redirect_uri = "http://localhost:8080/create-topster";
@@ -139,6 +145,41 @@
         }
     }
 
+    function submissionControl(){
+    //    function deactivates the submit button if the selected topster is not full
+        switch ($("#topster-type").val()) {
+            case "3x3":
+                if($("#3x3").find("img").length < 9){
+                    submitButton.disabled=true;
+                    submissionRestriction.css("visibility", "visible");
+                }else{
+                    submitButton.disabled=false;
+                    submissionRestriction.css("visibility", "hidden");
+                }
+                break;
+            case "4x4":
+                if($("#4x4").find("img").length < 16){
+                    submitButton.disabled=true;
+                    submissionRestriction.css("visibility", "visible");
+                }else{
+                    submitButton.disabled=false;
+                    submissionRestriction.css("visibility", "hidden");
+                }
+                break;
+            case "5x5":
+                if($("#4x4").find("img").length < 16){
+                    submitButton.disabled=true;
+                    submissionRestriction.css("visibility", "visible");
+                }else{
+                    submitButton.disabled=false;
+                    submissionRestriction.css("visibility", "hidden");
+                }
+                break;
+            default:
+                console.log("This should never happen")
+        }
+    }
+
     searchButton.click(function () {
         let options = {
             headers: {
@@ -175,6 +216,7 @@
         onSearch();
     });
     changeSelection(); //This should cause non-selected topster types to be set to display-none
+    submissionControl();
 </script>
 <script src="../js/drag-drop.js"></script>
 </body>

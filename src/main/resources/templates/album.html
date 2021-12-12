@@ -1,21 +1,152 @@
 <!DOCTYPE html>
 <html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
-<head th:replace="partials/partials.html :: head ('Album Page')">
+<head th:replace="partials/partials3.html :: head ('Album Page')">
+
 </head>
-<body>
-<nav th:replace="partials/partials.html :: navbar"></nav>
-<h1>View the highlighted album here!</h1>
+<body class="bg-dark">
+<nav th:replace="partials/partials3.html :: navbar"></nav>
+
 
 <main class="container">
 
+    <!--  *** ALBUM CARD ***  -->
+    <div class="card my-5 bg-dark" data-mdb-toggle="animation" data-mdb-animation="fade-in-down" data-mdb-animation-start="onLoad">
+        <div class="d-flex position-relative" style="max-height: 310px">
+            <div class="col-4 d-inline-flex p-3" style="max-width: 280px">
+                <a class="mb-5" target="_blank" th:href="'https://open.spotify.com/album/' + ${album.spotifyAlbumID}">
+                    <img
+                            th:src="${album.spotifyAlbumArt}"
+                            alt="album art"
+                            class="rounded"
+                            style="max-width: 280px"
+                    />
+                </a>
+            </div>
+            <div class="col-8 d-flex ps-5">
+                <div class="pt-4 ps-5">
+                    <h4 class="card-title text-light" th:text="${album.spotifyAlbumName}"></h4>
+                    <p class="card-text text-light" th:text="${album.spotifyArtist}"></p>
+                    <p class="card-text">
+                        <small class="text-muted" th:text="${album.releaseDate}"></small>
+                    </p>
+                </div>
+            </div>
+            <div class="align-content-end float-end position-absolute bottom-0 end-0 pb-3">
+                <a class="pe-3" target="_blank" th:href="'https://open.spotify.com/album/' + ${album.spotifyAlbumID}">
+                    <img alt="Spotify logo" src="../img/Spotify_Logo_RGB_Green.png" width="30" height="30">
+                </a>
+            </div>
+        </div>
+    </div>
 
-    <h3 th:text="${album.spotifyAlbumName}"></h3>
-    <img th:src="${album.spotifyAlbumArt}" alt="album art" width="200"/>
-    <h3 th:text="${album.spotifyArtist}"></h3><a target="_blank" th:href="'https://open.spotify.com/album/' + ${album.spotifyAlbumID}"><i class="fas fa-play"></i></a>
-    <h3 th:text="${album.releaseDate}"></h3>
 
-<script th:replace="partials/partials.html :: md-js"></script>
+    <div class="d-flex flex-column">
+
+        <h5 class="col-12 text-light text-center mb-5" data-mdb-toggle="animation" data-mdb-animation="fade-in" data-mdb-animation-start="onLoad" data-mdb-animation-delay="300">Discover Other <span id="topsters-gradient">Topsters</span> That Contain This Album</h5>
+
+        <br>
+
+        <div class="d-flex justify-content-right col-12">
+            <div class="arrow"></div>
+        </div>
+
+    </div>
+
+    <br>
+
+
+    <!-- TOPSTERS -->
+    <div th:object="${topsters}" class="row d-flex justify-content-around mb-5" data-mdb-toggle="animation" data-mdb-animation="fade-in" data-mdb-animation-start="onLoad" data-mdb-animation-delay="400">
+        <div th:each="topster : ${topsters}" class="col-xs-12 col-lg-5 p-2 card bg-dark" >
+
+            <!-- TOPSTER HEADER -->
+            <div class="d-flex justify-content-between">
+                <a th:href="@{'/discover/topster/' + ${topster.id}}" class="col-8">
+                    <h4 class="mb-0 link-light" th:text="${topster.title}"></h4>
+                </a>
+            </div>
+
+            <div class="d-flex">
+                <small class="text-muted col-10"
+                       th:text="'Created by: ' + ${topster.user.username}">
+                </small>
+
+                <div class="col-1 d-flex justify-content-end">
+                    <small class="text-muted text-end">
+                        <i class="fa fa-comment"></i>
+                    </small>
+                    <small class="text-muted" th:text="'&nbsp;' + ${#lists.size(topster.comments)} + '&nbsp; &nbsp;'">
+                    </small>
+                </div>
+
+                <div class="col-1 d-flex justify-content-end">
+                    <small class="text-muted text-end">
+                        <i class="fa fa-heart"></i>
+                    </small>
+                    <small class="text-muted" th:text="'&nbsp;' + ${#lists.size(topster.usersWhoFavorited)}">
+                    </small>
+                </div>
+
+            </div>
+
+
+            <!-- TOPSTER ART -->
+            <div class="row row-cols-3 g-2 g-lg-3" th:if="${#lists.size(topster.topsterContents) == 9}">
+                <div class="col m-0 p-0" th:each="topsterContent : ${topster.topsterContents}">
+                    <img th:src="${topsterContent.album.spotifyAlbumArt}"
+                         th:title="'Artist: '+${topsterContent.album.spotifyArtist}+'&#010;Album: '+${topsterContent.album.spotifyAlbumName} + '&#010;Release Date: '+${topsterContent.album.releaseDate}"
+                         th:alt="'Cover art of '+${topsterContent.album.spotifyAlbumName} +' by '+${topsterContent.album.spotifyArtist}"
+                         height="100%" width="100%">
+                </div>
+            </div>
+
+            <div class="row row-cols-4 g-2 g-lg-3" th:if="${#lists.size(topster.topsterContents) == 16}">
+                <div class="col m-0 p-0" th:each="topsterContent : ${topster.topsterContents}">
+                    <img th:src="${topsterContent.album.spotifyAlbumArt}"
+                         th:title="'Artist: '+${topsterContent.album.spotifyArtist}+'&#010;Album: '+${topsterContent.album.spotifyAlbumName} + '&#010;Release Date: '+${topsterContent.album.releaseDate}"
+                         th:alt="'Cover art of '+${topsterContent.album.spotifyAlbumName} +' by '+${topsterContent.album.spotifyArtist}"
+                         height="100%" width="100%">
+                </div>
+            </div>
+
+            <div class="row row-cols-5 g-2 g-lg-3" th:if="${#lists.size(topster.topsterContents) == 25}">
+                <div class="col m-0 p-0" th:each="topsterContent : ${topster.topsterContents}">
+                    <img th:src="${topsterContent.album.spotifyAlbumArt}"
+                         th:title="'Artist: '+${topsterContent.album.spotifyArtist}+'&#010;Album: '+${topsterContent.album.spotifyAlbumName} + '&#010;Release Date: '+${topsterContent.album.releaseDate}"
+                         th:alt="'Cover art of '+${topsterContent.album.spotifyAlbumName} +' by '+${topsterContent.album.spotifyArtist}"
+                         height="100%" width="100%">
+                </div>
+            </div>
+
+
+        </div>
+    </div>
+
+    <!-- Return to Top -->
+    <a href="javascript:" id="return-to-top"><i class="fas fa-chevron-circle-up"></i></a>
 
 </main>
+
+<script th:replace="partials/partials3.html :: md-js"></script>
+
+<script>
+
+</script>
+
+<!--<script th:defer>-->
+<!--    // ===== Scroll to Top ====-->
+<!--    $(window).scroll(function() {-->
+<!--        if ($(this).scrollTop() >= 50) {        // If page is scrolled more than 50px-->
+<!--            $('#return-to-top').fadeIn(200);    // Fade in the arrow-->
+<!--        } else {-->
+<!--            $('#return-to-top').fadeOut(200);   // Else fade out the arrow-->
+<!--        }-->
+<!--    });-->
+<!--    $('#return-to-top').click(function() {      // When arrow is clicked-->
+<!--        $('body,html').animate({-->
+<!--            scrollTop : 0                       // Scroll to top of body-->
+<!--        }, 500);-->
+<!--    });-->
+<!--</script>-->
 </body>
 </html>

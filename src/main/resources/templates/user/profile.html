@@ -46,8 +46,10 @@
 		     aria-labelledby="my-topsters-tab">
 			<div id="my-topster-tab-content">
 				<div class="row">
-					<div class="col-12 col-md-6 border border-dark" th:each="topster : ${user.topsters}">
-						<h2 th:text="${topster.title}"></h2>
+					<div class="col-12 col-md-5 p-2 my-2 mx-3 border border-dark" th:each="topster : ${user.topsters}">
+						<a th:href="@{'/discover/topster/' + ${topster.id}}">
+							<h2 th:text="${topster.title}"></h2>
+						</a>
 						<div>
 							<div class="row row-cols-3 g-2 g-lg-3" th:if="${#lists.size(topster.topsterContents) == 9}">
 								<div class="col" th:each="topsterContent : ${topster.topsterContents}">
@@ -71,20 +73,23 @@
 		</div>
 		<div class="tab-pane fade" id="favorite-topsters" role="tabpanel" aria-labelledby="favorite-topsters-tab">
 			<div class="row">
-				<div class="col-12 col-md-6 border border-dark" th:each="topster : ${user.favoritedTopsters}">
+				<div class="my-1 col-12 col-md-5 p-2 my-2 mx-3 border border-dark" th:each="topster : ${user.favoritedTopsters}">
 					<h2 th:text="${topster.title}"></h2>
 					<div>
-						<div class="row row-cols-3 g-2 g-lg-3" th:if="${#lists.size(topster.topsterContents) == 9}">
+						<div class="row row-cols-3 g-2 g-lg-3"
+						     th:if="${#lists.size(topster.topsterContents) == 9}">
 							<div class="col" th:each="topsterContent : ${topster.topsterContents}">
 								<img th:src="${topsterContent.album.spotifyAlbumArt}" height="100%" width="100%">
 							</div>
 						</div>
-						<div class="row row-cols-4 g-2 g-lg-3" th:if="${#lists.size(topster.topsterContents) == 16}">
+						<div class="row row-cols-4 g-2 g-lg-3"
+						     th:if="${#lists.size(topster.topsterContents) == 16}">
 							<div class="col" th:each="topsterContent : ${topster.topsterContents}">
 								<img th:src="${topsterContent.album.spotifyAlbumArt}" height="100%" width="100%">
 							</div>
 						</div>
-						<div class="row row-cols-5 g-2 g-lg-3" th:if="${#lists.size(topster.topsterContents) == 25}">
+						<div class="row row-cols-5 g-2 g-lg-3"
+						     th:if="${#lists.size(topster.topsterContents) == 25}">
 							<div class="col" th:each="topsterContent : ${topster.topsterContents}">
 								<img th:src="${topsterContent.album.spotifyAlbumArt}" height="100%" width="100%">
 							</div>
@@ -97,6 +102,6 @@
 </main>
 
 <script th:replace="partials/partials.html :: md-js"></script>
-<script src="/js/keys.js"></script>
+<script src="/keys.js"></script>
 </body>
 </html>

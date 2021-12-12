@@ -9,31 +9,37 @@
     <div th:object="${topster}">
         <div th:text="*{title}"></div>
         <div th:text="*{body}"></div>
-	    <form th:if="${#lists.contains(user.favoritedTopsters, topster)}" method="post" th:action="@{'/favorites/user/' + ${user.id} + '/topster/' + ${topster.id} + '/remove'}">
-		    <button sec:authorize="isAuthenticated()" class="favorite btn btn-outline-danger btn-floating" type="submit" value="submit"><i class="fas fa-heart"></i>
-		    </button>
-	    </form>
-	    <form th:if="${!#lists.contains(user.favoritedTopsters, topster)}" method="post" th:action="@{'/favorites/user/' + ${user.id} + '/topster/' + ${topster.id}}">
-		    <button sec:authorize="isAuthenticated()" class="favorite btn btn-outline-dark btn-floating" type="submit" value="submit"><i class="fas fa-heart"></i>
-		    </button>
-	    </form>
+
+        <th:block sec:authorize="isAuthenticated()">
+            <form th:if="${#lists.contains(user.favoritedTopsters, topster)}" method="post" th:action="@{'/favorites/user/' + ${user.id} + '/topster/' + ${topster.id} + '/remove'}">
+                <button  class="favorite btn btn-outline-danger btn-floating" type="submit" value="submit"><i class="fas fa-heart"></i>
+                </button>
+            </form>
+            <form th:if="${!#lists.contains(user.favoritedTopsters, topster)}" method="post" th:action="@{'/favorites/user/' + ${user.id} + '/topster/' + ${topster.id}}">
+                <button class="favorite btn btn-outline-dark btn-floating" type="submit" value="submit"><i class="fas fa-heart"></i>
+                </button>
+            </form>
+        </th:block>
+
+
+
         <div class="col-6">
             <div class="row row-cols-3 g-2 g-lg-3" th:if="${#lists.size(topster.topsterContents) == 9}">
                 <div class="col" th:each="tc : *{topsterContents}">
                     <a th:href="@{'/album/' + ${tc.album.id}}">Go to this album!</a>
-                    <img th:src="${tc.album.spotifyAlbumArt}" height="100%" width="100%">
+                    <img th:src="${tc.album.spotifyAlbumArt}" th:title="'Artist: '+${tc.album.spotifyArtist}+'&#010;Album: '+${tc.album.spotifyAlbumName} + '&#010;Release Date: '+${tc.album.releaseDate}" th:alt="'Cover art of '+${tc.album.spotifyAlbumName} +' by '+${tc.album.spotifyArtist}" height="100%" width="100%">
                 </div>
             </div>
             <div class="row row-cols-4 g-2 g-lg-3" th:if="${#lists.size(topster.topsterContents) == 16}">
                 <div class="col" th:each="tc : *{topsterContents}">
                     <a th:href="@{'/album/' + ${tc.album.id}}">Go to this album!</a>
-                    <img th:src="${tc.album.spotifyAlbumArt}" height="100%" width="100%">
+                    <img th:src="${tc.album.spotifyAlbumArt}" th:title="'Artist: '+${tc.album.spotifyArtist}+'&#010;Album: '+${tc.album.spotifyAlbumName} + '&#010;Release Date: '+${tc.album.releaseDate}" th:alt="'Cover art of '+${tc.album.spotifyAlbumName} +' by '+${tc.album.spotifyArtist}" height="100%" width="100%">
                 </div>
             </div>
             <div class="row row-cols-5 g-2 g-lg-3" th:if="${#lists.size(topster.topsterContents) == 25}">
                 <div class="col" th:each="tc : *{topsterContents}">
                     <a th:href="@{'/album/' + ${tc.album.id}}">Go to this album!</a>
-                    <img th:src="${tc.album.spotifyAlbumArt}" height="100%" width="100%">
+                    <img th:src="${tc.album.spotifyAlbumArt}" th:title="'Artist: '+${tc.album.spotifyArtist}+'&#010;Album: '+${tc.album.spotifyAlbumName} + '&#010;Release Date: '+${tc.album.releaseDate}" th:alt="'Cover art of '+${tc.album.spotifyAlbumName} +' by '+${tc.album.spotifyArtist}" height="100%" width="100%">
                 </div>
             </div>
         </div>
@@ -80,7 +86,6 @@
                     </form>
                     <br>
                 </div>
-
             </div>
 
         </div>

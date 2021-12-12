@@ -6,6 +6,10 @@
 <nav th:replace="partials/partials :: navbar"></nav>
 <main>
 <h1>Discover the Latest Topsters!</h1>
+	<form th:action="@{/search}" method="get" >
+		<input id="search-bar" type="text" name="search-bar">
+	<button id="search-button">Search</button>
+	</form>
     <div th:object="${topster}" class="row">
         <div th:each="top : ${topster}" class="col-12 col-lg-6">
             <div th:text="${top.title}"></div>
@@ -14,17 +18,17 @@
 	        <div>
 	            <div class="row row-cols-3 g-2 g-lg-3" th:if="${#lists.size(top.topsterContents) == 9}">
 		            <div class="col" th:each="tc : ${top.topsterContents}">
-		                <img th:src="${tc.album.spotifyAlbumArt}" height="100%" width="100%">
+		                <img th:src="${tc.album.spotifyAlbumArt}" th:title="'Artist: '+${tc.album.spotifyArtist}+'&#010;Album: '+${tc.album.spotifyAlbumName} + '&#010;Release Date: '+${tc.album.releaseDate}" th:alt="'Cover art of '+${tc.album.spotifyAlbumName} +' by '+${tc.album.spotifyArtist}" height="100%" width="100%">
 		            </div>
 	            </div>
 		        <div class="row row-cols-4 g-2 g-lg-3" th:if="${#lists.size(top.topsterContents) == 16}">
 		            <div class="col" th:each="tc : ${top.topsterContents}">
-		                <img th:src="${tc.album.spotifyAlbumArt}" height="100%" width="100%">
+		                <img th:src="${tc.album.spotifyAlbumArt}" th:title="'Artist: '+${tc.album.spotifyArtist}+'&#010;Album: '+${tc.album.spotifyAlbumName} + '&#010;Release Date: '+${tc.album.releaseDate}" th:alt="'Cover art of '+${tc.album.spotifyAlbumName} +' by '+${tc.album.spotifyArtist}" height="100%" width="100%">
 		            </div>
 	            </div>
 		        <div class="row row-cols-5 g-2 g-lg-3" th:if="${#lists.size(top.topsterContents) == 25}">
 		            <div class="col" th:each="tc : ${top.topsterContents}">
-		                <img th:src="${tc.album.spotifyAlbumArt}" height="100%" width="100%">
+		                <img th:src="${tc.album.spotifyAlbumArt}" th:title="'Artist: '+${tc.album.spotifyArtist}+'&#010;Album: '+${tc.album.spotifyAlbumName} + '&#010;Release Date: '+${tc.album.releaseDate}" th:alt="'Cover art of '+${tc.album.spotifyAlbumName} +' by '+${tc.album.spotifyArtist}" height="100%" width="100%">
 		            </div>
 	            </div>
 	        </div>
@@ -32,6 +36,8 @@
     </div>
 
 </main>
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"
+		integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4=" crossorigin="anonymous"></script>
 <script th:replace="partials/partials :: md-js"></script>
 </body>
 </html>

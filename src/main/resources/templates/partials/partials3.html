@@ -10,9 +10,8 @@
 	<link href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700&display=swap"
 			rel="stylesheet"/>
 	<!-- MDB -->
-	<link href="https://cdnjs.cloudflare.com/ajax/libs/mdb-ui-kit/3.10.0/mdb.min.css"
-			rel="stylesheet"/>
-	<link href="../css/style.css" rel="stylesheet" type="text/css" />
+	<link href="../css/mdb.dark.min.css" rel="stylesheet" type="text/css"/>
+	<link href="../css/album-style.css" rel="stylesheet" type="text/css" />
 </head>
 <body>
 	<!-- Navbar -->
@@ -50,9 +49,6 @@
 					<li class="nav-item">
 						<a class="nav-link" th:href="@{/create-topster}">Create a new topster</a>
 					</li>
-					<li class="nav-item">
-						<a class="nav-link" th:href="@{/aboutus}">About Us</a>
-					</li>
 					<li sec:authorize="!isAuthenticated()">
 						<a class="btn btn-primary btn-small active" th:href="@{/}" role="button" >Login</a>
 					</li>
@@ -75,9 +71,11 @@
 		
 		<!-- Compiled and minified JavaScript -->
 	<!-- MDB -->
-	<script th:fragment="md-js"
-			type="text/javascript"
-			src="https://cdnjs.cloudflare.com/ajax/libs/mdb-ui-kit/3.10.0/mdb.min.js"></script>
+<!--	<script th:fragment="md-js"-->
+<!--			type="text/javascript"-->
+<!--			src="https://cdnjs.cloudflare.com/ajax/libs/mdb-ui-kit/3.10.0/mdb.min.js"></script>-->
+
+	<script th:fragment="md-js" type="text/javascript" th:src="@{/js/mdb.min.js}" ></script>
 
 	<!--jQuery-->
 	<script th:fragment="jquery" src="https://code.jquery.com/jquery-3.6.0.js" integrity="sha256-H+K7U5CnXl1h5ywQfKtSj8PCmoN9aaq30gDh27Xc0jk=" crossorigin="anonymous"></script>

@@ -1,0 +1,257 @@
+main {
+	/* These settings weren't doing anything. MDB was overwriting them this whole time with margin-left and margin-right set to auto. */
+	/*margin-left: 100px;*/
+	/*margin-right: 100px;*/
+}
+
+.fa-play{
+	margin-left: 3px;
+	margin-right: 3px;
+}
+
+.topster-main{
+	margin-top: 5px;
+}
+
+.row {
+	margin-top: 0;
+}
+
+#3x3{
+}
+
+#4x4{
+
+}
+
+#5x5{
+}
+
+/*create page stylings*/
+
+#topster-title{
+	width: 90%;
+}
+#topster-text-body{
+	width: 90%;
+}
+
+.hide {
+	display: none;
+}
+
+
+/* css code for the register page */
+.gradient-custom-3 { /* css for background on register page */
+	/* fallback for old browsers */
+	background: #84fab0;
+
+	/* Chrome 10-25, Safari 5.1-6 */
+	background: -webkit-linear-gradient(to right, rgba(132, 250, 176, 0.5), rgba(143, 211, 244, 0.5));
+
+	/* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
+	background: linear-gradient(to right, rgba(132, 250, 176, 0.5), rgba(143, 211, 244, 0.5));
+}
+.gradient-custom-4 { /* css for register button on register page */
+	/* fallback for old browsers */
+	background: #84fab0;
+
+	/* Chrome 10-25, Safari 5.1-6 */
+	background: -webkit-linear-gradient(to right, rgba(132, 250, 176, 1), rgba(143, 211, 244, 1));
+
+	/* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
+	background: linear-gradient(to right, rgba(132, 250, 176, 1), rgba(143, 211, 244, 1))
+}
+
+.bg-image {
+	background-image: url("../img/topster_bg.jpeg");
+}
+/**/
+
+/* for the create an account wording */
+.text-gradient.text-gradient-primary {
+	background-image: linear-gradient(to bottom, rgba(132, 250, 176, 1), rgba(143, 211, 244, 1));
+}
+
+.text-gradient {
+	background-clip: text;
+	-webkit-background-clip: text;
+	-webkit-text-fill-color: transparent;
+	position: relative;
+	z-index: 1;
+}
+
+/* for the index page new styling */
+/* Height for devices larger than 576px */
+@media (min-width: 992px) {
+	#intro {
+		margin-top: -58.59px;
+		height: 50vh !important;
+	}
+}
+
+.navbar .nav-link {
+	color: #fff !important;
+}
+
+.index-logo {
+	background-image: url("../img/runcmclogotemp.jpg");
+}
+
+/* for the discover music and get social on index page */
+.page-header {
+	padding: 0;
+	position: relative;
+	overflow: hidden;
+	display: flex;
+	align-items: center;
+	background-size: cover;
+	background-position: 50%;
+}
+.min-vh-85 {
+	min-height: 85vh;
+}
+.border-radius-section {
+	border-radius: 10rem;
+}
+.border-top-start-radius-0 {
+	border-top-left-radius: 0;
+}
+.border-top-end-radius-0 {
+	border-top-right-radius: 0;
+}
+.border-bottom-end-radius-0 {
+	border-bottom-right-radius: 0;
+}
+.z-index-0 {
+	z-index: 0;
+}
+.blur {
+	-webkit-backdrop-filter: saturate(200%) blur(30px);
+	backdrop-filter: saturate(200%) blur(30px);
+	background-color: hsla(0,0%,100%,.8);
+}
+.text-gradient.text-gradient-primary {
+	background-image: linear-gradient(310deg,#023591,#7c2eb2);
+}
+.text-gradient {
+	background-clip: text;
+	-webkit-background-clip: text;
+	-webkit-text-fill-color: transparent;
+	position: relative;
+	z-index: 1;
+}
+.btn.bg-gradient-primary {
+	color: #fff;
+}
+.bg-gradient-primary {
+	background-image: linear-gradient(310deg,#023591,#7c2eb2);
+}
+
+
+
+
+
+
+/* ALBUM PAGE */
+#topsters-gradient {
+	background: -webkit-linear-gradient(#ff00ff, #712ee0);
+	-webkit-background-clip: text;
+	-webkit-text-fill-color: transparent;
+}
+
+#arrow-down {
+	color: #27cbc6;
+}
+
+
+.arrow, .arrow:before {
+	position: absolute;
+	left: 50%;
+}
+
+.arrow {
+	width: 30px;
+	height: 30px;
+	bottom: 26%;
+	margin: -20px 0 0 -20px;
+	-webkit-transform: rotate(45deg);
+	border-left: none;
+	border-top: none;
+	/*border-right: 2px #fff solid;*/
+	/*border-bottom: 2px #fff solid;*/
+}
+
+.arrow:before {
+	content: "";
+	width: 20px;
+	height: 20px;
+	top: 50%;
+	margin: -10px 0 0 -10px;
+	border-left: none;
+	border-top: none;
+	border-right: 1px #fff solid;
+	border-bottom: 1px #fff solid;
+	animation-duration: 2s;
+	animation-iteration-count: infinite;
+	animation-name: arrow;
+}
+
+@keyframes arrow {
+	0% {
+		opacity: 1;
+	}
+	100% {
+		opacity: 0;
+		transform: translate(-10px, -10px);
+	}
+}
+
+
+
+
+#return-to-top {
+	/*position: fixed;*/
+	/*bottom: 20px;*/
+	/*right: 20px;*/
+	background: rgb(0, 0, 0);
+	background: rgba(0, 0, 0, 0.7);
+	width: 50px;
+	height: 50px;
+	display: block;
+	text-decoration: none;
+	-webkit-border-radius: 35px;
+	-moz-border-radius: 35px;
+	border-radius: 35px;
+	display: none;
+	-webkit-transition: all 0.3s linear;
+	-moz-transition: all 0.3s ease;
+	-ms-transition: all 0.3s ease;
+	-o-transition: all 0.3s ease;
+	transition: all 0.3s ease;
+}
+#return-to-top i {
+	color: #fff;
+	margin: 0;
+	/*position: relative;*/
+	/*left: 16px;*/
+	/*top: 13px;*/
+	font-size: 19px;
+	-webkit-transition: all 0.3s ease;
+	-moz-transition: all 0.3s ease;
+	-ms-transition: all 0.3s ease;
+	-o-transition: all 0.3s ease;
+	transition: all 0.3s ease;
+}
+#return-to-top:hover {
+	background: rgba(0, 0, 0, 0.9);
+}
+#return-to-top:hover i {
+	color: #fff;
+	top: 5px;
+}
+
+
+/*!* Extra Things *!*/
+/*body{background: #eee ;font-family: 'Open Sans', sans-serif;}h3{font-size: 30px; font-weight: 400;text-align: center;margin-top: 50px;}h3 i{color: #444;}*/
+

@@ -61,6 +61,35 @@
         </div>
     </nav>
     <!--End section: Navbar-->
+	<!-- Navbar -->
+	<nav class="navbar navbar-expand-lg navbar-dark d-none d-lg-block" style="z-index: 2000;">
+		<div class="container-fluid">
+			<!-- Navbar brand -->
+			<a class="navbar-brand nav-link me-2" th:href="@{/}">Run<i class="fas fa-play"></i>CMC</a>
+			<button class="navbar-toggler" type="button" data-mdb-toggle="collapse" data-mdb-target="#navbarButtons"
+					aria-controls="navbarButtons" aria-expanded="false" aria-label="Toggle navigation">
+				<i class="fas fa-bars"></i>
+			</button>
+			<div class="collapse navbar-collapse" id="navbarButtons">
+				<ul class="navbar-nav me-auto mb-2 mb-lg-0">
+					<li class="nav-item active">
+						<a class="nav-link" th:href="@{/discover}">Discover</a>
+					</li>
+					<li class="nav-item">
+						<a class="nav-link" th:href="@{/profile}">Profile</a>
+					</li>
+					<li class="nav-item">
+						<a class="nav-link" th:href="@{/create-topster}">Create a new topster</a>
+					</li>
+					<li class="nav-item">
+						<a class="nav-link" th:href="@{/about-us}">About Us</a>
+					</li>
+				</ul>
+			</div>
+		</div>
+	</nav>
+	<!-- Navbar -->
+
 
     <!--Section: Background image-->
     <div id="intro" class="bg-image vh-100 shadow-1-strong">
