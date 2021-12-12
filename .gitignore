@@ -44,3 +44,7 @@ RestTemplateTokenRequester.java
 
 ### Feature not currently planned ###
 src/main/java/com/codeup/runcmc/configuration/OAuth2LoginSecurityConfig.java
+
+### MDB PRO ###
+src/main/resources/static/js/mdbpro-js
+src/main/resources/static/css/mdbpro-css
