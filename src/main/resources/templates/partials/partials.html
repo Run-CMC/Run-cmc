@@ -72,6 +72,50 @@
 		<!-- Container wrapper -->
 	</nav>
 	<!-- Navbar -->
+
+	<!--Section: Navbar-->
+	<nav th:fragment="navbar2" class="navbar navbar-expand-md navbar-dark d-none d-lg-block" style="z-index: 2000;">
+		<div class="container-fluid">
+			<!-- Navbar brand -->
+			<a class="navbar-brand nav-link me-2" th:href="@{/}">Run<i class="fas fa-play"></i>CMC</a>
+			<!-- Toggle button -->
+			<button
+					class="navbar-toggler"
+					type="button"
+					data-mdb-toggle="collapse"
+					data-mdb-target="#navbarButtons"
+					aria-controls="navbarButtons"
+					aria-expanded="false"
+					aria-label="Toggle navigation"
+			> <i class="fas fa-bars"></i>
+			</button>
+
+			<!-- Collapsible wrapper -->
+			<div class="collapse navbar-collapse" id="navbarButtons">
+				<ul class="navbar-nav me-auto mb-2 mb-lg-0">
+					<li class="nav-item active">
+						<a class="nav-link" th:href="@{/discover}">Discover</a>
+					</li>
+					<li class="nav-item">
+						<a class="nav-link" th:href="@{/profile}">Profile</a>
+					</li>
+					<li class="nav-item">
+						<a class="nav-link" th:href="@{/create-topster}">Create</a>
+					</li>
+					<li class="nav-item">
+						<a class="nav-link" th:href="@{/aboutus}">About Us</a>
+					</li>
+					<li sec:authorize="isAuthenticated()">
+						<form th:action="@{/logout}" th:method="post">
+							<button class="btn bth-primary btn-small active" sec:authorize="isAuthenticated()">Logout
+							</button>
+						</form>
+					</li>
+				</ul>
+			</div>
+		</div>
+	</nav>
+	<!--End section: Navbar-->
 		
 		<!-- Compiled and minified JavaScript -->
 	<!-- MDB -->
