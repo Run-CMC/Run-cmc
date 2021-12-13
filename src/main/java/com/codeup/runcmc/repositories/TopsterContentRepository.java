@@ -1,6 +1,7 @@
 package com.codeup.runcmc.repositories;
 
 import com.codeup.runcmc.models.Album;
+import com.codeup.runcmc.models.Topster;
 import com.codeup.runcmc.models.TopsterContent;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
@@ -13,4 +14,5 @@ public interface TopsterContentRepository extends JpaRepository<TopsterContent, 
 	@Query(nativeQuery = true, value =  "select * from topster_contents join topsters t on t.id = topster_contents.topster_id where topster_id = :i")
 	List<TopsterContent> selectTopsterContentWithTopsterID(@Param("i") long id);
 
+	void deleteAllByTopster(Topster topster);
 }
