@@ -7,40 +7,9 @@
 <!--new styling code-->
 <!--Main Navigation-->
 <header>
+	<a id="top"></a>
     <!--Section: Navbar-->
-    <nav class="navbar navbar-expand-lg navbar-dark d-none d-lg-block" style="z-index: 2000;">
-        <div class="container-fluid">
-            <!-- Navbar brand -->
-            <a class="navbar-brand nav-link me-2" th:href="@{/}">Run<i class="fas fa-play"></i>CMC</a>
-            <button class="navbar-toggler" type="button" data-mdb-toggle="collapse" data-mdb-target="#navbarButtons"
-                    aria-controls="navbarButtons" aria-expanded="false" aria-label="Toggle navigation">
-                <i class="fas fa-bars"></i>
-            </button>
-            <div class="collapse navbar-collapse" id="navbarButtons">
-                <ul class="navbar-nav me-auto mb-2 mb-lg-0">
-                    <li class="nav-item active">
-                        <a class="nav-link" th:href="@{/discover}">Discover</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" th:href="@{/profile}">Profile</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" th:href="@{/create-topster}">Create</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" th:href="@{/aboutus}">About Us</a>
-                    </li>
-                    <li sec:authorize="isAuthenticated()">
-                        <form th:action="@{/logout}" th:method="post">
-                            <button class="btn bth-primary btn-small active" sec:authorize="isAuthenticated()">Logout
-                            </button>
-                        </form>
-                    </li>
-                </ul>
-            </div>
-        </div>
-    </nav>
-    <!--End section: Navbar-->
+    <nav th:replace="partials/partials :: navbar2"></nav>
 
     <!--Section: jumbotron area-->
     <div id="intro" class="bg-image vh-100 shadow-1-strong">
@@ -80,7 +49,8 @@
     <!--End section: jumbotron area-->
 </header>
 <!--Main Navigation-->
-<!--Section: potential login form-->
+
+<!--Section: Login form-->
 <div sec:authorize="!isAuthenticated()" class="collapse mb-5" id="collapseExample">
     <h2 class="mb-2 pt-2 text-center">
         <strong>Log In</strong>
@@ -99,23 +69,25 @@
                     <!-- Username input -->
                     <div class="form-outline col-12 mb-4">
                         <input type="text" id="username-input"
-                               class="form-control form-control-lg"/>
+                               class="form-control form-control-lg" name="username"/>
                         <label class="form-label" for="username-input">Username</label>
                     </div>
                     <!-- Password input -->
                     <div class="form-outline col-12 mb-4">
                         <input type="password" id="password-input"
-                               class="form-control form-control-lg"/>
+                               class="form-control form-control-lg" name="password"/>
                         <label class="form-label" for="password-input">Password</label>
                     </div>
                     <!-- Submit button -->
-                    <input type="submit" class="d-flex justify-center btn btn-primary mb-4" value="Submit"/>
+	                <div class="d-flex justify-content-center">
+                    <input type="submit" class="btn btn-primary mb-4" value="Submit"/>
+	                </div>
                 </form>
             </div>
         </div>
     </div>
 </div>
-<!--End Section: potential login form-->
+<!--End Section: Login form-->
 
 <!--Main layout-->
 <main class="mt-5">
@@ -125,10 +97,7 @@
             <div class="row">
                 <div class="col-md-6 gx-5 mb-4">
                     <div class="bg-image hover-overlay ripple shadow-2-strong rounded-5" data-mdb-ripple-color="light">
-                        <img src="https://mdbootstrap.com/img/new/slides/031.jpg" class="img-fluid"/>
-                        <a href="#!">
-                            <div class="mask" style="background-color: rgba(251, 251, 251, 0.15);"></div>
-                        </a>
+                        <img src="../img/vinyl.jpg" class="img-fluid"/>
                     </div>
                 </div>
                 <div class="col-md-6 gx-5 mb-4">
@@ -138,7 +107,10 @@
                         be difficult even for a dedicated music fan to keep track of what they've heard or
                         want to hear. Run<i class="fas fa-play"></i>CMC is an
                         online community that curates a music collage topster, ignites music discovery, and provides a
-                        platform to discuss favorite albums and topsters. Special thanks to <strong>Spotify</strong> for powering this application to give users the opportunity to search for their favorite artists and albums.
+                        platform to discuss favorite albums and topsters.
+                        <br>
+                        <br>
+                        Special thanks to <strong>Spotify</strong> <img alt="Spotify logo" src="../img/Spotify_Logo_RGB_Green.png" width="20" height="20"> for powering this application to give users the opportunity to search for their favorite artists and albums.
                         <br>
                         <br>
                         Register today to get the full experience!
@@ -153,6 +125,7 @@
         <section class="text-center" style="justify-content: center">
             <h2 class="fs-1 text-gradient text-gradient-primary mb-0" style="font-weight: 900;">Curate your own
                 collage</h2>
+            <br>
             <div id="carouselExampleIndicators" class="carousel slide" data-mdb-ride="carousel">
                 <div class="carousel-inner">
                     <div class="carousel-item active">
@@ -180,6 +153,7 @@
                 <br>
                 <br>
             </div>
+        </section>
         <hr/>
             <!--End Section: Carousel-->
 
@@ -270,15 +244,12 @@
             </div>
             <!-- End container for get social part of index -->
     </div>
-    <div>
-        <button
-                type="button"
-                class="btn btn-outline-secondary btn-rounded"
-                id="btn-back-to-top"
-                data-mdb-ripple-color="dark"
+    <div class="d-flex justify-content-center col-3 ml-0 mr-0 mb-3 mx-auto" id="top-link">
+        <a
+		        href="#top"
         >
             Run it back, from the top!
-        </button>
+        </a>
     </div>
 </main>
 <footer>
