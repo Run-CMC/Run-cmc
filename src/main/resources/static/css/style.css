@@ -219,4 +219,12 @@ main {
     a:active {
         color: white;
     }
+
+    .navbar {
+        background: linear-gradient(
+                45deg,
+                rgba(29, 236, 197, 0.7),
+                rgba(91, 14, 214, 0.7) 100%
+        );
+    }
 }
