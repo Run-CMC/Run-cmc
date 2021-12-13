@@ -27,7 +27,7 @@
     </div>
     <br>
     <!--    <div id="album-art"></div><br>-->
-    <input id="search-bar" type="text">
+    <input id="search-bar" placeholder="album or artist"type="text">
     <button id="search-button">Search</button>
     <span id="topster-submission-restriction">Your topster/collage can only be submitted once it is full and has a title and description of sufficient length</span>
     <form th:action="@{/create-topster}" th:method="POST" th:object="${topster}">
