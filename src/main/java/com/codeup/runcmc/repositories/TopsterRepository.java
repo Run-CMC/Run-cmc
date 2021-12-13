@@ -2,6 +2,7 @@ package com.codeup.runcmc.repositories;
 
 import com.codeup.runcmc.models.Topster;
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 
@@ -39,7 +40,9 @@ public interface TopsterRepository extends JpaRepository<Topster, Long> {
             "where albums.id = :albumID and publicity = true")
     List<Topster> findAllByAlbumID(@Param("albumID") long albumID);
 
-
+//    @Modifying
+//    @Query ("delete from Favorites where topster_id = ?1")
+    void deleteById(long id);
 
 
 }

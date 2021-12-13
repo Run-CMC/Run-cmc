@@ -1,14 +1,8 @@
 package com.codeup.runcmc.controllers;
 
-import com.codeup.runcmc.models.Album;
-import com.codeup.runcmc.models.Topster;
-import com.codeup.runcmc.models.TopsterContent;
-import com.codeup.runcmc.models.User;
-import com.codeup.runcmc.repositories.AlbumRepository;
-import com.codeup.runcmc.repositories.TopsterContentRepository;
-import com.codeup.runcmc.repositories.TopsterRepository;
+import com.codeup.runcmc.models.*;
+import com.codeup.runcmc.repositories.*;
 
-import com.codeup.runcmc.repositories.UserRepository;
 import com.codeup.runcmc.services.RestTemplateTokenRequester;
 import com.codeup.runcmc.services.TokenResponse;
 import com.codeup.runcmc.services.TopsterCreation;
@@ -45,12 +39,15 @@ public class TopsterController {
 
     private TopsterContentRepository topsterContentRepository;
 
-    public TopsterController(TopsterRepository topsterRepository, RestTemplateTokenRequester restTemplateTokenRequester, AlbumRepository albumRepository, UserRepository userRepository, TopsterContentRepository topsterContentRepository) {
+    private CommentRepository commentRepository;
+
+    public TopsterController(TopsterRepository topsterRepository, RestTemplateTokenRequester restTemplateTokenRequester, AlbumRepository albumRepository, UserRepository userRepository, TopsterContentRepository topsterContentRepository, CommentRepository commentRepository) {
         this.topsterRepository = topsterRepository;
         this.restTemplateTokenRequester = restTemplateTokenRequester;
         this.albumRepository = albumRepository;
         this.userRepository=userRepository;
         this.topsterContentRepository = topsterContentRepository;
+        this.commentRepository = commentRepository;
     }
 
     @GetMapping("discover/topster/{id}")
@@ -103,6 +100,7 @@ public class TopsterController {
             @RequestParam(name = "position[]") int[] positions,
             @RequestParam(name = "spotifyID[]") String[] spotifyIDs, HttpServletRequest request) throws MessagingException {
         System.out.println(topster.isPublic());
+        User principal = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
         if(!TopsterCreation.topsterValidator(topsterType,srcs,titles)){
             validation.rejectValue(
                     "title",
@@ -110,13 +108,21 @@ public class TopsterController {
                     "Topsters must be completely filled with albums."
             );
         }
+        if(principal == null){
+            System.out.println("null user");
+            validation.rejectValue(
+                    "title",
+                    "user_session_expired",
+                    "Your session has expired. Please log out and log back in to create a topster");
+        }
         if(validation.hasErrors()){
             viewModel.addAttribute("errors", validation);
             viewModel.addAttribute("topster", topster);
             return "/create-topster";
         }
+
+
         List<TopsterContent> topsterContents = TopsterCreation.createTopsters(topster, topsterType, srcs, titles, artists, releaseDates, positions, spotifyIDs, albumRepository, topsterContentRepository, validation);
-        User principal = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
         User author = userRepository.getById(principal.getId());
         System.out.println(principal.getUsername());
         topster.setPublic(isPublic.equals("public"));
@@ -126,14 +132,20 @@ public class TopsterController {
         return "redirect:/profile";
     }
 
-    @GetMapping("dragdropdemo")
-    public String showDragAndDropDemoPage(){return "drag-n-drop-practice.html";}
-
-//    @RequestMapping(path = "/keys.js", produces = "application/javascript")
-//    @ResponseBody
-//    public String apikey(){
-//        System.out.println(spotifyClientID +"/n" + spotifyClientSecret);
-//        return "const SPOTIFY_CLIENT_ID = `" + spotifyClientID + "`;\n" +
-//                "const SPOTIFY_CLIENT_SECRET = `" + spotifyClientSecret +"`;";
-//    }
+    @PostMapping("/topster/{id}/delete")
+    public String deleteTopster(@PathVariable long id){
+        Topster topsterToDelete = topsterRepository.getById(id);
+        List<User> usersWhoFavoritedThisTopster = topsterToDelete.getUsersWhoFavorited();
+        while(usersWhoFavoritedThisTopster.size() !=0){
+            usersWhoFavoritedThisTopster.get(0).removeFromFavorites(topsterToDelete);
+        }
+//        for(User userWhoFavorited : usersWhoFavoritedThisTopster){
+//            userWhoFavorited.removeFromFavorites(topsterToDelete);
+//            userRepository.save(userWhoFavorited);
+//        }
+//        commentRepository.deleteAllByTopster(topsterToDelete);
+        topsterRepository.save(topsterToDelete);
+        topsterRepository.delete(topsterToDelete);
+        return "redirect:/discover";
+    }
 }

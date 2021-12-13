@@ -79,7 +79,6 @@ public class Topster {
         this.comments = comments;
     }
 
-
     public String getTitle() {
         return title;
     }

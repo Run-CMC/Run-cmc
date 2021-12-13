@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org" lang="en">
+<html xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security" lang="en">
 <head th:replace="partials/partials :: head ('Discover')">
 </head>
 <body>
@@ -13,6 +13,14 @@
     <div th:object="${topster}" class="row">
         <div th:each="top : ${topster}" class="col-12 col-lg-6">
             <div th:text="${top.title}"></div>
+			<span sec:authorize="isAuthenticated()">
+				<span th:if="${#authentication.principal.id == top.user.id}">
+					<form th:action="@{'/topster/' + ${top.id} + '/delete'}" method="post">
+						<i class="fa fa-trash" onclick="this.parentNode.submit()"></i>
+					</form>
+				</span>
+			</span>
+
             <div th:text="${top.body}"></div>
             <a th:href="@{'/discover/topster/' + ${top.id}}">Check Out This Topster!!!</a>
 	        <div>
@@ -32,7 +40,7 @@
 		            </div>
 	            </div>
 	        </div>
-        </div>
+        </span>
     </div>
 
 </main>
