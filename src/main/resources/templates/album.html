@@ -1,8 +1,6 @@
 <!DOCTYPE html>
 <html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
-<head th:replace="partials/partials3.html :: head ('Album Page')">
-
-</head>
+<head th:replace="partials/partials3.html :: head ('Album Page')"></head>
 <body class="bg-dark">
 <nav th:replace="partials/partials3.html :: navbar"></nav>
 
@@ -10,7 +8,8 @@
 <main class="container">
 
     <!--  *** ALBUM CARD ***  -->
-    <div class="card my-5 bg-dark" data-mdb-toggle="animation" data-mdb-animation="fade-in-down" data-mdb-animation-start="onLoad">
+    <div class="card my-5 bg-dark" data-mdb-toggle="animation" data-mdb-animation="fade-in-down"
+         data-mdb-animation-start="onLoad">
         <div class="d-flex position-relative" style="max-height: 310px">
             <div class="col-4 d-inline-flex p-3" style="max-width: 280px">
                 <a class="mb-5" target="_blank" th:href="'https://open.spotify.com/album/' + ${album.spotifyAlbumID}">
@@ -42,7 +41,9 @@
 
     <div class="d-flex flex-column">
 
-        <h5 class="col-12 text-light text-center mb-5" data-mdb-toggle="animation" data-mdb-animation="fade-in" data-mdb-animation-start="onLoad" data-mdb-animation-delay="300">Discover Other <span id="topsters-gradient">Topsters</span> That Contain This Album</h5>
+        <h5 class="col-12 text-light text-center mb-5" data-mdb-toggle="animation" data-mdb-animation="fade-in"
+            data-mdb-animation-start="onLoad" data-mdb-animation-delay="300">Discover Other <span
+                id="topsters-gradient">Topsters</span> That Contain This Album</h5>
 
         <br>
 
@@ -56,8 +57,9 @@
 
 
     <!-- TOPSTERS -->
-    <div th:object="${topsters}" class="row d-flex justify-content-around mb-5" data-mdb-toggle="animation" data-mdb-animation="fade-in" data-mdb-animation-start="onLoad" data-mdb-animation-delay="400">
-        <div th:each="topster : ${topsters}" class="col-xs-12 col-lg-5 p-2 card bg-dark" >
+    <div th:object="${topsters}" class="row d-flex justify-content-around mb-5" data-mdb-toggle="animation"
+         data-mdb-animation="fade-in" data-mdb-animation-start="onLoad" data-mdb-animation-delay="400">
+        <div th:each="topster : ${topsters}" class="col-xs-12 col-lg-5 p-2 card bg-dark">
 
             <!-- TOPSTER HEADER -->
             <div class="d-flex justify-content-between">
