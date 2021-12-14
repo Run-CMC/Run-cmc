@@ -1,0 +1,38 @@
+.gradient-custom {
+    /* fallback for old browsers */
+    background: #f6d365;
+
+    /* Chrome 10-25, Safari 5.1-6 */
+    background: linear-gradient(
+            45deg,
+            rgba(29, 236, 197, 0.7),
+            rgba(91, 14, 214, 0.7) 100%
+    );
+}
+
+/* create button on profile page */
+#profile1 {
+    background: linear-gradient(219.3deg, rgb(149, 0, 199) 4.7%, rgb(130, 0, 226) 22.9%, rgb(95, 0, 199) 43.2%);
+}
+
+/* discover button on profile page */
+#profile2 {
+    background: linear-gradient(219.3deg, rgb(149, 0, 199) 4.7%, rgb(130, 0, 226) 22.9%, rgb(95, 0, 199) 43.2%);
+}
+
+/* upload picture button on profile edit */
+.profile3 {
+    background: linear-gradient(219.3deg, rgb(149, 0, 199) 4.7%, rgb(130, 0, 226) 22.9%, rgb(95, 0, 199) 43.2%);
+}
+
+#profileTabs {
+    background: linear-gradient(
+            45deg,
+            rgba(29, 236, 197, 0.7),
+            rgba(91, 14, 214, 0.7) 100%
+    );
+}
+
+hr {
+    color: rgba(29, 236, 197, 0.7);
+}

@@ -4,54 +4,81 @@
 
 </head>
 
-<body>
+<body class="bg-dark">
 
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
 
-	<nav th:replace="partials/partials.html :: navbar"></nav>
-	<main>
-	    <h1>Edit your User Profile!</h1>
-		<button onclick="openFilePicker()">Upload Profile Picture</button>
+<nav th:replace="partials/partials.html :: navbar"></nav>
+<main>
+    <h1 class="text-white d-flex justify-content-center mt-5 mb-0">Let's change things up!</h1>
+    <!--show ian this. I want the box with the shadow for the form above-->
+    <section>
+        <div class="container py-5 h-100 w-100">
+            <div class="row d-flex justify-content-center align-items-center h-100">
+                <div class="col col-md-9 col-lg-7 col-xl-5">
+                    <div class="card bg-gradient gradient-custom-4 shadow-5-strong" style="border-radius: 15px;">
+                        <div class="card-body p-4">
+                            <div>
+                                <form th:action="@{'/profile-edit/'+*{id}}" method="POST" th:object="${user}">
+                                    <div class="d-flex flex-column align-items-center justify-content-center">
+                                        <input id="profile-photo-input" type="hidden" name="profilePhotoURL"
+                                               th:field="${user.profilePhotoURL}">
+                                        <img id="profile-photo" th:src="${user.profilePhotoURL}" alt="No Profile Photo"
+                                             width="125px" height="125px">
+                                        <br>
+                                        <br>
+                                        <button class="text-white btn-rounded profile3" onclick="openFilePicker()">
+                                            Upload Profile Picture
+                                        </button>
+                                        <br>
+                                        <br>
+                                    </div>
+                                    <div class="form-outline col-12">
+                                        <input th:field="*{username}" type="text" id="typeText"
+                                               class="form-control text-white"/>
+                                        <label class="form-label text-white" for="typeText">Username</label>
+                                    </div>
+                                    <p id="username-error" th:if="${#fields.hasErrors('username')}"
+                                       th:errors="*{username}"></p>
+                                    <br>
+                                    <div class="form-outline col-12">
+                                        <input th:field="*{email}" type="email" id="typeEmail"
+                                               class="form-control text-white"/>
+                                        <label class="form-label text-white" for="typeEmail">Email</label>
+                                    </div>
+                                    <p id="email-error" th:if="${#fields.hasErrors('email')}" th:errors="*{email}"></p>
+                                    <br>
+                                    <div class="form-outline col-12">
+                                        <textarea th:field="*{bio}" class="form-control text-white" id="bio" rows="6"
+                                                  maxlength="255" data-mdb-showcounter="true"></textarea>
+                                        <label class="form-label text-white" for="bio">Bio</label>
+                                        <div class="form-helper text-white"></div>
+                                    </div>
+                                    <br>
+                                    <div class="d-flex flex-column align-items-center">
+                                        <button class="text-white btn-rounded profile3" type="submit" value="Submit">Submit</button>
+                                    </div>
 
-	    <div>
-			<form th:action="@{'/profile-edit/'+*{id}}" method="POST" th:object="${user}">
-				<input id="profile-photo-input" type="hidden" name="profilePhotoURL" th:field="${user.profilePhotoURL}">
-				<img id="profile-photo" th:src="${user.profilePhotoURL}" alt="No Profile Photo" width="100px" height="100px">
-
-		        <div class="form-outline col-4">
-			        <input th:field="*{username}" type="text" id="typeText" class="form-control" />
-			        <label class="form-label" for="typeText">Username</label>
-		        </div>
-				<p id="username-error" th:if="${#fields.hasErrors('username')}" th:errors="*{username}"></p>
-		        <br>
-		        <div class="form-outline col-4">
-			        <input th:field="*{email}" type="email" id="typeEmail" class="form-control" />
-			        <label class="form-label" for="typeEmail">Email</label>
-		        </div>
-				<p id="email-error" th:if="${#fields.hasErrors('email')}" th:errors="*{email}"></p>
-		        <br>
-		        <div class="form-outline col-4">
-			        <textarea th:field="*{bio}" class="form-control" id="bio" rows="6" maxlength="255"></textarea>
-			        <label class="form-label" for="bio">Bio</label>
-		        </div>
-		        <div id="char-count"></div>
-				<p id="password-error" th:if="${#fields.hasErrors('password')}" th:errors="*{password}"></p>
-		        <br>
-		        <button class="btn btn-primary" type="submit" value="Submit">Submit</button>
-	        </form>
-	    </div>
-	</main>
-	<script th:replace="partials/partials :: jquery"></script>
-	<script th:replace="partials/partials.html :: md-js"></script>
-	<script type="text/javascript" src="../js/char-count.js"></script>
-	<script src="/js/filestack.js"></script>
-	<script src="//static.filestackapi.com/filestack-js/3.x.x/filestack.min.js"></script>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+</main>
+<script th:replace="partials/partials :: jquery"></script>
+<script th:replace="partials/partials.html :: md-js"></script>
+<script type="text/javascript" src="../js/char-count.js"></script>
+<script src="/js/filestack.js"></script>
+<script src="//static.filestackapi.com/filestack-js/3.x.x/filestack.min.js"></script>
 <!--	<script src="/js/keys.js"></script>-->
-	<script src="/keys.js"></script>
+<script src="/keys.js"></script>
 <script>
-	console.log(document.getElementById("username-error").innerHTML);
-	console.log(document.getElementById("email-error").innerHTML);
-	console.log(document.getElementById("password-error").innerHTML);
+    console.log(document.getElementById("username-error").innerHTML);
+    console.log(document.getElementById("email-error").innerHTML);
+    console.log(document.getElementById("password-error").innerHTML);
 </script>
 </body>
 </html>
