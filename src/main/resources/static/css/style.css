@@ -61,7 +61,7 @@ main {
     background: -webkit-linear-gradient(to right, rgba(132, 250, 176, 1), rgba(143, 211, 244, 1));
 
     /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
-    background: linear-gradient(to right, rgba(132, 250, 176, 1), rgba(143, 211, 244, 1))
+    background: linear-gradient(to right, rgba(132, 250, 176, 1), rgba(143, 211, 244, 1));
 }
 
 .bg-image {
@@ -71,8 +71,8 @@ main {
 /**/
 
 /* for the create an account wording on register page */
-.text-gradient.text-gradient-primary {
-    background-image: linear-gradient(to bottom, rgba(132, 250, 176, 1), rgba(143, 211, 244, 1));
+.gradient-custom-5 {
+    background-image: -webkit-linear-gradient(to right, rgba(132, 250, 176, 1), rgba(143, 211, 244, 1));
 }
 
 .text-gradient {
