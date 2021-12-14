@@ -31,20 +31,13 @@
 
         <!-- TOPSTER  -->
         <div class="col-xs-12 col-lg-7 p-2 card bg-dark align-self-center" th:object="${topster}">
+
             <!-- TOPSTER HEADER -->
-            <div class="d-flex justify-content-between">
-                <a th:href="@{'/discover/topster/' + ${topster.id}}" class="col-8">
-                    <h4 class="mb-0 link-light" th:text="${topster.title}"></h4>
-                </a>
-            </div>
-
             <div class="d-flex">
-                <small class="text-muted col-9"
-                       th:text="'Created by: ' + ${topster.user.username}">
-                </small>
-
+                <!-- DELETE BUTTON -->
                 <span sec:authorize="isAuthenticated()">
-				    <div th:if="${#authentication.principal.id == topster.user.id}" class="col-1 d-flex justify-content-end">
+				    <div th:if="${#authentication.principal.id == topster.user.id}"
+                         class="col-1 d-flex justify-content-end">
 					    <form th:action="@{'/topster/' + ${topster.id} + '/delete'}" method="post">
                             <small class="text-muted text-end">
                                 <i class="fa fa-trash" onclick="this.parentNode.parentNode.submit()"></i>
@@ -53,6 +46,7 @@
 				    </div>
 			    </span>
 
+                <!-- COMMENT COUNT -->
                 <div class="col-1 d-flex justify-content-end">
                     <small class="text-muted text-end">
                         <i class="fa fa-comment"></i>
@@ -62,42 +56,39 @@
                     </small>
                 </div>
 
-                <!-- If user is logged in, they can favorite. Otherwise, they can't -->
+                <!-- FAVORITE BUTTON -->
                 <div class="col-1 d-flex justify-content-end">
                     <div th:switch="${#authentication} ? ${#authorization.expression('isAuthenticated()')} : ${false}">
-                            <span th:case="${false}">
-                                <small class="text-muted text-end">
-                                    <i class="far fa-heart" id="heart"></i>
-                                </small>
-                            </span>
+                        <span th:case="${false}">
+                            <small class="text-muted text-end">
+                                <i class="far fa-heart" id="heart"></i>
+                            </small>
+                        </span>
                         <span th:case="${true}">
-                                <form th:if="${#lists.contains(user.favoritedTopsters, topster)}" method="post"
-                                      th:action="@{'/favorites/user/' + ${user.id} + '/topster/' + ${topster.id} + '/remove'}"
-                                      id="form1">
-                                    <small class="text-muted text-end">
-                                        <i class="fas fa-heart" onclick="clickHeart1()" id="heart1"></i>
-                                    </small>
-                                </form>
-                                <form th:if="${!#lists.contains(user.favoritedTopsters, topster)}" method="post"
-                                      th:action="@{'/favorites/user/' + ${user.id} + '/topster/' + ${topster.id}}"
-                                      id="form2">
-                                    <small class="text-muted text-end">
-                                        <i class="far fa-heart" onclick="clickHeart2()" id="heart2"></i>
-                                    </small>
-                                </form>
-                                <script>
-                                    function clickHeart1() {
-                                        document.getElementById("form1").submit();
-                                    }
-
-                                    function clickHeart2() {
-                                        document.getElementById("form2").submit();
-                                    }
-                                </script>
-                            </span>
-                        <span th:case="*">
-                            <!-- Should never happen -->
-                            </span>
+                            <form th:if="${#lists.contains(user.favoritedTopsters, topster)}" method="post"
+                                  th:action="@{'/favorites/user/' + ${user.id} + '/topster/' + ${topster.id} + '/remove'}"
+                                  id="form1">
+                                <small class="text-muted text-end">
+                                    <i class="fas fa-heart" onclick="clickHeart1()" id="heart1"></i>
+                                </small>
+                            </form>
+                            <form th:if="${!#lists.contains(user.favoritedTopsters, topster)}" method="post"
+                                  th:action="@{'/favorites/user/' + ${user.id} + '/topster/' + ${topster.id}}"
+                                  id="form2">
+                                <small class="text-muted text-end">
+                                    <i class="far fa-heart" onclick="clickHeart2()" id="heart2"></i>
+                                </small>
+                            </form>
+                            <script>
+                                function clickHeart1() {
+                                    document.getElementById("form1").submit();
+                                }
+                                function clickHeart2() {
+                                    document.getElementById("form2").submit();
+                                }
+                            </script>
+                        </span>
+                        <span th:case="*"><!-- Should never happen --></span>
                     </div>
                     <small class="text-muted" th:text="'&nbsp;' + ${#lists.size(topster.usersWhoFavorited)}">
                     </small>
@@ -110,18 +101,20 @@
 
             <!-- TOPSTER ART -->
             <div class="row row-cols-3 g-2 g-lg-3" th:if="${#lists.size(topster.topsterContents) == 9}">
-                <div class="col m-0 p-0" th:each="topsterContent : ${topster.topsterContents}">
+                <div class="col m-0 p-0 hover-zoom" data-mdb-ripple-color="light"
+                     th:each="topsterContent : ${topster.topsterContents}">
                     <a th:href="@{'/album/' + ${topsterContent.album.id}}">
                         <img th:src="${topsterContent.album.spotifyAlbumArt}"
                              th:title="'Artist: '+${topsterContent.album.spotifyArtist}+'&#010;Album: '+${topsterContent.album.spotifyAlbumName} + '&#010;Release Date: '+${topsterContent.album.releaseDate}"
                              th:alt="'Cover art of '+${topsterContent.album.spotifyAlbumName} +' by '+${topsterContent.album.spotifyArtist}"
                              height="100%" width="100%">
+
                     </a>
                 </div>
             </div>
 
             <div class="row row-cols-4 g-2 g-lg-3" th:if="${#lists.size(topster.topsterContents) == 16}">
-                <div class="col m-0 p-0" th:each="topsterContent : ${topster.topsterContents}">
+                <div class="col m-0 p-0 hover-zoom" th:each="topsterContent : ${topster.topsterContents}">
                     <a th:href="@{'/album/' + ${topsterContent.album.id}}">
                         <img th:src="${topsterContent.album.spotifyAlbumArt}"
                              th:title="'Artist: '+${topsterContent.album.spotifyArtist}+'&#010;Album: '+${topsterContent.album.spotifyAlbumName} + '&#010;Release Date: '+${topsterContent.album.releaseDate}"
@@ -133,7 +126,7 @@
             </div>
 
             <div class="row row-cols-5 g-2 g-lg-3" th:if="${#lists.size(topster.topsterContents) == 25}">
-                <div class="col m-0 p-0" th:each="topsterContent : ${topster.topsterContents}">
+                <div class="col m-0 p-0 hover-zoom" th:each="topsterContent : ${topster.topsterContents}">
                     <a th:href="@{'/album/' + ${topsterContent.album.id}}">
                         <img th:src="${topsterContent.album.spotifyAlbumArt}"
                              th:title="'Artist: '+${topsterContent.album.spotifyArtist}+'&#010;Album: '+${topsterContent.album.spotifyAlbumName} + '&#010;Release Date: '+${topsterContent.album.releaseDate}"
@@ -147,9 +140,18 @@
         </div>
         <!-- ^ END OF TOPSTER -->
 
-
     </div>
-    <!-- ^ END OF CONTAINER FOR TOPSTER AND TITLE/DESCRIPTION CARD  -->
+    <!-- ^ END OF CONTAINER FOR TOPSTER -->
+
+
+    <br>
+
+    <!-- JOIN THE DISCUSSION -->
+    <div class="d-flex flex-column">
+        <h5 class="col-12 text-light text-center mb-5">Join The <span
+                id="topsters-gradient">Discussion</span></h5>
+        <br>
+    </div>
 
 
     <!-- COMMENT SECTION -->
