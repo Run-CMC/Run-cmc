@@ -111,7 +111,7 @@
             <!-- TOPSTER ART -->
             <div class="row row-cols-3 g-2 g-lg-3" th:if="${#lists.size(topster.topsterContents) == 9}">
                 <div class="col m-0 p-0" th:each="topsterContent : ${topster.topsterContents}">
-                    <a target="_blank" th:href="'https://open.spotify.com/album/' + ${topsterContent.album.spotifyAlbumID}">
+                    <a th:href="@{'/album/' + ${topsterContent.album.id}}">
                         <img th:src="${topsterContent.album.spotifyAlbumArt}"
                              th:title="'Artist: '+${topsterContent.album.spotifyArtist}+'&#010;Album: '+${topsterContent.album.spotifyAlbumName} + '&#010;Release Date: '+${topsterContent.album.releaseDate}"
                              th:alt="'Cover art of '+${topsterContent.album.spotifyAlbumName} +' by '+${topsterContent.album.spotifyArtist}"
@@ -122,7 +122,7 @@
 
             <div class="row row-cols-4 g-2 g-lg-3" th:if="${#lists.size(topster.topsterContents) == 16}">
                 <div class="col m-0 p-0" th:each="topsterContent : ${topster.topsterContents}">
-                    <a target="_blank" th:href="'https://open.spotify.com/album/' + ${topsterContent.album.spotifyAlbumID}">
+                    <a th:href="@{'/album/' + ${topsterContent.album.id}}">
                         <img th:src="${topsterContent.album.spotifyAlbumArt}"
                              th:title="'Artist: '+${topsterContent.album.spotifyArtist}+'&#010;Album: '+${topsterContent.album.spotifyAlbumName} + '&#010;Release Date: '+${topsterContent.album.releaseDate}"
                              th:alt="'Cover art of '+${topsterContent.album.spotifyAlbumName} +' by '+${topsterContent.album.spotifyArtist}"
@@ -134,7 +134,7 @@
 
             <div class="row row-cols-5 g-2 g-lg-3" th:if="${#lists.size(topster.topsterContents) == 25}">
                 <div class="col m-0 p-0" th:each="topsterContent : ${topster.topsterContents}">
-                    <a target="_blank" th:href="'https://open.spotify.com/album/' + ${topsterContent.album.spotifyAlbumID}">
+                    <a th:href="@{'/album/' + ${topsterContent.album.id}}">
                         <img th:src="${topsterContent.album.spotifyAlbumArt}"
                              th:title="'Artist: '+${topsterContent.album.spotifyArtist}+'&#010;Album: '+${topsterContent.album.spotifyAlbumName} + '&#010;Release Date: '+${topsterContent.album.releaseDate}"
                              th:alt="'Cover art of '+${topsterContent.album.spotifyAlbumName} +' by '+${topsterContent.album.spotifyArtist}"
