@@ -17,13 +17,12 @@
 	<link rel="stylesheet" th:href="@{/css/profile.css}">
 </head>
 <body>
-	<!-- Navbar -->
+	<!-- old Navbar -->
 	<nav th:fragment="navbar" class="navbar navbar-expand-lg navbar-dark bg-dark">
 		<!-- Container wrapper -->
 		<div class="container navbar-container">
 			<!-- Navbar brand -->
 			<a class="navbar-brand nav-link me-2" th:href="@{/}">
-				
 				Run<i class="fas fa-play"></i>CMC
 			</a>
 			
@@ -44,16 +43,16 @@
 				<!-- Left links -->
 				<ul class="navbar-nav ms-auto mb-2 mb-lg-0">
 					<li class="nav-item">
-						<a class="nav-link" th:href="@{/discover}">Discover</a>
+						<a class="nav-link" th:href="@{/aboutus}">About Us</a>
 					</li>
 					<li class="nav-item">
 						<a class="nav-link" th:href="@{/profile}">Profile</a>
 					</li>
 					<li class="nav-item">
-						<a class="nav-link" th:href="@{/create-topster}">Create</a>
+						<a class="nav-link" th:href="@{/discover}">Discover</a>
 					</li>
 					<li class="nav-item">
-						<a class="nav-link" th:href="@{/aboutus}">About Us</a>
+						<a class="nav-link" th:href="@{/create-topster}">Create</a>
 					</li>
 					<li sec:authorize="!isAuthenticated()">
 						<a class="btn btn-primary btn-small active" th:href="@{/}" role="button" >Login</a>
@@ -73,9 +72,9 @@
 		</div>
 		<!-- Container wrapper -->
 	</nav>
-	<!-- Navbar -->
+	<!-- old Navbar -->
 
-	<!--Section: Navbar-->
+	<!--Section: new Navbar-->
 	<nav th:fragment="navbar2" class="navbar navbar-expand-md d-none d-lg-block" style="z-index: 2000;">
 		<div class="container-fluid">
 			<!-- Navbar brand -->
@@ -95,17 +94,17 @@
 			<!-- Collapsible wrapper -->
 			<div class="collapse navbar-collapse" id="navbarButtons">
 				<ul class="navbar-nav me-auto mb-2 mb-lg-0">
-					<li class="nav-item active">
-						<a class="nav-link" th:href="@{/discover}">Discover</a>
+					<li class="nav-item">
+						<a class="nav-link" th:href="@{/aboutus}">About Us</a>
 					</li>
 					<li class="nav-item">
 						<a class="nav-link" th:href="@{/profile}">Profile</a>
 					</li>
-					<li class="nav-item">
-						<a class="nav-link" th:href="@{/create-topster}">Create</a>
+					<li class="nav-item active">
+						<a class="nav-link" th:href="@{/discover}">Discover</a>
 					</li>
 					<li class="nav-item">
-						<a class="nav-link" th:href="@{/aboutus}">About Us</a>
+						<a class="nav-link" th:href="@{/create-topster}">Create</a>
 					</li>
 					<li sec:authorize="isAuthenticated()">
 						<form th:action="@{/logout}" th:method="post">
@@ -117,7 +116,7 @@
 			</div>
 		</div>
 	</nav>
-	<!--End section: Navbar-->
+	<!--End section: new Navbar-->
 		
 		<!-- Compiled and minified JavaScript -->
 	<!-- MDB -->
