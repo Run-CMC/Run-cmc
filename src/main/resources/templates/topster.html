@@ -39,9 +39,19 @@
             </div>
 
             <div class="d-flex">
-                <small class="text-muted col-10"
+                <small class="text-muted col-9"
                        th:text="'Created by: ' + ${topster.user.username}">
                 </small>
+
+                <span sec:authorize="isAuthenticated()">
+				    <div th:if="${#authentication.principal.id == topster.user.id}" class="col-1 d-flex justify-content-end">
+					    <form th:action="@{'/topster/' + ${topster.id} + '/delete'}" method="post">
+                            <small class="text-muted text-end">
+                                <i class="fa fa-trash" onclick="this.parentNode.parentNode.submit()"></i>
+                            </small>
+					    </form>
+				    </div>
+			    </span>
 
                 <div class="col-1 d-flex justify-content-end">
                     <small class="text-muted text-end">
@@ -52,8 +62,7 @@
                     </small>
                 </div>
 
-
-                <!--                If user is logged in, they can favorite. Otherwise, they can't     -->
+                <!-- If user is logged in, they can favorite. Otherwise, they can't -->
                 <div class="col-1 d-flex justify-content-end">
                     <div th:switch="${#authentication} ? ${#authorization.expression('isAuthenticated()')} : ${false}">
                             <span th:case="${false}">
@@ -102,28 +111,35 @@
             <!-- TOPSTER ART -->
             <div class="row row-cols-3 g-2 g-lg-3" th:if="${#lists.size(topster.topsterContents) == 9}">
                 <div class="col m-0 p-0" th:each="topsterContent : ${topster.topsterContents}">
-                    <img th:src="${topsterContent.album.spotifyAlbumArt}"
-                         th:title="'Artist: '+${topsterContent.album.spotifyArtist}+'&#010;Album: '+${topsterContent.album.spotifyAlbumName} + '&#010;Release Date: '+${topsterContent.album.releaseDate}"
-                         th:alt="'Cover art of '+${topsterContent.album.spotifyAlbumName} +' by '+${topsterContent.album.spotifyArtist}"
-                         height="100%" width="100%">
+                    <a target="_blank" th:href="'https://open.spotify.com/album/' + ${topsterContent.album.spotifyAlbumID}">
+                        <img th:src="${topsterContent.album.spotifyAlbumArt}"
+                             th:title="'Artist: '+${topsterContent.album.spotifyArtist}+'&#010;Album: '+${topsterContent.album.spotifyAlbumName} + '&#010;Release Date: '+${topsterContent.album.releaseDate}"
+                             th:alt="'Cover art of '+${topsterContent.album.spotifyAlbumName} +' by '+${topsterContent.album.spotifyArtist}"
+                             height="100%" width="100%">
+                    </a>
                 </div>
             </div>
 
             <div class="row row-cols-4 g-2 g-lg-3" th:if="${#lists.size(topster.topsterContents) == 16}">
                 <div class="col m-0 p-0" th:each="topsterContent : ${topster.topsterContents}">
-                    <img th:src="${topsterContent.album.spotifyAlbumArt}"
-                         th:title="'Artist: '+${topsterContent.album.spotifyArtist}+'&#010;Album: '+${topsterContent.album.spotifyAlbumName} + '&#010;Release Date: '+${topsterContent.album.releaseDate}"
-                         th:alt="'Cover art of '+${topsterContent.album.spotifyAlbumName} +' by '+${topsterContent.album.spotifyArtist}"
-                         height="100%" width="100%">
+                    <a target="_blank" th:href="'https://open.spotify.com/album/' + ${topsterContent.album.spotifyAlbumID}">
+                        <img th:src="${topsterContent.album.spotifyAlbumArt}"
+                             th:title="'Artist: '+${topsterContent.album.spotifyArtist}+'&#010;Album: '+${topsterContent.album.spotifyAlbumName} + '&#010;Release Date: '+${topsterContent.album.releaseDate}"
+                             th:alt="'Cover art of '+${topsterContent.album.spotifyAlbumName} +' by '+${topsterContent.album.spotifyArtist}"
+                             height="100%" width="100%">
+                    </a>
+
                 </div>
             </div>
 
             <div class="row row-cols-5 g-2 g-lg-3" th:if="${#lists.size(topster.topsterContents) == 25}">
                 <div class="col m-0 p-0" th:each="topsterContent : ${topster.topsterContents}">
-                    <img th:src="${topsterContent.album.spotifyAlbumArt}"
-                         th:title="'Artist: '+${topsterContent.album.spotifyArtist}+'&#010;Album: '+${topsterContent.album.spotifyAlbumName} + '&#010;Release Date: '+${topsterContent.album.releaseDate}"
-                         th:alt="'Cover art of '+${topsterContent.album.spotifyAlbumName} +' by '+${topsterContent.album.spotifyArtist}"
-                         height="100%" width="100%">
+                    <a target="_blank" th:href="'https://open.spotify.com/album/' + ${topsterContent.album.spotifyAlbumID}">
+                        <img th:src="${topsterContent.album.spotifyAlbumArt}"
+                             th:title="'Artist: '+${topsterContent.album.spotifyArtist}+'&#010;Album: '+${topsterContent.album.spotifyAlbumName} + '&#010;Release Date: '+${topsterContent.album.releaseDate}"
+                             th:alt="'Cover art of '+${topsterContent.album.spotifyAlbumName} +' by '+${topsterContent.album.spotifyArtist}"
+                             height="100%" width="100%">
+                    </a>
                 </div>
             </div>
             <!-- ^ END OF TOPSTER ART -->
