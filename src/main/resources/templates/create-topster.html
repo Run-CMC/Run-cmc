@@ -117,16 +117,19 @@
                 $("#3x3").css("display", "block");
                 $("#4x4").css("display", "none");
                 $("#5x5").css("display", "none");
+                submissionControl();
                 break;
             case "4x4":
                 $("#3x3").css("display", "none");
                 $("#4x4").css("display", "block");
                 $("#5x5").css("display", "none");
+                submissionControl();
                 break;
             case "5x5":
                 $("#3x3").css("display", "none");
                 $("#4x4").css("display", "none");
                 $("#5x5").css("display", "block");
+                submissionControl();
                 break;
             default:
                 console.log("This should never happen")
@@ -174,7 +177,7 @@
                 }
                 break;
             case "5x5":
-                if($("#4x4").find("img").length < 16){
+                if($("#5x5").find("img").length < 25){
                     submitButton.disabled=true;
                     submissionRestriction.css("visibility", "visible");
                 }else{
