@@ -2,21 +2,35 @@
 <html xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.w3.org/1999/xhtml" lang="en">
 <head th:replace="partials/partials :: head ('View Topster')"></head>
 <body class="bg-dark">
-<nav th:replace="partials/partials :: navbar"></nav>
+<nav th:replace="partials/partials :: navbar2"></nav>
 
 
 <main class="container">
 
 
-    <!-- TOPSTER -->
-    <div th:object="${topster}" class="row d-flex justify-content-around mb-5" data-mdb-toggle="animation"
-         data-mdb-animation="fade-in"
-         data-mdb-animation-start="onLoad" data-mdb-animation-delay="400">
+    <!-- CONTAINER FOR TOPSTER AND TITLE/DESCRIPTION CARD -->
+    <div class="row d-flex flex-column justify-content-evenly mb-5" th:object="${topster}">
 
-        <!-- TOPSTER CARD -->
-        <div class="col-xs-12 col-lg-5 p-2 card bg-dark">
+        <!-- TITLE -->
+        <div class="mt-5 mb-2">
+            <h1 class="card-title text-light text-center" th:text="*{title}"></h1>
+            <h5 class="text-muted text-center"
+                th:text="'Created by: ' + ${topster.user.username}">
+            </h5>
+        </div>
+
+        <!-- DESCRIPTION CARD -->
+        <div class="col-xs-12 col-lg-7 align-self-center card bg-dark">
+            <div class="mt-2 mb-5">
+                <p class="card-text">
+                    <small class="text-muted" th:text="*{body}"></small>
+                </p>
+            </div>
+        </div>
 
 
+        <!-- TOPSTER  -->
+        <div class="col-xs-12 col-lg-7 p-2 card bg-dark align-self-center" th:object="${topster}">
             <!-- TOPSTER HEADER -->
             <div class="d-flex justify-content-between">
                 <a th:href="@{'/discover/topster/' + ${topster.id}}" class="col-8">
@@ -114,62 +128,73 @@
             </div>
             <!-- ^ END OF TOPSTER ART -->
 
-
         </div>
-        <!-- ^ END OF TOPSTER CARD -->
+        <!-- ^ END OF TOPSTER -->
 
 
     </div>
+    <!-- ^ END OF CONTAINER FOR TOPSTER AND TITLE/DESCRIPTION CARD  -->
 
 
-    <br>
-    <br>
+    <!-- COMMENT SECTION -->
+    <div id="instructions-upper-bar" class="col-12 p-2 card bg-dark" style="max-width: 1290px">
+
+        <!-- VIEW AND ADD COMMENT BUTTONS -->
+        <div class="row container d-flex justify-content-evenly">
+
+            <a
+                    class="btn btn-primary col-5"
+                    data-mdb-toggle="collapse"
+                    href="#addComment"
+                    role="button"
+                    aria-expanded="false"
+                    aria-controls="collapseExample"
+            >
+                Add Comment
+            </a>
+
+        </div>
 
 
-    <div id="instructions-upper-bar">
-        <button
-                class="btn btn-primary"
-                type="button"
-                data-mdb-toggle="collapse"
-                data-mdb-target="#comment-thread"
-                aria-expanded="false"
-                aria-controls="collapseExample">
-            Expand to view comments
-        </button>
-        <div id="comment-thread" class="collapse mt-3">
-
+        <!-- COLLAPSABLE ADD-COMMENT TEXTAREA -->
+        <div class="collapse mt-3 scroll-section text-light" id="addComment" style="max-width: 1290px">
             <form th:action="@{'/discover/topster/' + ${topster.id}}" method="post" th:object="${comment}">
+                <div class="form-outline form-white">
+                    <textarea id="commentTextArea" name="body" class="form-control" rows="4"></textarea>
+                    <label class="form-label" for="commentTextArea">Write your comment here</label>
+                </div>
 
-                <textarea name="body" placeholder="Write your comment here."></textarea>
-
-                <button class="btn btn-primary" type="submit" value="Submit">Submit</button>
+                <button class="btn btn-primary d-flex flex-row-reverse" type="submit" value="Submit">Submit</button>
             </form>
         </div>
-        <div th:each="comment : *{topster.comments}">
 
-            <div th:text="'User: ' + ${comment.user.username}"></div>
 
-            <div th:attr="data-editid=${comment.id}" id="comment-body" th:text="${comment.body}"></div>
-
-            <textarea style="display:none" th:attr="data-editid=${comment.id}" class="edit-comment-field"></textarea>
-
-            <br>
-
-            <input th:attr="data-editid=${comment.id}" style="display:none" type="submit" class="comment-edit-submit">
-            <!--            <button class="edit-button" th:attr="data-editid=${comment.id}" type="button" value="Edit">Edit</button>-->
-
-            <div sec:authorize="isAuthenticated()">
-                <div th:if="${#authentication.principal.id == comment.user.id}">
-                    <form th:action="@{'/discover/topster/' + ${topster.id} + '/delete'}" method="post">
-                        <input type="hidden" th:value="${comment.id}" th:attr="name='id'"/>
-                        <button type="submit" value="Delete">Delete</button>
-                    </form>
-                    <br>
+        <!-- COMMENT THREAD -->
+        <div class="mt-3 scroll-section text-light" id="commentThread" style="max-width: 1290px; max-height: 400px;">
+            <div th:each="comment : *{topster.comments}">
+                <div th:text="'User: ' + ${comment.user.username}"></div>
+                <div th:attr="data-editid=${comment.id}" id="comment-body" th:text="${comment.body}"></div>
+                <br>
+                <div sec:authorize="isAuthenticated()">
+                    <div th:if="${#authentication.principal.id == comment.user.id}">
+                        <form th:action="@{'/discover/topster/' + ${topster.id} + '/delete'}" method="post">
+                            <input type="hidden" th:value="${comment.id}" th:attr="name='id'"/>
+                            <button type="submit" value="Delete" class="btn btn-danger">Delete</button>
+                        </form>
+                        <br>
+                    </div>
                 </div>
             </div>
-
         </div>
+
+
     </div>
+
+
+    <br>
+    <br>
+
+
 </main>
 <script th:replace="partials/partials:: md-js"></script>
 <script>
