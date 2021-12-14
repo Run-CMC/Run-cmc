@@ -22,21 +22,24 @@
         </button>
     </div>
     <div id="create-instructions" class="collapse mt-3">
-        Type in the name of an artist or album you would like to add in the search bar below and then hit "search".
+        Choose a size, type in the name of an artist or album you would like to add in the search bar below and then hit "search".
         Then drag any desired album into an image slot on the right.
     </div>
     <br>
     <!--    <div id="album-art"></div><br>-->
-    <input id="search-bar" type="text">
+    <input id="search-bar" placeholder="album or artist"type="text">
     <button id="search-button">Search</button>
     <span id="topster-submission-restriction">Your topster/collage can only be submitted once it is full and has a title and description of sufficient length</span>
     <form th:action="@{/create-topster}" th:method="POST" th:object="${topster}">
-        <label for="topster-type">Select a topster style</label>
-        <select name="topster-type" id="topster-type" onchange="changeSelection()">
-            <option value="5x5">5x5</option>
-            <option value="4x4" selected>4x4</option>
-            <option value="3x3">3x3</option>
-        </select>
+        <div>
+            <label for="topster-type">Select a topster style</label>
+            <select name="topster-type" id="topster-type" onchange="changeSelection()">
+                <option value="5x5">5x5</option>
+                <option value="4x4" selected>4x4</option>
+                <option value="3x3">3x3</option>
+            </select>
+        </div>
+
         <div class="container">
             <div class="row">
                 <div class="col-6">
@@ -103,6 +106,8 @@
 
     var access_token = null;
     var refresh_token = null;
+
+
 
     function changeSelection() {
         console.log($("#topster-type").val());
@@ -181,7 +186,7 @@
         }
     }
 
-    searchButton.click(function () {
+    function spotifySearch(){
         let options = {
             headers: {
                 Accept: "application/json",
@@ -191,19 +196,19 @@
             method: "Get"
         };
         fetch("https://api.spotify.com/v1/search?q=" + searchBar.val() + "&type=album,artist", options)
-            .then(res => res.json())
-            .then(data => {
-                console.log(data);
-                searchResults.innerHTML = "";
-                data.albums.items.forEach(function (album, iterator) {
-                    let albumString = "Artist: " + album.artists[0].name;
-                    albumString += "\nAlbum: " + album.name;
-                    albumString += "\nRelease Date: " + album.release_date;
-                    let albumArtUrl = album.images[0].url;
-                    // console.log(albumArtUrl);
-                    // console.log(albumString);
-                    searchResults.innerHTML +=
-                        `<div id="result-${iterator}" class="search-result col-4">
+                .then(res => res.json())
+                .then(data => {
+                    console.log(data);
+                    searchResults.innerHTML = "";
+                    data.albums.items.forEach(function (album, iterator) {
+                        let albumString = "Artist: " + album.artists[0].name;
+                        albumString += "\nAlbum: " + album.name;
+                        albumString += "\nRelease Date: " + album.release_date;
+                        let albumArtUrl = album.images[0].url;
+                        // console.log(albumArtUrl);
+                        // console.log(albumString);
+                        searchResults.innerHTML +=
+                                `<div id="result-${iterator}" class="search-result col-4">
                                         <img title="${albumString}" src="${albumArtUrl}"
                                         alt="${album.name} cover art" width="120" height="120"
                                         draggable="true" data-title="${album.name}"
@@ -211,11 +216,17 @@
                                         data-releasedate="${album.release_date}"
                                         data-spotifyid="${album.id}">`
 
-                });
-            })
-            .catch(error => console.error(error));
+                    });
+                })
+                .catch(error => console.error(error));
         onSearch();
+    }
+    searchBar.on("keyup", function(event){
+        if(event.code=="Enter"){
+            spotifySearch();
+        }
     });
+    searchButton.click(spotifySearch);
     changeSelection(); //This should cause non-selected topster types to be set to display-none
     submissionControl();
 </script>
