@@ -15,7 +15,7 @@
                 type="button"
                 data-mdb-toggle="collapse"
                 data-mdb-target="#create-instructions"
-                aria-expanded="false"
+                aria-expanded="true"
                 aria-controls="collapseExample"
         >
             Collapse instructions
@@ -42,7 +42,8 @@
 
         <div class="container">
             <div class="row">
-                <div class="col-6">
+                <div class="col-lg-6 col-sm-12">
+                    <div>Search Results provided by: <img src="../img/Spotify_Logo_RGB_White.png" alt="Spotify Logo" height="30%" width="30%"  style="margin: 17px; min-width: 70px"></div>
                     <div id="results" class="row"></div>
                 </div>
                 <div id="3x3" th:replace="partials/3x3-topster.html :: 3x3-topster"></div>
@@ -200,23 +201,27 @@
                 .then(data => {
                     console.log(data);
                     searchResults.innerHTML = "";
-                    data.albums.items.forEach(function (album, iterator) {
-                        let albumString = "Artist: " + album.artists[0].name;
-                        albumString += "\nAlbum: " + album.name;
-                        albumString += "\nRelease Date: " + album.release_date;
-                        let albumArtUrl = album.images[0].url;
-                        // console.log(albumArtUrl);
-                        // console.log(albumString);
-                        searchResults.innerHTML +=
-                                `<div id="result-${iterator}" class="search-result col-4">
+                    if(data.albums.items.length ==0){
+                        searchResults.innerHTML = "Sorry, no results were found that match your search. Try something else!";
+                    }else {
+                        data.albums.items.forEach(function (album, iterator) {
+                            let albumString = "Artist: " + album.artists[0].name;
+                            albumString += "\nAlbum: " + album.name;
+                            albumString += "\nRelease Date: " + album.release_date;
+                            let albumArtUrl = album.images[0].url;
+                            // console.log(albumArtUrl);
+                            // console.log(albumString);
+                            searchResults.innerHTML +=
+                                    `<div id="result-${iterator}" class="search-result col-4">
                                         <img title="${albumString}" src="${albumArtUrl}"
-                                        alt="${album.name} cover art" width="120" height="120"
+                                        alt="${album.name} cover art" width="100%" height="100%"
                                         draggable="true" data-title="${album.name}"
                                         data-artist="${album.artists[0].name}"
                                         data-releasedate="${album.release_date}"
                                         data-spotifyid="${album.id}">`
 
-                    });
+                        });
+                    }
                 })
                 .catch(error => console.error(error));
         onSearch();

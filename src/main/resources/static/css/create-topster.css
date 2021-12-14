@@ -1,4 +1,16 @@
 .p-3{
-    height: 100%;
+    height: auto;
     width: 100%;
+    background-color: #e1f6fc;
+    background-image: url("../img/dotted_box.png");
+    background-size: cover;
+    color: black;
+    box-sizing: border-box;
+}
+
+@media (max-width: 650px) {
+    main {
+        margin-left: 25px;
+        margin-right: 25px;
+    }
 }
