@@ -40,7 +40,7 @@
                          class="col-1 d-flex justify-content-end">
 					    <form th:action="@{'/topster/' + ${topster.id} + '/delete'}" method="post">
                             <small class="text-muted text-end">
-                                <i class="fa fa-trash" onclick="this.parentNode.parentNode.submit()"></i>
+                                <i class="fa fa-trash" onclick="deleteConfirm(event)"></i>
                             </small>
 					    </form>
 				    </div>
@@ -214,6 +214,7 @@
 
 
 </main>
+<script th:src="@{/js/delete-topster.js}"></script>
 <script th:replace="partials/partials:: md-js"></script>
 <script>
     var editSubmits = document.querySelectorAll(".comment-edit-submit");
@@ -246,5 +247,6 @@
         });
     });
 </script>
+
 </body>
 </html>
