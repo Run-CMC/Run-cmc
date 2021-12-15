@@ -1,10 +1,19 @@
 <!DOCTYPE html>
-<html lang="en">
+<html xmlns:th="http://www.thymeleaf.org">
 <head>
-	<meta charset="UTF-8">
-	<title>Title</title>
+	<meta charset="UTF-8"/>
+	<title th:text="'Ooops, ' + ${error}"></title>
 </head>
 <body>
-	You got some sort of 400 error, bro
+<th:block th:switch="${error}">
+	<div th:case="'Not Found'">
+		<h1>Ruh Roh raggy, your page is not found! Go back and find the right page.</h1>
+	</div>
+	<div th:case="'Forbidden'">
+		<h1>What're you doing ya goober, you don't have permission. Go back and get clearance or don't come back here again.</h1>
+	</div>
+</th:block>
+<p>Watch a video instead</p>
+<img src="https://c.tenor.com/kekA7AIajFsAAAAM/skyrim-intro.gif" alt="rorikroll" width="300px" height="200px">
 </body>
 </html>
