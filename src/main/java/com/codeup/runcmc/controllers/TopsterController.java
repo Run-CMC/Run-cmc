@@ -101,6 +101,8 @@ public class TopsterController {
             @RequestParam(name = "spotifyID[]") String[] spotifyIDs, HttpServletRequest request) throws MessagingException {
         System.out.println(topster.isPublic());
         User principal = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        System.out.println(principal);
+        System.out.println(principal.getId());
         if(!TopsterCreation.topsterValidator(topsterType,srcs,titles)){
             validation.rejectValue(
                     "title",
@@ -108,7 +110,7 @@ public class TopsterController {
                     "Topsters must be completely filled with albums."
             );
         }
-        if(principal == null){
+        if(principal == null || principal.getId()==0){
             System.out.println("null user");
             validation.rejectValue(
                     "title",
@@ -120,13 +122,13 @@ public class TopsterController {
             viewModel.addAttribute("topster", topster);
             return "/create-topster";
         }
-
-
-        List<TopsterContent> topsterContents = TopsterCreation.createTopsters(topster, topsterType, srcs, titles, artists, releaseDates, positions, spotifyIDs, albumRepository, topsterContentRepository, validation);
         User author = userRepository.getById(principal.getId());
+        topster.setUser(author);
+        List<TopsterContent> topsterContents = TopsterCreation.createTopsters(topster, topsterType, srcs, titles, artists, releaseDates, positions, spotifyIDs, albumRepository, topsterContentRepository, validation);
+
         System.out.println(principal.getUsername());
         topster.setPublic(isPublic.equals("public"));
-        topster.setUser(author);
+
         topster.setTopsterContents(topsterContents);
         topsterRepository.save(topster);
         return "redirect:/profile";
