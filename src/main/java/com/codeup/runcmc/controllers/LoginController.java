@@ -11,8 +11,19 @@ import org.springframework.web.bind.annotation.PostMapping;
 
 @Controller
 public class LoginController {
+    private UserRepository userDao;
+
+    public LoginController(UserRepository userDao) {
+        this.userDao = userDao;
+    }
+
     @GetMapping("/")
-    public String showHomePage(){
+    public String showHomePage(Model model){
+        if(!SecurityContextHolder.getContext().getAuthentication().getPrincipal().equals("anonymousUser")) {
+            User principal = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+            User currentUser = userDao.getById(principal.getId());
+            model.addAttribute("user", currentUser);
+        }
         return "index";
     }
 

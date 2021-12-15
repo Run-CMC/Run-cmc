@@ -93,6 +93,7 @@ function drop(e) {
         dropFireFoxPath(e);
     }
     submissionControl();
+    console.log("hi");
 }
 
 function dropNonFirefoxPath(e){

@@ -26,7 +26,8 @@
                             <h6>Username:</h6>
                             <h4 th:text="*{username}"></h4>
                             <br>
-                            <a th:href="@{'/profile-edit/' + *{id}}"><h6>Edit profile</h6><i class="far fa-edit mb-5 ml-1"></i></a>
+                            <a th:href="@{'/profile-edit/' + *{id}}"><h6>Edit profile</h6><i
+                                    class="far fa-edit mb-5 ml-1"></i></a>
                         </div>
 
                         <div class="col-md-8 shadow-5-strong">
@@ -46,20 +47,24 @@
                                     <div class="col-6 mb-3">
                                         <h6 class="text-white">Personal topsters</h6>
                                         <p class="text-white" th:text="${#lists.size(user.topsters)}"></p>
-                                        <a href="/create-topster"><button id="profile1" class="text-white btn-rounded">Create</button></a>
+                                        <a href="/create-topster">
+                                            <button id="profile1" class="text-white btn-rounded">Create</button>
+                                        </a>
                                     </div>
                                     <div class="col-6 mb-3">
                                         <h6 class="text-white">Favorites</h6>
                                         <p class="text-white" th:text="${#lists.size(user.favoritedTopsters)}"></p>
-                                        <a href="/discover"><button id="profile2" class="text-white btn-rounded">Discover</button></a>
+                                        <a href="/discover">
+                                            <button id="profile2" class="text-white btn-rounded">Discover</button>
+                                        </a>
                                     </div>
                                 </div>
                             </div>
                         </div>
                         <!--my topsters & favorited topsters tabs-->
 
-    </div>
-</div>
+                    </div>
+                </div>
 
             </div>
         </div>

@@ -30,6 +30,7 @@
                 <div class="text-white">
                     <h1 class="mb-3">Run<i class="fas fa-play"></i>CMC</h1>
                     <h5 class="mb-4">Immerse yourself in a world of music discovery</h5>
+                    <div sec:authorize="!isAuthenticated()">
                     <a
                             class="btn btn-outline-light btn-lg m-2"
                             data-mdb-toggle="collapse"
@@ -42,6 +43,12 @@
                     </a>
                     <a class="btn btn-outline-light btn-lg m-2" th:href="register" target="_blank"
                        role="button">Register</a>
+                </div>
+                    <div class="mt-2" sec:authorize="isAuthenticated()">
+                        <div class="mt-5" th:object="${user}">
+                            <h1 th:text="'Welcome ' + *{username}"></h1>
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>
