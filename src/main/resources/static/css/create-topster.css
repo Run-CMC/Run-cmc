@@ -14,3 +14,11 @@
         margin-right: 25px;
     }
 }
+
+hr {
+    color: rgba(92, 231, 203, 0.7);
+}
+
+.profile3 {
+    background: linear-gradient(219.3deg, rgb(149, 0, 199) 4.7%, rgb(130, 0, 226) 22.9%, rgb(95, 0, 199) 43.2%);
+}

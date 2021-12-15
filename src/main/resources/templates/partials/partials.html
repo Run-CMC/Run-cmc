@@ -59,7 +59,7 @@
 					</li>
 					<li sec:authorize="isAuthenticated()">
 						<form th:action="@{/logout}" th:method="POST">
-							<button class="btn btn-primary btn-small active" sec:authorize="isAuthenticated()">Logout</button>
+							<button class="btn btn-gradient btn-small active text-white" sec:authorize="isAuthenticated()">Logout</button>
 						</form>
 					</li>
 					<li sec:authorize="!isAuthenticated()">
@@ -93,7 +93,7 @@
 
 			<!-- Collapsible wrapper -->
 			<div class="collapse navbar-collapse" id="navbarButtons">
-				<ul class="navbar-nav me-auto mb-2 mb-lg-0">
+				<ul class="navbar-nav ms-auto mb-2 mb-lg-0">
 					<li class="nav-item">
 						<a class="nav-link" th:href="@{/aboutus}">About Us</a>
 					</li>
@@ -103,12 +103,12 @@
 					<li class="nav-item active">
 						<a class="nav-link" th:href="@{/discover}">Discover</a>
 					</li>
-					<li class="nav-item">
+					<li sec:authorize="isAuthenticated()" class="nav-item">
 						<a class="nav-link" th:href="@{/create-topster}">Create</a>
 					</li>
-					<li sec:authorize="isAuthenticated()">
+					<li >
 						<form th:action="@{/logout}" th:method="post">
-							<button class="btn bth-primary btn-small active" sec:authorize="isAuthenticated()">Logout
+							<button class="btn bth-primary btn-small active text-white" sec:authorize="isAuthenticated()">Logout
 							</button>
 						</form>
 					</li>
