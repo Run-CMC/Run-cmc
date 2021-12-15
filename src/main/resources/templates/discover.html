@@ -4,31 +4,61 @@
 </head>
 <body class="bg-dark">
 <nav th:replace="partials/partials :: navbar"></nav>
-<main>
-    <h1 class="text-white">Discover the Latest Topsters!</h1>
-    <form th:action="@{/search}" method="get">
-        <input id="search-bar" type="text" placeholder="topster/album/artist" name="search-bar">
-        <button id="search-button">Search</button>
-    </form>
+
+<main class="container">
+
+    <!-- CONTAINER FOR HEADING AND SEARCH BAR -->
+    <div class="row d-flex flex-column mb-5">
+        <!-- HEADING -->
+        <div class="mt-5 mb-2">
+            <h1 class="card-title text-light text-center">Discover the Latest Topsters!</h1>
+        </div>
 
 
-    <div th:object="${topster}" class="row">
 
-            <!-- TOPSTER  -->
-            <div class="col-xs-12 col-lg-7 p-2 card bg-dark align-self-center" th:each="topster : ${topster}">
-                <!-- TOPSTER HEADER -->
-                <div class="d-flex justify-content-between">
-                    <a th:href="@{'/discover/topster/' + ${topster.id}}" class="col-8">
-                        <h4 class="mb-0 link-light" th:text="${topster.title}"></h4>
-                    </a>
+
+        <!-- SEARCH BAR -->
+        <section class="w-100 p-3 pb-2 d-flex justify-content-center align-items-center flex-column">
+
+                <form th:action="@{/search}" method="get">
+                <div class="input-group">
+                    <div class="form-outline">
+                        <input type="search" id="search-bar" class="form-control text-light" name="search-bar"/>
+                        <label class="form-label text-muted" for="form1">Search Topsters</label>
+                    </div>
+                    <button type="text" class="btn btn-info" id="search-button">
+                        <i class="fas fa-search"></i>
+                    </button>
                 </div>
+                </form>
+        </section>
 
-                <div class="d-flex">
-                    <small class="text-muted col-9"
-                           th:text="'Created by: ' + ${topster.user.username}">
-                    </small>
 
-                    <span sec:authorize="isAuthenticated()">
+    </div>
+    <!-- ^ END OF CONTAINER FOR HEADING AND SEARCH BAR -->
+
+
+
+
+
+    <div th:object="${topster}" class="row d-flex justify-content-around">
+
+        <!-- TOPSTER  -->
+        <div class="col-xs-12 col-lg-5 p-2 my-4 card bg-dark align-self-center" th:each="topster : ${topster}">
+
+            <!-- TOPSTER HEADER -->
+            <div class="d-flex justify-content-between">
+                <a th:href="@{'/discover/topster/' + ${topster.id}}" class="col-8">
+                    <h4 class="mb-0 link-light" th:text="${topster.title}"></h4>
+                </a>
+            </div>
+
+            <div class="d-flex">
+                <small class="text-muted col-9"
+                       th:text="'Created by: ' + ${topster.user.username}">
+                </small>
+
+                <span sec:authorize="isAuthenticated()">
 				    <div th:if="${#authentication.principal.id == topster.user.id}"
                          class="col-1 d-flex justify-content-end">
 					    <form th:action="@{'/topster/' + ${topster.id} + '/delete'}" method="post">
@@ -39,24 +69,24 @@
 				    </div>
 			    </span>
 
-                    <div class="col-1 d-flex justify-content-end">
-                        <small class="text-muted text-end">
-                            <i class="fa fa-comment"></i>
-                        </small>
-                        <small class="text-muted"
-                               th:text="'&nbsp;' + ${#lists.size(topster.comments)} + '&nbsp; &nbsp;'">
-                        </small>
-                    </div>
+                <div class="col-1 d-flex justify-content-end">
+                    <small class="text-muted text-end">
+                        <i class="fa fa-comment"></i>
+                    </small>
+                    <small class="text-muted"
+                           th:text="'&nbsp;' + ${#lists.size(topster.comments)} + '&nbsp; &nbsp;'">
+                    </small>
+                </div>
 
-                    <!-- If user is logged in, they can favorite. Otherwise, they can't -->
-                    <div class="col-1 d-flex justify-content-end">
-                        <div th:switch="${#authentication} ? ${#authorization.expression('isAuthenticated()')} : ${false}">
+                <!-- FAVORITES BUTTON -->
+                <div class="col-1 d-flex justify-content-end">
+                    <div th:switch="${#authentication} ? ${#authorization.expression('isAuthenticated()')} : ${false}">
                             <span th:case="${false}">
                                 <small class="text-muted text-end">
                                     <i class="far fa-heart" id="heart"></i>
                                 </small>
                             </span>
-                            <span th:case="${true}">
+                        <span th:case="${true}">
                                 <form th:if="${#lists.contains(user.favoritedTopsters, topster)}" method="post"
                                       th:action="@{'/favorites/user/' + ${user.id} + '/topster/' + ${topster.id} + '/remove'}"
                                       id="form1">
@@ -81,61 +111,59 @@
                                     }
                                 </script>
                             </span>
-                            <span th:case="*">
+                        <span th:case="*">
                             <!-- Should never happen -->
                             </span>
-                        </div>
-                        <small class="text-muted" th:text="'&nbsp;' + ${#lists.size(topster.usersWhoFavorited)}">
-                        </small>
                     </div>
-                    <!-- End of Favorite Button logic -->
-
+                    <small class="text-muted" th:text="'&nbsp;' + ${#lists.size(topster.usersWhoFavorited)}">
+                    </small>
                 </div>
-                <!-- ^ END OF TOPSTER HEADER -->
-
-
-                <!-- TOPSTER ART -->
-                <div class="row row-cols-3 g-2 g-lg-3" th:if="${#lists.size(topster.topsterContents) == 9}">
-                    <div class="col m-0 p-0" th:each="topsterContent : ${topster.topsterContents}">
-                        <a th:href="@{'/discover/topster/' + ${topsterContent.topster.id}}">
-                            <img th:src="${topsterContent.album.spotifyAlbumArt}"
-                                 th:title="'Artist: '+${topsterContent.album.spotifyArtist}+'&#010;Album: '+${topsterContent.album.spotifyAlbumName} + '&#010;Release Date: '+${topsterContent.album.releaseDate}"
-                                 th:alt="'Cover art of '+${topsterContent.album.spotifyAlbumName} +' by '+${topsterContent.album.spotifyArtist}"
-                                 height="100%" width="100%">
-                        </a>
-                    </div>
-                </div>
-
-                <div class="row row-cols-4 g-2 g-lg-3" th:if="${#lists.size(topster.topsterContents) == 16}">
-                    <div class="col m-0 p-0" th:each="topsterContent : ${topster.topsterContents}">
-                        <a th:href="@{'/discover/topster/' + ${topsterContent.topster.id}}">
-                            <img th:src="${topsterContent.album.spotifyAlbumArt}"
-                                 th:title="'Artist: '+${topsterContent.album.spotifyArtist}+'&#010;Album: '+${topsterContent.album.spotifyAlbumName} + '&#010;Release Date: '+${topsterContent.album.releaseDate}"
-                                 th:alt="'Cover art of '+${topsterContent.album.spotifyAlbumName} +' by '+${topsterContent.album.spotifyArtist}"
-                                 height="100%" width="100%">
-                        </a>
-
-                    </div>
-                </div>
-
-                <div class="row row-cols-5 g-2 g-lg-3" th:if="${#lists.size(topster.topsterContents) == 25}">
-                    <div class="col m-0 p-0" th:each="topsterContent : ${topster.topsterContents}">
-                        <a th:href="@{'/discover/topster/' + ${topsterContent.topster.id}}">
-                            <img th:src="${topsterContent.album.spotifyAlbumArt}"
-                                 th:title="'Artist: '+${topsterContent.album.spotifyArtist}+'&#010;Album: '+${topsterContent.album.spotifyAlbumName} + '&#010;Release Date: '+${topsterContent.album.releaseDate}"
-                                 th:alt="'Cover art of '+${topsterContent.album.spotifyAlbumName} +' by '+${topsterContent.album.spotifyArtist}"
-                                 height="100%" width="100%">
-                        </a>
-                    </div>
-                </div>
-                <!-- ^ END OF TOPSTER ART -->
+                <!-- ^ END OF FAVORITE BUTTON -->
 
             </div>
-            <!-- ^ END OF TOPSTER -->
+            <!-- ^ END OF TOPSTER HEADER -->
 
+            <!-- TOPSTER ART -->
+            <div class="row row-cols-3 g-2 g-lg-3" th:if="${#lists.size(topster.topsterContents) == 9}">
+                <div class="col m-0 p-0" th:each="topsterContent : ${topster.topsterContents}">
+                    <a th:href="@{'/discover/topster/' + ${topsterContent.topster.id}}">
+                        <img th:src="${topsterContent.album.spotifyAlbumArt}"
+                             th:title="'Artist: '+${topsterContent.album.spotifyArtist}+'&#010;Album: '+${topsterContent.album.spotifyAlbumName} + '&#010;Release Date: '+${topsterContent.album.releaseDate}"
+                             th:alt="'Cover art of '+${topsterContent.album.spotifyAlbumName} +' by '+${topsterContent.album.spotifyArtist}"
+                             height="100%" width="100%">
+                    </a>
+                </div>
+            </div>
+
+            <div class="row row-cols-4 g-2 g-lg-3" th:if="${#lists.size(topster.topsterContents) == 16}">
+                <div class="col m-0 p-0" th:each="topsterContent : ${topster.topsterContents}">
+                    <a th:href="@{'/discover/topster/' + ${topsterContent.topster.id}}">
+                        <img th:src="${topsterContent.album.spotifyAlbumArt}"
+                             th:title="'Artist: '+${topsterContent.album.spotifyArtist}+'&#010;Album: '+${topsterContent.album.spotifyAlbumName} + '&#010;Release Date: '+${topsterContent.album.releaseDate}"
+                             th:alt="'Cover art of '+${topsterContent.album.spotifyAlbumName} +' by '+${topsterContent.album.spotifyArtist}"
+                             height="100%" width="100%">
+                    </a>
+
+                </div>
+            </div>
+
+            <div class="row row-cols-5 g-2 g-lg-3" th:if="${#lists.size(topster.topsterContents) == 25}">
+                <div class="col m-0 p-0" th:each="topsterContent : ${topster.topsterContents}">
+                    <a th:href="@{'/discover/topster/' + ${topsterContent.topster.id}}">
+                        <img th:src="${topsterContent.album.spotifyAlbumArt}"
+                             th:title="'Artist: '+${topsterContent.album.spotifyArtist}+'&#010;Album: '+${topsterContent.album.spotifyAlbumName} + '&#010;Release Date: '+${topsterContent.album.releaseDate}"
+                             th:alt="'Cover art of '+${topsterContent.album.spotifyAlbumName} +' by '+${topsterContent.album.spotifyArtist}"
+                             height="100%" width="100%">
+                    </a>
+                </div>
+            </div>
+            <!-- ^ END OF TOPSTER ART -->
 
         </div>
+        <!-- ^ END OF TOPSTER -->
+
     </div>
+
 
 </main>
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"
