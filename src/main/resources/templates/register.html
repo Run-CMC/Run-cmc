@@ -18,6 +18,7 @@
                                     <input th:field="*{username}" type="text" id="typeText"
                                            class="form-control form-control-lg"/>
                                     <label class="form-label" for="typeText">Username</label>
+                                    <div class="form-helper">Username must be at least 5 characters long.</div>
                                 </div>
 	                            <p th:if="${#fields.hasErrors('username')}" th:errors="*{username}"></p>
                                 <div class="form-outline mb-4">
