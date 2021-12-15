@@ -5,6 +5,7 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
+import org.springframework.security.core.parameters.P;
 
 import java.util.List;
 
@@ -39,6 +40,9 @@ public interface TopsterRepository extends JpaRepository<Topster, Long> {
             "join albums on albums.id = tc.album_id " +
             "where albums.id = :albumID and publicity = true")
     List<Topster> findAllByAlbumID(@Param("albumID") long albumID);
+
+    @Query(nativeQuery = true, value = "select * from topsters where publicity = :t")
+		    List<Topster>findAllByPublicity(@Param("t") boolean publicity);
 
 //    @Modifying
 //    @Query ("delete from Favorites where topster_id = ?1")

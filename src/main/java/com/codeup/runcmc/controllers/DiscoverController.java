@@ -29,7 +29,7 @@ public class DiscoverController {
 
     @GetMapping("/discover")
     public String landingPage(Model model) {
-        List<Topster> topster = topsterDao.findAll();
+        List<Topster> topster = topsterDao.findAllByPublicity(true);
         model.addAttribute("topster", topster);
 
         if(!SecurityContextHolder.getContext().getAuthentication().getPrincipal().equals("anonymousUser")) {
