@@ -14,9 +14,6 @@
             <h1 class="card-title text-light text-center">Discover the Latest Topsters!</h1>
         </div>
 
-
-
-
         <!-- SEARCH BAR -->
         <section class="w-100 p-3 pb-2 d-flex justify-content-center align-items-center flex-column">
 
@@ -32,8 +29,6 @@
                 </div>
                 </form>
         </section>
-
-
     </div>
     <!-- ^ END OF CONTAINER FOR HEADING AND SEARCH BAR -->
 
@@ -91,25 +86,31 @@
                                       th:action="@{'/favorites/user/' + ${user.id} + '/topster/' + ${topster.id} + '/remove'}"
                                       id="form1">
                                     <small class="text-muted text-end">
-                                        <i class="fas fa-heart" onclick="clickHeart1()" id="heart1"></i>
+                                        <i class="fas fa-heart" id="heart1"></i>
                                     </small>
                                 </form>
                                 <form th:if="${!#lists.contains(user.favoritedTopsters, topster)}" method="post"
                                       th:action="@{'/favorites/user/' + ${user.id} + '/topster/' + ${topster.id}}"
                                       id="form2">
                                     <small class="text-muted text-end">
-                                        <i class="far fa-heart" onclick="clickHeart2()" id="heart2"></i>
+                                        <i class="far fa-heart" id="heart2"></i>
                                     </small>
                                 </form>
-                                <script>
-                                    function clickHeart1() {
-                                        document.getElementById("form1").submit();
-                                    }
 
-                                    function clickHeart2() {
-                                        document.getElementById("form2").submit();
-                                    }
-                                </script>
+
+                                <!-- TEMPORARILY DISABLED ADD/REMOVE FAVORITE FEATURE FROM THIS PAGE-->
+<!--                                <script>-->
+<!--                                    function clickHeart1() {-->
+<!--                                        document.getElementById("form1").submit();-->
+<!--                                    }-->
+
+<!--                                    function clickHeart2() {-->
+<!--                                        document.getElementById("form2").submit();-->
+<!--                                    }-->
+<!--                                </script>-->
+
+
+
                             </span>
                         <span th:case="*">
                             <!-- Should never happen -->
