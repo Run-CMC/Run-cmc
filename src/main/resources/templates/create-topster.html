@@ -2,11 +2,11 @@
 <html xmlns:th="http://www.thymeleaf.org"
       xmlns:sec="http://www.thymeleaf.org/extras/spring-security"> <!--amanda didn't comment this out-->
 <head th:replace="partials/create-head-partial.html :: head ('Create A Topster')"></head>
-<body>
+<body class="bg-dark">
 <nav th:replace="partials/partials.html :: navbar"></nav>
 <main>
     <!-- header -->
-    <h1 class="d-flex mt-2 justify-content-center">Let the topster creation magic begin...</h1>
+    <h1 class="d-flex mt-2 justify-content-center text-white">Let the topster creation magic begin...</h1>
     <!-- end header -->
     <br>
     <!-- instructions part -->
@@ -23,7 +23,7 @@
         </button>
     </div>
     <div id="create-instructions" class="collapse mt-3">
-        <ul class="justify-content-center">
+        <ul class="justify-content-center text-white">
             <li>Type in the title of your topster.</li>
             <li>Type in a description of your topster.</li>
             <li>You can decide if you want your topster to be public or not. Tick or untick the blue check mark.</li>
@@ -38,26 +38,26 @@
     <!-- end instructions part -->
     <br>
     <!--    <div id="album-art"></div><br>--> <!--amanda didn't comment this out-->
-    <span class="d-flex justify-content-center" id="topster-submission-restriction"><i class="fas fa-play"> Your topster collage can only be submitted by clicking the RUN button after each square is full and the topster has a title and description.</i></span>
+    <span class="d-flex justify-content-center text-white" id="topster-submission-restriction"><i class="fas fa-play"> Your topster collage can only be submitted by clicking the RUN button after each square is full and the topster has a title and description.</i></span>
     <br>
     <form th:action="@{/create-topster}" th:method="POST" th:object="${topster}">
         <!--  title, description fields, make public, and run button -->
         <h5 th:if="${#fields.hasErrors('title')}" th:errors="*{title}"/>
         <div class="col-12 form-outline">
-            <input id="topster-title" class="form-control" th:field="*{title}" type="text" maxlength="255">
-            <label class="form-label" for="topster-title">Title of topster: </label>
+            <input id="topster-title" class="form-control text-white" th:field="*{title}" type="text" maxlength="255">
+            <label class="form-label text-white" for="topster-title">Title of topster: </label>
         </div>
         <br>
         <h5 th:if="${#fields.hasErrors('body')}" th:errors="*{body}"/>
         <div class="col-12 form-outline">
-            <textarea id="topster-text-body" class="form-control" th:field="*{body}" maxlength="255" data-mdb-showcounter="true"></textarea>
-            <label class="form-label" for="topster-text-body">Description of topster: </label>
+            <textarea id="topster-text-body" class="form-control text-white" th:field="*{body}" maxlength="255" data-mdb-showcounter="true"></textarea>
+            <label class="form-label text-white" for="topster-text-body">Description of topster: </label>
             <div class="form-helper text-white"></div>
         </div>
         <br>
         <div class="col-9"></div>
         <div class="col-7">
-            <label for="public">Make public</label>
+            <label for="public" class="text-white">Make public</label>
             <input type="checkbox" id="public" name="isPublic" text="public" value="public" checked>
             <!--                <button>Create</button>--> <!--amanda didn't comment this out-->
             <button class="text-white text-lg btn-rounded profile3 btn-sm" id="submit-topster" type="submit" value="submit" style="font-size: medium">RUN</button>
@@ -72,7 +72,7 @@
                 <div class="col-lg-6 col-sm-12">
                     <!-- dropdown topster style selector -->
                     <div class="d-flex justify-content-center">
-                        <label for="topster-type">Select a topster style: </label>
+                        <label for="topster-type" class="text-white">Select a topster style: </label>
                         <select name="topster-type" id="topster-type" onchange="changeSelection()">
                             <option value="5x5">5x5</option>
                             <option value="4x4" selected>4x4</option>
@@ -84,14 +84,14 @@
                     <!-- search bar -->
                     <div class="input-group d-flex justify-content-center">
                         <div class="form-outline">
-                            <input type="text" id="search-bar" class="form-control col-5"/>
-                            <label class="form-label" for="search-bar"><i class="fas fa-search"></i> album or artist</label>
+                            <input type="text" id="search-bar" class="form-control col-5 text-white"/>
+                            <label class="form-label text-white" for="search-bar"><i class="fas fa-search"></i> album or artist</label>
                         </div>
                         <button id="search-button" type="button" class="btn text-white btn-rounded profile3">Search</button>
                     </div>
                     <!-- end search bar -->
 
-                    <div>Search results provided by: <img src="../img/Spotify_Logo_RGB_White.png" alt="Spotify Logo"
+                    <div class="text-white">Search results provided by: <img src="../img/Spotify_Logo_RGB_White.png" alt="Spotify Logo"
                                                           height="30%" width="30%"
                                                           style="margin: 17px; min-width: 70px">
                     </div>
