@@ -58,7 +58,7 @@
                          class="col-1 d-flex justify-content-end">
 					    <form th:action="@{'/topster/' + ${topster.id} + '/delete'}" method="post">
                             <small class="text-muted text-end">
-                                <i class="fa fa-trash" onclick="this.parentNode.parentNode.submit()"></i>
+                                <i class="fa fa-trash" onclick="deleteConfirm(event)"></i>
                             </small>
 					    </form>
 				    </div>
@@ -86,31 +86,16 @@
                                       th:action="@{'/favorites/user/' + ${user.id} + '/topster/' + ${topster.id} + '/remove'}"
                                       id="form1">
                                     <small class="text-muted text-end">
-                                        <i class="fas fa-heart" id="heart1"></i>
+                                        <i class="fas fa-heart" onclick="clickHeart1(event)" id="heart1"></i>
                                     </small>
                                 </form>
                                 <form th:if="${!#lists.contains(user.favoritedTopsters, topster)}" method="post"
                                       th:action="@{'/favorites/user/' + ${user.id} + '/topster/' + ${topster.id}}"
                                       id="form2">
                                     <small class="text-muted text-end">
-                                        <i class="far fa-heart" id="heart2"></i>
+                                        <i class="far fa-heart" onclick="clickHeart2(event)" id="heart2"></i>
                                     </small>
                                 </form>
-
-
-                                <!-- TEMPORARILY DISABLED ADD/REMOVE FAVORITE FEATURE FROM THIS PAGE-->
-<!--                                <script>-->
-<!--                                    function clickHeart1() {-->
-<!--                                        document.getElementById("form1").submit();-->
-<!--                                    }-->
-
-<!--                                    function clickHeart2() {-->
-<!--                                        document.getElementById("form2").submit();-->
-<!--                                    }-->
-<!--                                </script>-->
-
-
-
                             </span>
                         <span th:case="*">
                             <!-- Should never happen -->
@@ -167,8 +152,18 @@
 
 
 </main>
+<script>
+    function clickHeart1(event) {
+        event.target.parentNode.parentNode.submit();
+    }
+
+    function clickHeart2(event) {
+        event.target.parentNode.parentNode.submit();
+    }
+</script>
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"
         integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4=" crossorigin="anonymous"></script>
+<script src="../js/delete-topster.js"></script>
 <script th:replace="partials/partials :: md-js"></script>
 </body>
 </html>
