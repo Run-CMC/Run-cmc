@@ -1,15 +1,14 @@
 <!DOCTYPE html>
 <html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
-<head th:replace="partials/partials3.html :: head ('Album Page')"></head>
+<head th:replace="partials/partials :: head ('Album Page')"></head>
 <body class="bg-dark">
-<nav th:replace="partials/partials3.html :: navbar"></nav>
+<nav th:replace="partials/partials :: navbar2"></nav>
 
 
 <main class="container">
 
     <!--  *** ALBUM CARD ***  -->
-    <div class="card my-5 bg-dark" data-mdb-toggle="animation" data-mdb-animation="fade-in-down"
-         data-mdb-animation-start="onLoad">
+    <div class="card my-5 bg-dark">
         <div class="d-flex position-relative" style="max-height: 310px">
             <div class="col-4 d-inline-flex p-3" style="max-width: 280px">
                 <a class="mb-5" target="_blank" th:href="'https://open.spotify.com/album/' + ${album.spotifyAlbumID}">
@@ -41,8 +40,7 @@
 
     <div class="d-flex flex-column">
 
-        <h5 class="col-12 text-light text-center mb-5" data-mdb-toggle="animation" data-mdb-animation="fade-in"
-            data-mdb-animation-start="onLoad" data-mdb-animation-delay="300">Discover <span
+        <h5 class="col-12 text-light text-center mb-5">Discover <span
                 id="topsters-gradient">Topsters</span> That Contain This Album</h5>
 
         <br>
@@ -57,8 +55,7 @@
 
 
     <!-- TOPSTERS -->
-    <div th:object="${topsters}" class="row d-flex justify-content-around mb-5" data-mdb-toggle="animation"
-         data-mdb-animation="fade-in" data-mdb-animation-start="onLoad" data-mdb-animation-delay="400">
+    <div th:object="${topsters}" class="row d-flex justify-content-around mb-5">
         <div th:each="topster : ${topsters}" class="col-xs-12 col-lg-5 p-2 card bg-dark">
 
             <!-- TOPSTER HEADER -->
@@ -132,31 +129,17 @@
         </div>
     </div>
 
-    <!-- Return to Top -->
-    <a href="javascript:" id="return-to-top"><i class="fas fa-chevron-circle-up"></i></a>
 
 </main>
 
-<script th:replace="partials/partials3.html :: md-js"></script>
+<script th:replace="partials/partials :: md-js"></script>
 
 <script>
 
 </script>
 
-<!--<script th:defer>-->
-<!--    // ===== Scroll to Top ====-->
-<!--    $(window).scroll(function() {-->
-<!--        if ($(this).scrollTop() >= 50) {        // If page is scrolled more than 50px-->
-<!--            $('#return-to-top').fadeIn(200);    // Fade in the arrow-->
-<!--        } else {-->
-<!--            $('#return-to-top').fadeOut(200);   // Else fade out the arrow-->
-<!--        }-->
-<!--    });-->
-<!--    $('#return-to-top').click(function() {      // When arrow is clicked-->
-<!--        $('body,html').animate({-->
-<!--            scrollTop : 0                       // Scroll to top of body-->
-<!--        }, 500);-->
-<!--    });-->
-<!--</script>-->
+<script th:defer>
+
+</script>
 </body>
 </html>
