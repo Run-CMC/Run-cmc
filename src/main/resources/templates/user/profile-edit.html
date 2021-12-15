@@ -19,20 +19,20 @@
                     <div class="card bg-gradient gradient-custom-4 shadow-5-strong" style="border-radius: 15px;">
                         <div class="card-body p-4">
                             <div>
+                                <div class="d-flex justify-content-center">
+                                    <button class="text-white btn-rounded profile3" onclick="openFilePicker()">
+                                        Upload Profile Picture
+                                    </button>
+                                </div>
+                                <br>
                                 <form th:action="@{'/profile-edit/'+*{id}}" method="POST" th:object="${user}">
                                     <div class="d-flex flex-column align-items-center justify-content-center">
                                         <input id="profile-photo-input" type="hidden" name="profilePhotoURL"
                                                th:field="${user.profilePhotoURL}">
                                         <img id="profile-photo" th:src="${user.profilePhotoURL}" alt="No Profile Photo"
                                              width="125px" height="125px">
-                                        <br>
-                                        <br>
-                                        <button class="text-white btn-rounded profile3" onclick="openFilePicker()">
-                                            Upload Profile Picture
-                                        </button>
-                                        <br>
-                                        <br>
                                     </div>
+                                    <hr>
                                     <div class="form-outline col-12">
                                         <input th:field="*{username}" type="text" id="typeText"
                                                class="form-control text-white"/>
@@ -58,7 +58,6 @@
                                     <div class="d-flex flex-column align-items-center">
                                         <button class="text-white btn-rounded profile3" type="submit" value="Submit">Submit</button>
                                     </div>
-
                                 </form>
                             </div>
                         </div>

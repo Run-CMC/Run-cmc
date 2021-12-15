@@ -1,84 +1,119 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org"
-      xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
-<head th:replace="partials/create-head-partial.html :: head ('Create A Topster')">
-
-</head>
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security"> <!--amanda didn't comment this out-->
+<head th:replace="partials/create-head-partial.html :: head ('Create A Topster')"></head>
 <body>
 <nav th:replace="partials/partials.html :: navbar"></nav>
 <main>
-    <h1>Create a topster!</h1>
-
-    <div id="instructions-upper-bar">
+    <!-- header -->
+    <h1 class="d-flex mt-2 justify-content-center">Let the topster creation magic begin...</h1>
+    <!-- end header -->
+    <br>
+    <!-- instructions part -->
+    <div class="d-flex justify-content-center" id="instructions-upper-bar">
         <button
-                class="btn btn-primary"
+                class="text-white btn-rounded profile3"
                 type="button"
                 data-mdb-toggle="collapse"
                 data-mdb-target="#create-instructions"
                 aria-expanded="true"
                 aria-controls="collapseExample"
         >
-            Collapse instructions
+            Click for instructions
         </button>
     </div>
     <div id="create-instructions" class="collapse mt-3">
-        Choose a size, type in the name of an artist or album you would like to add in the search bar below, and then hit "search".
-        Then drag any desired album into an image slot on the right.
+        <ul class="justify-content-center">
+            <li>Type in the title of your topster.</li>
+            <li>Type in a description of your topster.</li>
+            <li>You can decide if you want your topster to be public or not. Tick or untick the blue check mark.</li>
+            <li>Choose a topster grid style.</li>
+            <li>Type the name of the album or artist you are searching for in the search bar. Drag the album art of your
+                choice into one of the boxes in the topster grid. If you want to replace an album art with another album
+                art, or if you want to change the position of an album art, simply drag and drop to the preferred
+                location.</li>
+            <li>Select the RUN button and voila!</li>
+        </ul>
     </div>
+    <!-- end instructions part -->
     <br>
-    <!--    <div id="album-art"></div><br>-->
-    <input id="search-bar" placeholder="album or artist"type="text">
-    <button id="search-button">Search</button>
-    <span id="topster-submission-restriction">Your topster/collage can only be submitted once it is full and has a title and description of sufficient length</span>
+    <!--    <div id="album-art"></div><br>--> <!--amanda didn't comment this out-->
+    <span class="d-flex justify-content-center" id="topster-submission-restriction"><i class="fas fa-play"> Your topster collage can only be submitted by clicking the RUN button after each square is full and the topster has a title and description.</i></span>
+    <br>
     <form th:action="@{/create-topster}" th:method="POST" th:object="${topster}">
-        <div>
-            <label for="topster-type">Select a topster style</label>
-            <select name="topster-type" id="topster-type" onchange="changeSelection()">
-                <option value="5x5">5x5</option>
-                <option value="4x4" selected>4x4</option>
-                <option value="3x3">3x3</option>
-            </select>
+        <!--  title, description fields, make public, and run button -->
+        <h5 th:if="${#fields.hasErrors('title')}" th:errors="*{title}"/>
+        <div class="col-12 form-outline">
+            <input id="topster-title" class="form-control" th:field="*{title}" type="text" maxlength="255">
+            <label class="form-label" for="topster-title">Title of topster: </label>
         </div>
+        <br>
+        <h5 th:if="${#fields.hasErrors('body')}" th:errors="*{body}"/>
+        <div class="col-12 form-outline">
+            <textarea id="topster-text-body" class="form-control" th:field="*{body}" maxlength="255" data-mdb-showcounter="true"></textarea>
+            <label class="form-label" for="topster-text-body">Description of topster: </label>
+            <div class="form-helper text-white"></div>
+        </div>
+        <br>
+        <div class="col-9"></div>
+        <div class="col-7">
+            <label for="public">Make public</label>
+            <input type="checkbox" id="public" name="isPublic" text="public" value="public" checked>
+            <!--                <button>Create</button>--> <!--amanda didn't comment this out-->
+            <button class="text-white text-lg btn-rounded profile3 btn-sm" id="submit-topster" type="submit" value="submit" style="font-size: medium">RUN</button>
+        </div>
+        <hr>
+        <br>
+        <!--  end title, description fields, make public, and run button -->
 
+        <!-- topster section -->
         <div class="container">
             <div class="row">
                 <div class="col-lg-6 col-sm-12">
-                    <div>Search Results provided by: <img src="../img/Spotify_Logo_RGB_White.png" alt="Spotify Logo" height="30%" width="30%"  style="margin: 17px; min-width: 70px"></div>
+                    <!-- dropdown topster style selector -->
+                    <div class="d-flex justify-content-center">
+                        <label for="topster-type">Select a topster style: </label>
+                        <select name="topster-type" id="topster-type" onchange="changeSelection()">
+                            <option value="5x5">5x5</option>
+                            <option value="4x4" selected>4x4</option>
+                            <option value="3x3">3x3</option>
+                        </select>
+                    </div>
+                    <!-- end dropdown topster style selector -->
+                    <br>
+                    <!-- search bar -->
+                    <div class="input-group d-flex justify-content-center">
+                        <div class="form-outline">
+                            <input type="text" id="search-bar" class="form-control col-5"/>
+                            <label class="form-label" for="search-bar"><i class="fas fa-search"></i> album or artist</label>
+                        </div>
+                        <button id="search-button" type="button" class="btn text-white btn-rounded profile3">Search</button>
+                    </div>
+                    <!-- end search bar -->
+
+                    <div>Search results provided by: <img src="../img/Spotify_Logo_RGB_White.png" alt="Spotify Logo"
+                                                          height="30%" width="30%"
+                                                          style="margin: 17px; min-width: 70px">
+                    </div>
                     <div id="results" class="row"></div>
                 </div>
                 <div id="3x3" th:replace="partials/3x3-topster.html :: 3x3-topster"></div>
                 <div id="4x4" th:replace="partials/4x4-topster.html :: 4x4-topster"></div>
                 <div id="5x5" th:replace="partials/5x5-topster.html :: 5x5-topster"></div>
-                <hr>
-                <h5 th:if="${#fields.hasErrors('title')}" th:errors="*{title}" />
-                <div class="col-12 form-outline">
-                    <input id="topster-title" class="form-control" th:field="*{title}" type="text" maxlength="255">
-                    <label class="form-label" for="topster-title">Title: </label>
-                </div>
-                <h5 th:if="${#fields.hasErrors('body')}" th:errors="*{body}" />
-                <div class="col-12 form-outline">
-                    <textarea id="topster-text-body" class="form-control" th:field="*{body}" maxlength="255"></textarea>
-                    <label class="form-label" for="topster-text-body">Description: </label>
-                </div>
-                <div id="char-count"></div>
-                <div class="col-9"></div>
-                <div class="col-3">
-                    <label for="public">Make public</label>
-                    <input type="checkbox" id="public" name="isPublic" text="public" value="public" checked>
-                    <!--                <button>Create</button>-->
-                    <input id="submit-topster" type="submit" value="Create">
-                </div>
             </div>
         </div>
+        <!-- end of topster section -->
     </form>
 </main>
 <script th:replace="partials/partials.html :: md-js"></script>
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"
         integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4=" crossorigin="anonymous"></script>
 
+<!--amanda didn't comment this out-->
 <!--<script src="/keys.js"></script>-->
 <!--    <script src="../js/auth.js"></script>-->
 
+<!-- beginning of javascript section -->
 <script th:inline="javascript">
     /*<![CDATA[*/
     var accessToken = [[${authToken}]].access_token;
@@ -109,7 +144,6 @@
     var refresh_token = null;
 
 
-
     function changeSelection() {
         console.log($("#topster-type").val());
         switch ($("#topster-type").val()) {
@@ -136,7 +170,7 @@
         }
     }
 
-    function clearUnselectedPartials(){
+    function clearUnselectedPartials() {
         switch ($("#topster-type").val()) {
             case "3x3":
                 $("#4x4").outerHTML = "";
@@ -156,7 +190,7 @@
     }
 
     function submissionControl(){
-    //    function deactivates the submit button if the selected topster is not full
+//    function deactivates the submit button if the selected topster is not full
         switch ($("#topster-type").val()) {
             case "3x3":
                 if($("#3x3").find("img").length < 9){
@@ -190,7 +224,7 @@
         }
     }
 
-    function spotifySearch(){
+    function spotifySearch() {
         let options = {
             headers: {
                 Accept: "application/json",
@@ -200,22 +234,22 @@
             method: "Get"
         };
         fetch("https://api.spotify.com/v1/search?q=" + searchBar.val() + "&type=album,artist", options)
-                .then(res => res.json())
-                .then(data => {
-                    console.log(data);
-                    searchResults.innerHTML = "";
-                    if(data.albums.items.length ==0){
-                        searchResults.innerHTML = "Sorry, no results were found that match your search. Try something else!";
-                    }else {
-                        data.albums.items.forEach(function (album, iterator) {
-                            let albumString = "Artist: " + album.artists[0].name;
-                            albumString += "\nAlbum: " + album.name;
-                            albumString += "\nRelease Date: " + album.release_date;
-                            let albumArtUrl = album.images[0].url;
-                            // console.log(albumArtUrl);
-                            // console.log(albumString);
-                            searchResults.innerHTML +=
-                                    `<div id="result-${iterator}" class="search-result col-4">
+            .then(res => res.json())
+            .then(data => {
+                console.log(data);
+                searchResults.innerHTML = "";
+                if (data.albums.items.length == 0) {
+                    searchResults.innerHTML = "Sorry, no results were found that match your search. Try something else!";
+                } else {
+                    data.albums.items.forEach(function (album, iterator) {
+                        let albumString = "Artist: " + album.artists[0].name;
+                        albumString += "\nAlbum: " + album.name;
+                        albumString += "\nRelease Date: " + album.release_date;
+                        let albumArtUrl = album.images[0].url;
+                        // console.log(albumArtUrl);
+                        // console.log(albumString);
+                        searchResults.innerHTML +=
+                            `<div id="result-${iterator}" class="search-result col-4">
                                         <img title="${albumString}" src="${albumArtUrl}"
                                         alt="${album.name} cover art" width="100%" height="100%"
                                         draggable="true" data-title="${album.name}"
@@ -223,14 +257,15 @@
                                         data-releasedate="${album.release_date}"
                                         data-spotifyid="${album.id}">`
 
-                        });
-                    }
-                })
-                .catch(error => console.error(error));
+                    });
+                }
+            })
+            .catch(error => console.error(error));
         onSearch();
     }
-    searchBar.on("keyup", function(event){
-        if(event.code=="Enter"){
+
+    searchBar.on("keyup", function (event) {
+        if (event.code == "Enter") {
             spotifySearch();
         }
     });
