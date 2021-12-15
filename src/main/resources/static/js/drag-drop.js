@@ -92,8 +92,8 @@ function drop(e) {
     } else if (navigator.userAgent.toLowerCase().indexOf('firefox') > -1) {
         dropFireFoxPath(e);
     }
-    submissionControl();
-    console.log("hi");
+
+    setTimeout(submissionControl, 200);
 }
 
 function dropNonFirefoxPath(e){
