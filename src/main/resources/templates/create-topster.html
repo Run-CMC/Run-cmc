@@ -242,8 +242,15 @@
                     searchResults.innerHTML = "Sorry, no results were found that match your search. Try something else!";
                 } else {
                     data.albums.items.forEach(function (album, iterator) {
+                        let albumName;
                         let albumString = "Artist: " + album.artists[0].name;
-                        albumString += "\nAlbum: " + album.name;
+                        if(album.name.indexOf('"') > -1){
+                            albumName=album.name.replaceAll('"', "");
+                            albumString += "\nAlbum: " + albumName;
+                        }else{
+                            albumString += "\nAlbum: " + album.name;
+                            albumName=album.name;
+                        }
                         albumString += "\nRelease Date: " + album.release_date;
                         let albumArtUrl = album.images[0].url;
                         // console.log(albumArtUrl);
@@ -251,12 +258,11 @@
                         searchResults.innerHTML +=
                             `<div id="result-${iterator}" class="search-result col-4">
                                         <img title="${albumString}" src="${albumArtUrl}"
-                                        alt="${album.name} cover art" width="100%" height="100%"
-                                        draggable="true" data-title="${album.name}"
+                                        alt="${albumName} cover art" width="100%" height="100%"
+                                        draggable="true" data-title="${albumName}"
                                         data-artist="${album.artists[0].name}"
                                         data-releasedate="${album.release_date}"
                                         data-spotifyid="${album.id}">`
-
                     });
                 }
             })

@@ -99,10 +99,10 @@ public class TopsterController {
             @RequestParam(name = "releaseDate[]") String[] releaseDates,
             @RequestParam(name = "position[]") int[] positions,
             @RequestParam(name = "spotifyID[]") String[] spotifyIDs, HttpServletRequest request) throws MessagingException {
-        System.out.println(topster.isPublic());
+        System.out.println(isPublic);
         User principal = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-        System.out.println(principal);
-        System.out.println(principal.getId());
+//        System.out.println(principal);
+//        System.out.println(principal.getId());
         if(!TopsterCreation.topsterValidator(topsterType,srcs,titles)){
             validation.rejectValue(
                     "title",
@@ -126,7 +126,7 @@ public class TopsterController {
         topster.setUser(author);
         List<TopsterContent> topsterContents = TopsterCreation.createTopsters(topster, topsterType, srcs, titles, artists, releaseDates, positions, spotifyIDs, albumRepository, topsterContentRepository, validation);
 
-        System.out.println(principal.getUsername());
+//        System.out.println(principal.getUsername());
         topster.setPublic(isPublic.equals("public"));
 
         topster.setTopsterContents(topsterContents);
