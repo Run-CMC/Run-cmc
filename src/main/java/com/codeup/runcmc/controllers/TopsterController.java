@@ -65,6 +65,12 @@ public class TopsterController {
 
     @GetMapping("/edit-topster/{id}")
     public String showEditTopsterPage(Model model, @PathVariable long id){
+
+        if(!SecurityContextHolder.getContext().getAuthentication().getPrincipal().equals("anonymousUser")) {
+            User principal = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+            User currentUser = userRepository.getById(principal.getId());
+            model.addAttribute("user", currentUser);
+        }
         model.addAttribute("topster",topsterRepository.getById(id));
         return "user/edit-topster";
     }
