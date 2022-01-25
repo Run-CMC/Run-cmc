@@ -75,7 +75,7 @@
                         <label for="topster-type" class="text-white">Select a topster style: </label>
                         <select name="topster-type" id="topster-type" onchange="changeSelection()">
                             <option value="5x5">5x5</option>
-                            <option value="4x4" selected>4x4</option>
+                            <option value="4x4">4x4</option>
                             <option value="3x3">3x3</option>
                         </select>
                     </div>
@@ -98,12 +98,12 @@
                     <div id="results" class="row"></div>
                 </div>
                 <!-- TOPSTER ART -->
-                <div class="row row-cols-3 g-2 g-lg-3" th:if="${#lists.size(topster.topsterContents) == 9}">
+                <div class="row row-cols-3 g-2 g-lg-3" id="3x3">
                     <div class="col" data-mdb-ripple-color="light"
-                         th:each="topsterContent, iStat : ${topster.topsterContents}" id="position-" th:attrappend="id=''+${topsterContent.position}" th:value="${iStat.count}" th:name="position">
+                         th:each="topsterContent, iStat : ${topster.topsterContents}" th:value="${iStat.count}" th:name="position" th:if="${iStat.count <= 9}">
                         <div class="p-3">
                             <img th:src="${topsterContent.album.spotifyAlbumArt}"
-                                 th:title="'Artist: '+${topsterContent.album.spotifyArtist}+'&#010;Album: '+${topsterContent.album.spotifyAlbumName} + '&#010;Release Date: '+${topsterContent.album.releaseDate}"
+                                 th:title="'Artist: '+${topsterContent.album.spotifyArtist}+'&#010;Album: '+${topsterContent.album.spotifyAlbumName}+'&#010;'+'Release Date: ' +${topsterContent.album.releaseDate}"
                                  th:alt="'Cover art of '+${topsterContent.album.spotifyAlbumName} +' by '+${topsterContent.album.spotifyArtist}"
                                  height="100%" width="100%">
                             <div class="form-group hide">
@@ -118,11 +118,11 @@
                     </div>
                 </div>
 
-                <div class="row row-cols-4 g-2 g-lg-3" th:if="${#lists.size(topster.topsterContents) == 16}">
-                    <div class="four-topster col border border-dark" th:each="topsterContent : ${topster.topsterContents}" th:id="position-${topsterContent.position}"th:value="${topsterContent.position}" th:name="position">
+                <div class="row row-cols-4 g-2 g-lg-3" id="4x4">
+                    <div class="four-topster col border border-dark" th:each="topsterContent, iStat : ${topster.topsterContents}" th:value="${iStat.count}" th:name="position" th:if="${iStat.count <= 16}">
                         <div class="p-3">
                             <img th:src="${topsterContent.album.spotifyAlbumArt}"
-                                 th:title="'Artist: '+${topsterContent.album.spotifyArtist}+'&#010;Album: '+${topsterContent.album.spotifyAlbumName} + '&#010;Release Date: '+${topsterContent.album.releaseDate}"
+                                 th:title="'Artist: '+${topsterContent.album.spotifyArtist}+'&#010;Album: '+${topsterContent.album.spotifyAlbumName}+'&#010;'+'Release Date: ' +${topsterContent.album.releaseDate}"
                                  th:alt="'Cover art of '+${topsterContent.album.spotifyAlbumName} +' by '+${topsterContent.album.spotifyArtist}"
                                  height="100%" width="100%">
                             <div class="form-group hide">
@@ -135,13 +135,97 @@
                             </div>
                         </div>
                     </div>
+                    <div class="col border border-dark" value="10" name="position" th:if="${#lists.size(topster.topsterContents) == 9}">
+                        <div class="p-3">
+                            <div class="form-group hide">
+                                <input type="text" value="" name="src[]">
+                                <input type="text" value="" name="title[]">
+                                <input type="text" value="" name="artist[]">
+                                <input type="text" value="" name="releaseDate[]">
+                                <input type="text" value="" name="spotifyID[]">
+                                <input type="text" value="" name="position[]">
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col border border-dark" value="11" name="position" th:if="${#lists.size(topster.topsterContents) == 9}">
+                        <div class="p-3">
+                            <div class="form-group hide">
+                                <input type="text" value="" name="src[]">
+                                <input type="text" value="" name="title[]">
+                                <input type="text" value="" name="artist[]">
+                                <input type="text" value="" name="releaseDate[]">
+                                <input type="text" value="" name="spotifyID[]">
+                                <input type="text" value="" name="position[]">
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col border border-dark" value="12" name="position" th:if="${#lists.size(topster.topsterContents) == 9}">
+                        <div class="p-3">
+                            <div class="form-group hide">
+                                <input type="text" value="" name="src[]">
+                                <input type="text" value="" name="title[]">
+                                <input type="text" value="" name="artist[]">
+                                <input type="text" value="" name="releaseDate[]">
+                                <input type="text" value="" name="spotifyID[]">
+                                <input type="text" value="" name="position[]">
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col border border-dark" value="13" name="position" th:if="${#lists.size(topster.topsterContents) == 9}">
+                        <div class="p-3">
+                            <div class="form-group hide">
+                                <input type="text" value="" name="src[]">
+                                <input type="text" value="" name="title[]">
+                                <input type="text" value="" name="artist[]">
+                                <input type="text" value="" name="releaseDate[]">
+                                <input type="text" value="" name="spotifyID[]">
+                                <input type="text" value="" name="position[]">
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col border border-dark" value="14" name="position" th:if="${#lists.size(topster.topsterContents) == 9}">
+                        <div class="p-3">
+                            <div class="form-group hide">
+                                <input type="text" value="" name="src[]">
+                                <input type="text" value="" name="title[]">
+                                <input type="text" value="" name="artist[]">
+                                <input type="text" value="" name="releaseDate[]">
+                                <input type="text" value="" name="spotifyID[]">
+                                <input type="text" value="" name="position[]">
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col border border-dark" value="15" name="position" th:if="${#lists.size(topster.topsterContents) == 9}">
+                        <div class="p-3">
+                            <div class="form-group hide">
+                                <input type="text" value="" name="src[]">
+                                <input type="text" value="" name="title[]">
+                                <input type="text" value="" name="artist[]">
+                                <input type="text" value="" name="releaseDate[]">
+                                <input type="text" value="" name="spotifyID[]">
+                                <input type="text" value="" name="position[]">
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col border border-dark" value="16" name="position" th:if="${#lists.size(topster.topsterContents) == 9}">
+                        <div class="p-3">
+                            <div class="form-group hide">
+                                <input type="text" value="" name="src[]">
+                                <input type="text" value="" name="title[]">
+                                <input type="text" value="" name="artist[]">
+                                <input type="text" value="" name="releaseDate[]">
+                                <input type="text" value="" name="spotifyID[]">
+                                <input type="text" value="" name="position[]">
+                            </div>
+                        </div>
+                    </div>
                 </div>
 
-                <div class="row row-cols-5 g-2 g-lg-3" th:if="${#lists.size(topster.topsterContents) == 25}">
-                    <div class="col border border-dark" th:each="topsterContent : ${topster.topsterContents}" th:id="position-${topsterContent.position}"th:value="${topsterContent.position}" th:name="position">
+                <div class="row row-cols-5 g-2 g-lg-3" id="5x5">
+                    <div class="col border border-dark" th:each="topsterContent, iStat : ${topster.topsterContents}" th:value="${topsterContent.position}" th:name="position" th:if="${iStat.count <= 25}">
                         <div class="p-3">
                             <img th:src="${topsterContent.album.spotifyAlbumArt}"
-                                 th:title="'Artist: '+${topsterContent.album.spotifyArtist}+'&#010;Album: '+${topsterContent.album.spotifyAlbumName} + '&#010;Release Date: '+${topsterContent.album.releaseDate}"
+                                 th:title="'Artist: '+${topsterContent.album.spotifyArtist}+'&#010;Album: '+${topsterContent.album.spotifyAlbumName}+'&#010;'+'Release Date: ' +${topsterContent.album.releaseDate}"
                                  th:alt="'Cover art of '+${topsterContent.album.spotifyAlbumName} +' by '+${topsterContent.album.spotifyArtist}"
                                  height="100%" width="100%">
                             <div class="form-group hide">
@@ -151,6 +235,207 @@
                                 <input type="text" th:value="${topsterContent.album.releaseDate}" name="releaseDate[]">
                                 <input type="text" th:value="${topsterContent.album.spotifyAlbumID}" name="spotifyID[]">
                                 <input type="text" th:value="${topsterContent.position}" name="position[]">
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col border border-dark" value="10" name="position" th:if="${#lists.size(topster.topsterContents) == 9}">
+                        <div class="p-3">
+                            <div class="form-group hide">
+                                <input type="text" value="" name="src[]">
+                                <input type="text" value="" name="title[]">
+                                <input type="text" value="" name="artist[]">
+                                <input type="text" value="" name="releaseDate[]">
+                                <input type="text" value="" name="spotifyID[]">
+                                <input type="text" value="" name="position[]">
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col border border-dark" value="11" name="position" th:if="${#lists.size(topster.topsterContents) == 9}">
+                        <div class="p-3">
+                            <div class="form-group hide">
+                                <input type="text" value="" name="src[]">
+                                <input type="text" value="" name="title[]">
+                                <input type="text" value="" name="artist[]">
+                                <input type="text" value="" name="releaseDate[]">
+                                <input type="text" value="" name="spotifyID[]">
+                                <input type="text" value="" name="position[]">
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col border border-dark" value="12" name="position" th:if="${#lists.size(topster.topsterContents) == 9}">
+                        <div class="p-3">
+                            <div class="form-group hide">
+                                <input type="text" value="" name="src[]">
+                                <input type="text" value="" name="title[]">
+                                <input type="text" value="" name="artist[]">
+                                <input type="text" value="" name="releaseDate[]">
+                                <input type="text" value="" name="spotifyID[]">
+                                <input type="text" value="" name="position[]">
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col border border-dark" value="13" name="position" th:if="${#lists.size(topster.topsterContents) == 9}">
+                        <div class="p-3">
+                            <div class="form-group hide">
+                                <input type="text" value="" name="src[]">
+                                <input type="text" value="" name="title[]">
+                                <input type="text" value="" name="artist[]">
+                                <input type="text" value="" name="releaseDate[]">
+                                <input type="text" value="" name="spotifyID[]">
+                                <input type="text" value="" name="position[]">
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col border border-dark" value="14" name="position" th:if="${#lists.size(topster.topsterContents) == 9}">
+                        <div class="p-3">
+                            <div class="form-group hide">
+                                <input type="text" value="" name="src[]">
+                                <input type="text" value="" name="title[]">
+                                <input type="text" value="" name="artist[]">
+                                <input type="text" value="" name="releaseDate[]">
+                                <input type="text" value="" name="spotifyID[]">
+                                <input type="text" value="" name="position[]">
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col border border-dark" value="15" name="position" th:if="${#lists.size(topster.topsterContents) == 9}">
+                        <div class="p-3">
+                            <div class="form-group hide">
+                                <input type="text" value="" name="src[]">
+                                <input type="text" value="" name="title[]">
+                                <input type="text" value="" name="artist[]">
+                                <input type="text" value="" name="releaseDate[]">
+                                <input type="text" value="" name="spotifyID[]">
+                                <input type="text" value="" name="position[]">
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col border border-dark" value="16" name="position" th:if="${#lists.size(topster.topsterContents) == 9}">
+                        <div class="p-3">
+                            <div class="form-group hide">
+                                <input type="text" value="" name="src[]">
+                                <input type="text" value="" name="title[]">
+                                <input type="text" value="" name="artist[]">
+                                <input type="text" value="" name="releaseDate[]">
+                                <input type="text" value="" name="spotifyID[]">
+                                <input type="text" value="" name="position[]">
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col border border-dark" value="17" name="position"
+                         th:if="${#lists.size(topster.topsterContents) == 9} or ${#lists.size(topster.topsterContents) == 16}">
+                        <div class="p-3">
+                            <div class="form-group hide">
+                                <input type="text" value="" name="src[]">
+                                <input type="text" value="" name="title[]">
+                                <input type="text" value="" name="artist[]">
+                                <input type="text" value="" name="releaseDate[]">
+                                <input type="text" value="" name="spotifyID[]">
+                                <input type="text" value="" name="position[]">
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col border border-dark" value="18" name="position"
+                         th:if="${#lists.size(topster.topsterContents) == 9} or ${#lists.size(topster.topsterContents) == 16}">
+                        <div class="p-3">
+                            <div class="form-group hide">
+                                <input type="text" value="" name="src[]">
+                                <input type="text" value="" name="title[]">
+                                <input type="text" value="" name="artist[]">
+                                <input type="text" value="" name="releaseDate[]">
+                                <input type="text" value="" name="spotifyID[]">
+                                <input type="text" value="" name="position[]">
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col border border-dark" value="19" name="position"
+                         th:if="${#lists.size(topster.topsterContents) == 9} or ${#lists.size(topster.topsterContents) == 16}">
+                        <div class="p-3">
+                            <div class="form-group hide">
+                                <input type="text" value="" name="src[]">
+                                <input type="text" value="" name="title[]">
+                                <input type="text" value="" name="artist[]">
+                                <input type="text" value="" name="releaseDate[]">
+                                <input type="text" value="" name="spotifyID[]">
+                                <input type="text" value="" name="position[]">
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col border border-dark" value="20" name="position"
+                         th:if="${#lists.size(topster.topsterContents) == 9} or ${#lists.size(topster.topsterContents) == 16}">
+                        <div class="p-3">
+                            <div class="form-group hide">
+                                <input type="text" value="" name="src[]">
+                                <input type="text" value="" name="title[]">
+                                <input type="text" value="" name="artist[]">
+                                <input type="text" value="" name="releaseDate[]">
+                                <input type="text" value="" name="spotifyID[]">
+                                <input type="text" value="" name="position[]">
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col border border-dark" value="21" name="position"
+                         th:if="${#lists.size(topster.topsterContents) == 9} or ${#lists.size(topster.topsterContents) == 16}">
+                        <div class="p-3">
+                            <div class="form-group hide">
+                                <input type="text" value="" name="src[]">
+                                <input type="text" value="" name="title[]">
+                                <input type="text" value="" name="artist[]">
+                                <input type="text" value="" name="releaseDate[]">
+                                <input type="text" value="" name="spotifyID[]">
+                                <input type="text" value="" name="position[]">
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col border border-dark" value="22" name="position"
+                         th:if="${#lists.size(topster.topsterContents) == 9} or ${#lists.size(topster.topsterContents) == 16}">
+                        <div class="p-3">
+                            <div class="form-group hide">
+                                <input type="text" value="" name="src[]">
+                                <input type="text" value="" name="title[]">
+                                <input type="text" value="" name="artist[]">
+                                <input type="text" value="" name="releaseDate[]">
+                                <input type="text" value="" name="spotifyID[]">
+                                <input type="text" value="" name="position[]">
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col border border-dark" value="23" name="position"
+                         th:if="${#lists.size(topster.topsterContents) == 9} or ${#lists.size(topster.topsterContents) == 16}">
+                        <div class="p-3">
+                            <div class="form-group hide">
+                                <input type="text" value="" name="src[]">
+                                <input type="text" value="" name="title[]">
+                                <input type="text" value="" name="artist[]">
+                                <input type="text" value="" name="releaseDate[]">
+                                <input type="text" value="" name="spotifyID[]">
+                                <input type="text" value="" name="position[]">
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col border border-dark" value="24" name="position"
+                         th:if="${#lists.size(topster.topsterContents) == 9} or ${#lists.size(topster.topsterContents) == 16}">
+                        <div class="p-3">
+                            <div class="form-group hide">
+                                <input type="text" value="" name="src[]">
+                                <input type="text" value="" name="title[]">
+                                <input type="text" value="" name="artist[]">
+                                <input type="text" value="" name="releaseDate[]">
+                                <input type="text" value="" name="spotifyID[]">
+                                <input type="text" value="" name="position[]">
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col border border-dark" value="25" name="position"
+                         th:if="${#lists.size(topster.topsterContents) == 9} or ${#lists.size(topster.topsterContents) == 16}">
+                        <div class="p-3">
+                            <div class="form-group hide">
+                                <input type="text" value="" name="src[]">
+                                <input type="text" value="" name="title[]">
+                                <input type="text" value="" name="artist[]">
+                                <input type="text" value="" name="releaseDate[]">
+                                <input type="text" value="" name="spotifyID[]">
+                                <input type="text" value="" name="position[]">
                             </div>
                         </div>
                     </div>
