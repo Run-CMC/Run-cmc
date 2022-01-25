@@ -100,7 +100,7 @@
                 <!-- TOPSTER ART -->
                 <div class="row row-cols-3 g-2 g-lg-3" th:if="${#lists.size(topster.topsterContents) == 9}">
                     <div class="col" data-mdb-ripple-color="light"
-                         th:each="topsterContent : ${topster.topsterContents}" th:id="position-${topsterContent.position}" th:value="${topsterContent.position}" th:name="position">
+                         th:each="topsterContent, iStat : ${topster.topsterContents}" id="position-" th:attrappend="id=''+${topsterContent.position}" th:value="${iStat.count}" th:name="position">
                         <div class="p-3">
                             <img th:src="${topsterContent.album.spotifyAlbumArt}"
                                  th:title="'Artist: '+${topsterContent.album.spotifyArtist}+'&#010;Album: '+${topsterContent.album.spotifyAlbumName} + '&#010;Release Date: '+${topsterContent.album.releaseDate}"
