@@ -64,19 +64,23 @@ public class TopsterController {
     }
 
     @GetMapping("/edit-topster/{id}")
-    public String showEditTopsterPage(Model model, @PathVariable long id){
+    public String showEditTopsterPage(Model viewModel, @PathVariable long id){
 
         if(!SecurityContextHolder.getContext().getAuthentication().getPrincipal().equals("anonymousUser")) {
             User principal = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
             User currentUser = userRepository.getById(principal.getId());
-            model.addAttribute("user", currentUser);
+            viewModel.addAttribute("user", currentUser);
         }
-        model.addAttribute("topster",topsterRepository.getById(id));
+        TokenResponse authToken = restTemplateTokenRequester.requestAccessToken();
+        viewModel.addAttribute("authToken", authToken);
+        viewModel.addAttribute("topster",topsterRepository.getById(id));
         return "user/edit-topster";
     }
 
     @PostMapping("/edit-topster/{id}")
-    public String editTopster(@ModelAttribute Topster topster) {
+    public String editTopster(Model viewModel,
+                              @ModelAttribute Topster topster)
+    {
         Topster editTopsterInfo = topsterRepository.getById(topster.getId());
         editTopsterInfo.setTitle(topster.getTitle());
         editTopsterInfo.setBody(topster.getBody());
