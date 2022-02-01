@@ -40,7 +40,7 @@
     <!--    <div id="album-art"></div><br>--> <!--amanda didn't comment this out-->
     <span class="d-flex justify-content-center text-white" id="topster-submission-restriction"><i class="fas fa-play"> Your topster collage can only be submitted by clicking the RUN button after each square is full and the topster has a title and description.</i></span>
     <br>
-    <form th:action="@{/create-topster}" th:method="POST" th:object="${topster}">
+    <form th:action="@{/edit-topster}" th:method="POST" th:object="${topster}">
         <!--  title, description fields, make public, and run button -->
         <h5 th:if="${#fields.hasErrors('title')}" th:errors="*{title}"/>
         <div class="col-12 form-outline">

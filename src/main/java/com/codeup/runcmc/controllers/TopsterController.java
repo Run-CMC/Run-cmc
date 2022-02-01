@@ -77,14 +77,51 @@ public class TopsterController {
         return "user/edit-topster";
     }
 
-    @PostMapping("/edit-topster/{id}")
+    @PostMapping("/edit-topster")
     public String editTopster(Model viewModel,
-                              @ModelAttribute Topster topster)
+                              @ModelAttribute @Valid Topster topster,
+                              Errors validation,
+                              @RequestParam(name= "isPublic", required = false, defaultValue = "") String isPublic,
+                              @RequestParam (name = "topster-type") String topsterType,
+                              @RequestParam(name = "src[]") String[] srcs,
+                              @RequestParam(name = "title[]") String[] titles,
+                              @RequestParam(name = "artist[]") String[] artists,
+                              @RequestParam(name = "releaseDate[]") String[] releaseDates,
+                              @RequestParam(name = "position[]") int[] positions,
+                              @RequestParam(name = "spotifyID[]") String[] spotifyIDs, HttpServletRequest request)
     {
-        Topster editTopsterInfo = topsterRepository.getById(topster.getId());
-        editTopsterInfo.setTitle(topster.getTitle());
-        editTopsterInfo.setBody(topster.getBody());
-        topsterRepository.save(editTopsterInfo);
+        System.out.println(isPublic);
+        User principal = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        if(!TopsterCreation.topsterValidator(topsterType,srcs,titles)){
+            validation.rejectValue(
+                    "title",
+                    "blank_album_fields",
+                    "Topsters must be completely filled with albums."
+            );
+        }
+        if(principal == null || principal.getId()==0){
+            System.out.println("null user");
+            validation.rejectValue(
+                    "title",
+                    "user_session_expired",
+                    "Your session has expired. Please log out and log back in to edit a topster");
+        }
+        if(validation.hasErrors()){
+            viewModel.addAttribute("errors", validation);
+            viewModel.addAttribute("topster", topster);
+            return "/edit-topster/"+ topster.getId();
+        }
+
+//        Next line gets the original topster, from there we'll apply the new contents and stuff to it.
+        Topster newVersionOfTopster = topsterRepository.getById(topster.getId());
+        newVersionOfTopster.setTitle(topster.getTitle());
+        newVersionOfTopster.setBody(topster.getBody());
+        newVersionOfTopster.setPublic(isPublic.equals("public"));
+
+        List<TopsterContent> newTopsterContents = TopsterCreation.createTopsters(topster, topsterType, srcs, titles, artists, releaseDates, positions, spotifyIDs, albumRepository, topsterContentRepository, validation);
+        newVersionOfTopster.setTopsterContents(newTopsterContents);
+
+        topsterRepository.save(newVersionOfTopster);
         return "redirect:/profile";
     }
 
