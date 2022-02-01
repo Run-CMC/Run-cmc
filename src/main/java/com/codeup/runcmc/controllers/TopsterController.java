@@ -17,6 +17,7 @@ import javax.mail.MessagingException;
 import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
 import java.sql.Date;
+import java.sql.SQLOutput;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -77,8 +78,9 @@ public class TopsterController {
         return "user/edit-topster";
     }
 
-    @PostMapping("/edit-topster")
-    public String editTopster(Model viewModel,
+    @PostMapping("/edit-topster/{id}")
+    public String editTopster(@PathVariable long id,
+                              Model viewModel,
                               @ModelAttribute @Valid Topster topster,
                               Errors validation,
                               @RequestParam(name= "isPublic", required = false, defaultValue = "") String isPublic,
@@ -90,6 +92,7 @@ public class TopsterController {
                               @RequestParam(name = "position[]") int[] positions,
                               @RequestParam(name = "spotifyID[]") String[] spotifyIDs, HttpServletRequest request)
     {
+        System.out.println("We made it to the start of the editTopster Method");
         System.out.println(isPublic);
         User principal = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
         if(!TopsterCreation.topsterValidator(topsterType,srcs,titles)){
@@ -113,12 +116,14 @@ public class TopsterController {
         }
 
 //        Next line gets the original topster, from there we'll apply the new contents and stuff to it.
-        Topster newVersionOfTopster = topsterRepository.getById(topster.getId());
+        Topster newVersionOfTopster = topsterRepository.getById(id);
         newVersionOfTopster.setTitle(topster.getTitle());
         newVersionOfTopster.setBody(topster.getBody());
         newVersionOfTopster.setPublic(isPublic.equals("public"));
 
-        List<TopsterContent> newTopsterContents = TopsterCreation.createTopsters(topster, topsterType, srcs, titles, artists, releaseDates, positions, spotifyIDs, albumRepository, topsterContentRepository, validation);
+        newVersionOfTopster.setTopsterContents(new ArrayList<TopsterContent>());
+
+        List<TopsterContent> newTopsterContents = TopsterCreation.createTopsters(newVersionOfTopster, topsterType, srcs, titles, artists, releaseDates, positions, spotifyIDs, albumRepository, topsterContentRepository, validation);
         newVersionOfTopster.setTopsterContents(newTopsterContents);
 
         topsterRepository.save(newVersionOfTopster);
