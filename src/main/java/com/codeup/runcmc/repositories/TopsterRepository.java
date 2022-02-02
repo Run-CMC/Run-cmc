@@ -47,6 +47,4 @@ public interface TopsterRepository extends JpaRepository<Topster, Long> {
 //    @Modifying
 //    @Query ("delete from Favorites where topster_id = ?1")
     void deleteById(long id);
-
-
 }

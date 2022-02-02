@@ -15,4 +15,6 @@ public interface TopsterContentRepository extends JpaRepository<TopsterContent, 
 	List<TopsterContent> selectTopsterContentWithTopsterID(@Param("i") long id);
 
 	void deleteAllByTopster(Topster topster);
+
+	boolean existsByPositionAndTopsterAndAlbum_Id(int position, Topster topster, long albumID);
 }
