@@ -40,7 +40,7 @@
     <!--    <div id="album-art"></div><br>--> <!--amanda didn't comment this out-->
     <span class="d-flex justify-content-center text-white" id="topster-submission-restriction"><i class="fas fa-play"> Your topster collage can only be submitted by clicking the RUN button after each square is full and the topster has a title and description.</i></span>
     <br>
-    <form th:action="@{/create-topster}" th:method="POST" th:object="${topster}">
+    <form th:object="${topster}" th:action="@{'/edit-topster/' + ${topster.id}}" th:method="POST">
         <!--  title, description fields, make public, and run button -->
         <h5 th:if="${#fields.hasErrors('title')}" th:errors="*{title}"/>
         <div class="col-12 form-outline">
@@ -146,7 +146,7 @@
                                     <input type="text" value="" name="artist[]">
                                     <input type="text" value="" name="releaseDate[]">
                                     <input type="text" value="" name="spotifyID[]">
-                                    <input type="text" value="" name="position[]">
+                                    <input type="text" value="10" name="position[]">
                                 </div>
                             </div>
                         </div>
@@ -158,7 +158,7 @@
                                     <input type="text" value="" name="artist[]">
                                     <input type="text" value="" name="releaseDate[]">
                                     <input type="text" value="" name="spotifyID[]">
-                                    <input type="text" value="" name="position[]">
+                                    <input type="text" value="11" name="position[]">
                                 </div>
                             </div>
                         </div>
@@ -170,7 +170,7 @@
                                     <input type="text" value="" name="artist[]">
                                     <input type="text" value="" name="releaseDate[]">
                                     <input type="text" value="" name="spotifyID[]">
-                                    <input type="text" value="" name="position[]">
+                                    <input type="text" value="12" name="position[]">
                                 </div>
                             </div>
                         </div>
@@ -182,7 +182,7 @@
                                     <input type="text" value="" name="artist[]">
                                     <input type="text" value="" name="releaseDate[]">
                                     <input type="text" value="" name="spotifyID[]">
-                                    <input type="text" value="" name="position[]">
+                                    <input type="text" value="13" name="position[]">
                                 </div>
                             </div>
                         </div>
@@ -194,7 +194,7 @@
                                     <input type="text" value="" name="artist[]">
                                     <input type="text" value="" name="releaseDate[]">
                                     <input type="text" value="" name="spotifyID[]">
-                                    <input type="text" value="" name="position[]">
+                                    <input type="text" value="14" name="position[]">
                                 </div>
                             </div>
                         </div>
@@ -206,7 +206,7 @@
                                     <input type="text" value="" name="artist[]">
                                     <input type="text" value="" name="releaseDate[]">
                                     <input type="text" value="" name="spotifyID[]">
-                                    <input type="text" value="" name="position[]">
+                                    <input type="text" value="15" name="position[]">
                                 </div>
                             </div>
                         </div>
@@ -218,7 +218,7 @@
                                     <input type="text" value="" name="artist[]">
                                     <input type="text" value="" name="releaseDate[]">
                                     <input type="text" value="" name="spotifyID[]">
-                                    <input type="text" value="" name="position[]">
+                                    <input type="text" value="16" name="position[]">
                                 </div>
                             </div>
                         </div>
@@ -251,7 +251,7 @@
                                     <input type="text" value="" name="artist[]">
                                     <input type="text" value="" name="releaseDate[]">
                                     <input type="text" value="" name="spotifyID[]">
-                                    <input type="text" value="" name="position[]">
+                                    <input type="text" value="10" name="position[]">
                                 </div>
                             </div>
                         </div>
@@ -263,7 +263,7 @@
                                     <input type="text" value="" name="artist[]">
                                     <input type="text" value="" name="releaseDate[]">
                                     <input type="text" value="" name="spotifyID[]">
-                                    <input type="text" value="" name="position[]">
+                                    <input type="text" value="11" name="position[]">
                                 </div>
                             </div>
                         </div>
@@ -275,7 +275,7 @@
                                     <input type="text" value="" name="artist[]">
                                     <input type="text" value="" name="releaseDate[]">
                                     <input type="text" value="" name="spotifyID[]">
-                                    <input type="text" value="" name="position[]">
+                                    <input type="text" value="12" name="position[]">
                                 </div>
                             </div>
                         </div>
@@ -287,7 +287,7 @@
                                     <input type="text" value="" name="artist[]">
                                     <input type="text" value="" name="releaseDate[]">
                                     <input type="text" value="" name="spotifyID[]">
-                                    <input type="text" value="" name="position[]">
+                                    <input type="text" value="13" name="position[]">
                                 </div>
                             </div>
                         </div>
@@ -299,7 +299,7 @@
                                     <input type="text" value="" name="artist[]">
                                     <input type="text" value="" name="releaseDate[]">
                                     <input type="text" value="" name="spotifyID[]">
-                                    <input type="text" value="" name="position[]">
+                                    <input type="text" value="14" name="position[]">
                                 </div>
                             </div>
                         </div>
@@ -311,7 +311,7 @@
                                     <input type="text" value="" name="artist[]">
                                     <input type="text" value="" name="releaseDate[]">
                                     <input type="text" value="" name="spotifyID[]">
-                                    <input type="text" value="" name="position[]">
+                                    <input type="text" value="15" name="position[]">
                                 </div>
                             </div>
                         </div>
@@ -323,7 +323,7 @@
                                     <input type="text" value="" name="artist[]">
                                     <input type="text" value="" name="releaseDate[]">
                                     <input type="text" value="" name="spotifyID[]">
-                                    <input type="text" value="" name="position[]">
+                                    <input type="text" value="16" name="position[]">
                                 </div>
                             </div>
                         </div>
@@ -336,7 +336,7 @@
                                     <input type="text" value="" name="artist[]">
                                     <input type="text" value="" name="releaseDate[]">
                                     <input type="text" value="" name="spotifyID[]">
-                                    <input type="text" value="" name="position[]">
+                                    <input type="text" value="17" name="position[]">
                                 </div>
                             </div>
                         </div>
@@ -349,7 +349,7 @@
                                     <input type="text" value="" name="artist[]">
                                     <input type="text" value="" name="releaseDate[]">
                                     <input type="text" value="" name="spotifyID[]">
-                                    <input type="text" value="" name="position[]">
+                                    <input type="text" value="18" name="position[]">
                                 </div>
                             </div>
                         </div>
@@ -362,7 +362,7 @@
                                     <input type="text" value="" name="artist[]">
                                     <input type="text" value="" name="releaseDate[]">
                                     <input type="text" value="" name="spotifyID[]">
-                                    <input type="text" value="" name="position[]">
+                                    <input type="text" value="19" name="position[]">
                                 </div>
                             </div>
                         </div>
@@ -375,7 +375,7 @@
                                     <input type="text" value="" name="artist[]">
                                     <input type="text" value="" name="releaseDate[]">
                                     <input type="text" value="" name="spotifyID[]">
-                                    <input type="text" value="" name="position[]">
+                                    <input type="text" value="20" name="position[]">
                                 </div>
                             </div>
                         </div>
@@ -388,7 +388,7 @@
                                     <input type="text" value="" name="artist[]">
                                     <input type="text" value="" name="releaseDate[]">
                                     <input type="text" value="" name="spotifyID[]">
-                                    <input type="text" value="" name="position[]">
+                                    <input type="text" value="21" name="position[]">
                                 </div>
                             </div>
                         </div>
@@ -401,7 +401,7 @@
                                     <input type="text" value="" name="artist[]">
                                     <input type="text" value="" name="releaseDate[]">
                                     <input type="text" value="" name="spotifyID[]">
-                                    <input type="text" value="" name="position[]">
+                                    <input type="text" value="22" name="position[]">
                                 </div>
                             </div>
                         </div>
@@ -414,7 +414,7 @@
                                     <input type="text" value="" name="artist[]">
                                     <input type="text" value="" name="releaseDate[]">
                                     <input type="text" value="" name="spotifyID[]">
-                                    <input type="text" value="" name="position[]">
+                                    <input type="text" value="23" name="position[]">
                                 </div>
                             </div>
                         </div>
@@ -427,7 +427,7 @@
                                     <input type="text" value="" name="artist[]">
                                     <input type="text" value="" name="releaseDate[]">
                                     <input type="text" value="" name="spotifyID[]">
-                                    <input type="text" value="" name="position[]">
+                                    <input type="text" value="24" name="position[]">
                                 </div>
                             </div>
                         </div>
@@ -440,7 +440,7 @@
                                     <input type="text" value="" name="artist[]">
                                     <input type="text" value="" name="releaseDate[]">
                                     <input type="text" value="" name="spotifyID[]">
-                                    <input type="text" value="" name="position[]">
+                                    <input type="text" value="25" name="position[]">
                                 </div>
                             </div>
                         </div>
