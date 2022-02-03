@@ -17,4 +17,15 @@ public interface TopsterContentRepository extends JpaRepository<TopsterContent, 
 	void deleteAllByTopster(Topster topster);
 
 	boolean existsByPositionAndTopsterAndAlbum_Id(int position, Topster topster, long albumID);
+
+	boolean existsTopsterContentByTopsterAndPosition(Topster topster, int position);
+
+	void deleteTopsterContentByPositionAndTopster(int position, Topster topster);
+
+	TopsterContent getTopsterContentByTopsterAndPosition(Topster topster, int position);
+
+	@Query(nativeQuery = true, value = "update topster_contents" +
+			"SET album_id = A_ID" +
+			"WHERE id = i")
+	void updateTopsterContent(@Param("A_ID") long albumID, @Param("i") long topsterContentID);
 }
