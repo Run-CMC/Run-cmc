@@ -7,6 +7,7 @@ import com.codeup.runcmc.services.RestTemplateTokenRequester;
 import com.codeup.runcmc.services.TokenResponse;
 import com.codeup.runcmc.services.TopsterCreation;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -15,6 +16,7 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.mail.MessagingException;
 import javax.servlet.http.HttpServletRequest;
+import javax.transaction.Transactional;
 import javax.validation.Valid;
 import java.sql.Date;
 import java.sql.SQLOutput;
@@ -79,6 +81,7 @@ public class TopsterController {
     }
 
     @PostMapping("/edit-topster/{id}")
+    @Transactional
     public String editTopster(@PathVariable long id,
                               Model viewModel,
                               @ModelAttribute @Valid Topster topster,
@@ -92,8 +95,7 @@ public class TopsterController {
                               @RequestParam(name = "position[]") int[] positions,
                               @RequestParam(name = "spotifyID[]") String[] spotifyIDs, HttpServletRequest request)
     {
-        System.out.println("We made it to the start of the editTopster Method");
-        System.out.println(isPublic);
+
         User principal = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
         if(!TopsterCreation.topsterValidator(topsterType,srcs,titles)){
             validation.rejectValue(
@@ -122,8 +124,8 @@ public class TopsterController {
         newVersionOfTopster.setPublic(isPublic.equals("public"));
 
         newVersionOfTopster.setTopsterContents(new ArrayList<TopsterContent>());
-
-        List<TopsterContent> newTopsterContents = TopsterCreation.createTopsters(newVersionOfTopster, topsterType, srcs, titles, artists, releaseDates, positions, spotifyIDs, albumRepository, topsterContentRepository, validation);
+        topsterRepository.save(newVersionOfTopster); //maybe saving over it with an empty topster content array will fix issues?
+        List<TopsterContent> newTopsterContents = TopsterCreation.editTopster(newVersionOfTopster, topsterType, srcs, titles, artists, releaseDates, positions, spotifyIDs, albumRepository, topsterContentRepository, validation);
         newVersionOfTopster.setTopsterContents(newTopsterContents);
 
         topsterRepository.save(newVersionOfTopster);
