@@ -119,19 +119,22 @@ public class TopsterCreation {
                 topsterContent.setTopster(topster);
                 topsterContent.setPosition(positions[i]);
                 topsterContent.setAlbum(album);
-
-                if(!topsterContentRepository.existsByPositionAndTopsterAndAlbum_Id(topsterContent.getPosition(),topster, topsterContent.getAlbum().getId())){ //Only go through with adding the album and content if it isn't already there on the incoming topster object in the same position---this should resolve issues with the topster editing functionality
+                System.out.println(album.getSpotifyAlbumName());
+                if(!topsterContentRepository.existsByPositionAndTopsterAndAlbum_Id(topsterContent.getPosition(),topster, topsterContent.getAlbum().getId())){ //Only go through with adding the album and content if it isn't already there on the incoming topster object in the same position---this should resolve issues with the topster editing functionality wherein albums get added again or repeated
 //                    This CONFIRMED works for changing a 3x3 to a 4x4 only by adding albums. Still haven't investigated downsizing or switching the order around
 
                     if(topsterContentRepository.existsTopsterContentByTopsterAndPosition(topster, positions[i])){
+
 //                        if there is already topster content in that position in that topster, then update
                         albumRepository.save(album);
 
-                        TopsterContent currentTopsterContent= topsterContentRepository.getTopsterContentByTopsterAndPosition(topster, positions[i]);
+                        TopsterContent currentTopsterContent = topsterContentRepository.getTopsterContentByTopsterAndPosition(topster, positions[i]);
+                        System.out.println("Attempting to update " + currentTopsterContent.getAlbum().getSpotifyAlbumName() + " to " + album.getSpotifyAlbumName());
 //                        topsterContentRepository.updateTopsterContent(album.getId(), currentTopsterContent.getId());
                         currentTopsterContent.setAlbum(album);
 //                        it should be updated now
                         topsterContentRepository.save(currentTopsterContent);
+                        System.out.println("saved and now the name should be " + currentTopsterContent.getAlbum().getSpotifyAlbumName());
                         topsterContents.add(currentTopsterContent);
                     } else {
                         topsterContents.add(topsterContent);
@@ -139,7 +142,6 @@ public class TopsterCreation {
                         albumRepository.save(album);
                         topsterContentRepository.save(topsterContent);
                     }
-
                 }
             }
             return topsterContents;
