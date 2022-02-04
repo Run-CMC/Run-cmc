@@ -165,13 +165,24 @@ public class TopsterCreation {
                 topsterContent.setTopster(topster);
                 topsterContent.setPosition(positions[i]);
                 topsterContent.setAlbum(album);
+                System.out.println(album.getSpotifyAlbumName());
+                if(!topsterContentRepository.existsByPositionAndTopsterAndAlbum_Id(topsterContent.getPosition(),topster, topsterContent.getAlbum().getId())){ //Only go through with adding the album and content if it isn't already there on the incoming topster object in the same position---this should resolve issues with the topster editing functionality wherein albums get added again or repeated
+                    if(topsterContentRepository.existsTopsterContentByTopsterAndPosition(topster, positions[i])){
 
-                if(!topsterContentRepository.existsByPositionAndTopsterAndAlbum_Id(topsterContent.getPosition(),topster, topsterContent.getAlbum().getId())) { //Only go through with adding the album and content if it isn't already there on the incoming topster object---this should resolve issues with the topster editing functionality
+//                        if there is already topster content in that position in that topster, then update
+                        albumRepository.save(album);
 
-                    topsterContents.add(topsterContent);
+                        TopsterContent currentTopsterContent = topsterContentRepository.getTopsterContentByTopsterAndPosition(topster, positions[i]);
+                        currentTopsterContent.setAlbum(album);
+//                        it should be updated now
+                        topsterContentRepository.save(currentTopsterContent);
+                        topsterContents.add(currentTopsterContent);
+                    } else {
+                        topsterContents.add(topsterContent);
 //                maybe this shouldn't happen here
-                    albumRepository.save(album);
-                    topsterContentRepository.save(topsterContent);
+                        albumRepository.save(album);
+                        topsterContentRepository.save(topsterContent);
+                    }
                 }
             }
             return topsterContents;
