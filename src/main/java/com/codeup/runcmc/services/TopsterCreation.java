@@ -68,9 +68,18 @@ public class TopsterCreation {
                                                    String[] spotifyIDs,
                                                    AlbumRepository albumRepository,
                                                    TopsterContentRepository topsterContentRepository,
+                                                   TopsterRepository topsterRepository,
                                                    Errors validation){
 
         List<TopsterContent> topsterContents = new ArrayList<TopsterContent>();
+        int originalTopsterSize = topster.getTopsterContents().size();
+        if(originalTopsterSize > 9 && topsterType.equals("3x3")||(originalTopsterSize >16 && topsterType.equals("4x4"))){
+//            if we're downsizing the topster we'll try to clear out the current topster contents before going through the process of saving in new ones.
+            topster.setTopsterContents(topsterContents);
+            topsterContentRepository.deleteAllByTopster(topster);
+            System.out.println("deleting");
+            topsterRepository.save(topster);
+        }
         if(topsterType.equals("3x3")){
 //            System.out.println("going down the 3x3 path");
 //            parsing the first 9 values (which will be from the 3x3) into albums
@@ -254,20 +263,11 @@ public class TopsterCreation {
                 topsterContent.setPosition(positions[i]);
                 topsterContent.setAlbum(album);
 
-                if(!topsterContentRepository.existsByPositionAndTopsterAndAlbum_Id(topsterContent.getPosition(),topster, topsterContent.getAlbum().getId())){ //Only go through with adding the album and content if it isn't already there on the incoming topster object in the same position---this should resolve issues with the topster editing functionality
-//                    This CONFIRMED works for changing a 3x3 to a 4x4 only by adding albums. Still haven't investigated downsizing or switching the order around
 
-                    if(topsterContentRepository.existsTopsterContentByTopsterAndPosition(topster, positions[i])){
-//                        if there is already topster content in that position in that topster, then delete it
-                        topsterContentRepository.deleteTopsterContentByPositionAndTopster(positions[i], topster);
-
-                    }
-                    topsterContents.add(topsterContent);
+                topsterContents.add(topsterContent);
 //                maybe this shouldn't happen here
-                    albumRepository.save(album);
-                    topsterContentRepository.save(topsterContent);
-
-                }
+                albumRepository.save(album);
+                topsterContentRepository.save(topsterContent);
             }
             return topsterContents;
         }else if(topsterType.equals("5x5")){
@@ -291,13 +291,11 @@ public class TopsterCreation {
                 topsterContent.setPosition(positions[i]);
                 topsterContent.setAlbum(album);
 
-                if(!topsterContentRepository.existsByPositionAndTopsterAndAlbum_Id(topsterContent.getPosition(),topster, topsterContent.getAlbum().getId())) { //Only go through with adding the album and content if it isn't already there on the incoming topster object---this should resolve issues with the topster editing functionality
 
-                    topsterContents.add(topsterContent);
+                topsterContents.add(topsterContent);
 //                maybe this shouldn't happen here
-                    albumRepository.save(album);
-                    topsterContentRepository.save(topsterContent);
-                }
+                albumRepository.save(album);
+                topsterContentRepository.save(topsterContent);
             }
             return topsterContents;
         } else{

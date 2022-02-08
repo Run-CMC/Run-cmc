@@ -123,9 +123,10 @@ public class TopsterController {
         newVersionOfTopster.setBody(topster.getBody());
         newVersionOfTopster.setPublic(isPublic.equals("public"));
 
-        newVersionOfTopster.setTopsterContents(new ArrayList<TopsterContent>());
-        topsterRepository.save(newVersionOfTopster); //maybe saving over it with an empty topster content array will fix issues?
-        List<TopsterContent> newTopsterContents = TopsterCreation.editTopster(newVersionOfTopster, topsterType, srcs, titles, artists, releaseDates, positions, spotifyIDs, albumRepository, topsterContentRepository, validation);
+//        Edits that increase the size work, but commenting out to see if this helps with edits that decrease size
+//        newVersionOfTopster.setTopsterContents(new ArrayList<TopsterContent>());
+//        topsterRepository.save(newVersionOfTopster); //maybe saving over it with an empty topster content array will fix issues?
+        List<TopsterContent> newTopsterContents = TopsterCreation.editTopster(newVersionOfTopster, topsterType, srcs, titles, artists, releaseDates, positions, spotifyIDs, albumRepository, topsterContentRepository, topsterRepository, validation);
         newVersionOfTopster.setTopsterContents(newTopsterContents);
 
         topsterRepository.save(newVersionOfTopster);
