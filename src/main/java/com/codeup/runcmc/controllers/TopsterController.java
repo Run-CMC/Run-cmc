@@ -72,6 +72,12 @@ public class TopsterController {
         if(!SecurityContextHolder.getContext().getAuthentication().getPrincipal().equals("anonymousUser")) {
             User principal = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
             User currentUser = userRepository.getById(principal.getId());
+
+            //this if should redirect users who did not create the given topster
+            if(currentUser.getId() != topsterRepository.getById(id).getUser().getId()){
+//                System.out.println("You're not the right user. Redirecting.");
+                return "redirect:/discover";
+            }
             viewModel.addAttribute("user", currentUser);
         }
         TokenResponse authToken = restTemplateTokenRequester.requestAccessToken();

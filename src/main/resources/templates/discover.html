@@ -70,6 +70,18 @@
                 </div>
                 <!-- ^ END OF DELETE BUTTON -->
 
+                <!-- Edit BUTTON -->
+                <div sec:authorize="isAuthenticated()">
+                    <div th:if="${#authentication.principal.id == topster.user.id}">
+                        <small class="text-muted text-end">
+                            <a th:href="@{'/edit-topster/' + ${topster.id}}">
+                                <i class="far fa-edit mb-5 ml-1"></i>
+                            </a>
+                        </small>
+                    </div>
+                </div>
+                <!-- ^ END OF Edit BUTTON -->
+
                 <!-- COMMENT COUNT -->
                 <div class="col-1 d-flex justify-content-end">
                     <small class="text-muted text-end">
