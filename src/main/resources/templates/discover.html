@@ -71,11 +71,11 @@
                 <!-- ^ END OF DELETE BUTTON -->
 
                 <!-- Edit BUTTON -->
-                <div sec:authorize="isAuthenticated()">
-                    <div th:if="${#authentication.principal.id == topster.user.id}">
+                <div sec:authorize="isAuthenticated()" >
+                    <div th:if="${#authentication.principal.id == topster.user.id}" class="edit-div">
                         <small class="text-muted text-end">
                             <a th:href="@{'/edit-topster/' + ${topster.id}}">
-                                <i class="fa fa-edit text-muted mb-5 ml-1"></i>
+                                <i class="fa fa-edit text-muted ml-1"></i>
                             </a>
                         </small>
                     </div>

@@ -8,6 +8,17 @@ main {
     margin-right: 3px;
 }
 
+.edit-div{
+    display: flex;
+    justify-content: center;
+}
+.fa-edit{
+    margin-right: .75rem;
+    margin-left: .25rem;
+    margin-top: -5px;
+
+}
+
 .topster-main {
     margin-top: 5px;
 }
