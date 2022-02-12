@@ -187,7 +187,7 @@
 
                                 <!-- Edit BUTTON -->
                                 <div sec:authorize="isAuthenticated()">
-                                    <div th:if="${#authentication.principal.id == topster.user.id}">
+                                    <div th:if="${#authentication.principal.id == topster.user.id}" class="vertical-center">
                                         <small class="text-muted text-end">
                                             <a th:href="@{'/edit-topster/' + ${topster.id}}">
                                                 <i class="fa fa-edit text-muted ml-1"></i>

@@ -8,15 +8,16 @@ main {
     margin-right: 3px;
 }
 
-.edit-div{
+.vertical-center{
     display: flex;
     justify-content: center;
 }
-.fa-edit{
+.icon-spacing{
     margin-right: .75rem;
-    margin-left: .25rem;
-    margin-top: -5px;
+}
 
+.fa-trash{
+    margin-right: .5rem;
 }
 
 .topster-main {
