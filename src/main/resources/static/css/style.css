@@ -8,6 +8,22 @@ main {
     margin-right: 3px;
 }
 
+.vertical-center{
+    display: flex;
+    justify-content: center;
+}
+.icon-spacing{
+    margin-right: .75rem;
+}
+
+.more-icon-spacing{
+    margin-right: 1rem;
+}
+
+.fa-trash{
+
+}
+
 .topster-main {
     margin-top: 5px;
 }

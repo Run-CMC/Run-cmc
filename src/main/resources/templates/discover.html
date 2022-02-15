@@ -47,10 +47,10 @@
             <!-- ^ END OF TOPSTER TITLE -->
 
 
-            <div class="d-flex">
+            <div class="d-flex justify-content-between">
 
                 <!-- CREATED BY -->
-                <div class="col-9">
+                <div class="col-8">
                     <small class="text-muted"
                            th:text="'Created by: ' + ${topster.user.username}">
                     </small>
@@ -61,7 +61,7 @@
                 <div sec:authorize="isAuthenticated()">
                     <div th:if="${#authentication.principal.id == topster.user.id}">
                         <form th:action="@{'/topster/' + ${topster.id} + '/delete'}" method="post"
-                              class="col-1 d-flex justify-content-end">
+                              class="d-flex">
                             <small class="text-muted text-end">
                                 <i class="fa fa-trash" onclick="deleteConfirm(event)"></i>
                             </small>
@@ -71,11 +71,11 @@
                 <!-- ^ END OF DELETE BUTTON -->
 
                 <!-- Edit BUTTON -->
-                <div sec:authorize="isAuthenticated()">
-                    <div th:if="${#authentication.principal.id == topster.user.id}">
+                <div sec:authorize="isAuthenticated()" >
+                    <div th:if="${#authentication.principal.id == topster.user.id}" class="vertical-center">
                         <small class="text-muted text-end">
                             <a th:href="@{'/edit-topster/' + ${topster.id}}">
-                                <i class="fa fa-edit text-muted mb-5 ml-1"></i>
+                                <i class="fa fa-edit text-muted"></i>
                             </a>
                         </small>
                     </div>
@@ -83,7 +83,7 @@
                 <!-- ^ END OF Edit BUTTON -->
 
                 <!-- COMMENT COUNT -->
-                <div class="col-1 d-flex justify-content-end">
+                <div class="d-flex">
                     <small class="text-muted text-end">
                         <i class="fa fa-comment"></i>
                     </small>
@@ -93,8 +93,8 @@
                 <!-- ^ END OF COMMENT COUNT -->
 
                 <!-- FAVORITES BUTTON -->
-                <div class="col-1 d-flex justify-content-end" th:switch="${#authentication} ? ${#authorization.expression('isAuthenticated()')} : ${false}">
-                    <div th:case="${false}">
+                <div class="d-flex" th:switch="${#authentication} ? ${#authorization.expression('isAuthenticated()')} : ${false}">
+                    <div th:case="${false}" class="vertical-center">
                         <small class="text-muted text-end">
                             <i class="far fa-heart" id="heart"></i>
                         </small>
@@ -102,7 +102,7 @@
                     <div th:case="${true}">
                         <form th:if="${#lists.contains(user.favoritedTopsters, topster)}" method="post"
                               th:action="@{'/favorites/user/' + ${user.id} + '/topster/' + ${topster.id} + '/remove'}"
-                              id="form1">
+                              id="form1" class="vertical-center">
                             <small class="text-muted text-end">
                                 <i class="fas fa-heart" onclick="clickHeart1(event)" id="heart1"></i>
                             </small>
@@ -112,7 +112,7 @@
                         </form>
                         <form th:if="${!#lists.contains(user.favoritedTopsters, topster)}" method="post"
                               th:action="@{'/favorites/user/' + ${user.id} + '/topster/' + ${topster.id}}"
-                              id="form2">
+                              id="form2" class="vertical-center">
                             <small class="text-muted text-end">
                                 <i class="far fa-heart" onclick="clickHeart2(event)" id="heart2"></i>
                             </small>
