@@ -35,10 +35,10 @@
             <!-- TOPSTER HEADER -->
             <div class="d-flex">
                 <!-- DELETE BUTTON -->
-                <span sec:authorize="isAuthenticated()">
+                <span sec:authorize="isAuthenticated()" class="more-icon-spacing">
 				    <div th:if="${#authentication.principal.id == topster.user.id}"
-                         class="col-1 d-flex justify-content-end">
-					    <form th:action="@{'/topster/' + ${topster.id} + '/delete'}" method="post">
+                         class="d-flex">
+					    <form th:action="@{'/topster/' + ${topster.id} + '/delete'}" method="post" class="vertical-center">
                             <small class="text-muted text-end">
                                 <i class="fa fa-trash" onclick="deleteConfirm(event)"></i>
                             </small>
@@ -47,7 +47,7 @@
 			    </span>
 
                 <!-- Edit BUTTON -->
-                <div sec:authorize="isAuthenticated()">
+                <div sec:authorize="isAuthenticated()" class="d-flex more-icon-spacing">
                     <div th:if="${#authentication.principal.id == topster.user.id}" class="vertical-center">
                         <small class="text-muted text-end">
                             <a th:href="@{'/edit-topster/' + ${topster.id}}">
@@ -59,7 +59,7 @@
                 <!-- ^ END OF Edit BUTTON -->
 
                 <!-- COMMENT COUNT -->
-                <div class="col-1 d-flex justify-content-end">
+                <div class="d-flex">
                     <small class="text-muted text-end">
                         <i class="fa fa-comment"></i>
                     </small>
@@ -69,14 +69,14 @@
                 </div>
 
                 <!-- FAVORITE BUTTON -->
-                <div class="col-1 d-flex justify-content-end">
+                <div class="d-flex vertical-center">
                     <div th:switch="${#authentication} ? ${#authorization.expression('isAuthenticated()')} : ${false}">
-                        <span th:case="${false}">
+                        <span th:case="${false}" class="vertical-center">
                             <small class="text-muted text-end">
                                 <i class="far fa-heart" id="heart"></i>
                             </small>
                         </span>
-                        <span th:case="${true}">
+                        <span th:case="${true}" class="vertical-center">
                             <form th:if="${#lists.contains(user.favoritedTopsters, topster)}" method="post"
                                   th:action="@{'/favorites/user/' + ${user.id} + '/topster/' + ${topster.id} + '/remove'}"
                                   id="form1">
