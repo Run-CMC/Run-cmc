@@ -104,7 +104,7 @@
                               th:action="@{'/favorites/user/' + ${user.id} + '/topster/' + ${topster.id} + '/remove'}"
                               id="form1" class="vertical-center">
                             <small class="text-muted text-end">
-                                <i class="fas fa-heart" onclick="clickHeart1(event)" id="heart1"></i>
+                                <i class="fas fa-heart" onclick="clickHeart1()" id="heart1" th:data-topsterid="${topster.id}"></i>
                             </small>
                             <small class="text-muted"
                                    th:text="'&nbsp;' + ${#lists.size(topster.usersWhoFavorited)}">
@@ -114,7 +114,7 @@
                               th:action="@{'/favorites/user/' + ${user.id} + '/topster/' + ${topster.id}}"
                               id="form2" class="vertical-center">
                             <small class="text-muted text-end">
-                                <i class="far fa-heart" onclick="clickHeart2(event)" id="heart2"></i>
+                                <i class="far fa-heart" onclick="clickHeart2()" id="heart2" th:data-topsterid="${topster.id}"></i>
                             </small>
                             <small class="text-muted"
                                    th:text="'&nbsp;' + ${#lists.size(topster.usersWhoFavorited)}">
@@ -177,6 +177,7 @@
 
 
 </main>
+This script facilitates the original favorites solution with the on click functions
 <script>
     function clickHeart1(event) {
         event.target.parentNode.parentNode.submit();
@@ -189,6 +190,7 @@
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"
         integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4=" crossorigin="anonymous"></script>
 <script src="../js/delete-topster.js"></script>
+<script src="../js/favorite.js"></script>
 <script th:replace="partials/partials :: md-js"></script>
 </body>
 </html>
