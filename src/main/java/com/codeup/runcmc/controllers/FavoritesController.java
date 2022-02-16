@@ -4,6 +4,7 @@ import com.codeup.runcmc.models.Topster;
 import com.codeup.runcmc.models.User;
 import com.codeup.runcmc.repositories.TopsterRepository;
 import com.codeup.runcmc.repositories.UserRepository;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -17,6 +18,18 @@ public class FavoritesController {
 		this.topsterRepository = topsterRepository;
 		this.userRepository = userRepository;
 	}
+
+//	@PostMapping("/favorites/topster/{tid}")
+//	public String favoriteATopster(@PathVariable long tid){
+//		if(!SecurityContextHolder.getContext().getAuthentication().getPrincipal().equals("anonymousUser")) {
+//			User userThatFavorited = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+//			System.out.println("User that favorited: "+userThatFavorited.getId() + " id of topster to favorite "+ tid);
+//			Topster TopsterToAddToFavorites = topsterRepository.getById(tid);
+//			userThatFavorited.addToFavorites(TopsterToAddToFavorites);
+//			userRepository.save(userThatFavorited);
+//		}
+//		return "redirect:/discover/topster/" + tid;
+//	}
 
 	@PostMapping("/favorites/user/{uid}/topster/{tid}")
 	public String favoriteATopster(@PathVariable long uid, @PathVariable long tid){
