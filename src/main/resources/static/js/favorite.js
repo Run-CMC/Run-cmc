@@ -5,11 +5,13 @@ function favoriteClick(e){
     // console.log(data);
     fetch(`/favorites/topster/${data}`,{
         method: 'POST',
-        credentials: 'include',
+        credentials: "same-origin",
         headers: {
-        'Content-Type': 'application/json'
-        },
-        body: JSON.stringify("")
+        'Content-Type': 'text/plain',
+        'Content-Length': 0,
+        'Accept': '*/*'
+        }
+
     }).then(response => console.log(response))
         .catch(error => console.error(error));
 
