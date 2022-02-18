@@ -10,6 +10,8 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.util.ArrayList;
+
 @RestController
 public class FavoritesController {
 	private TopsterRepository topsterRepository;
@@ -20,27 +22,37 @@ public class FavoritesController {
 		this.userRepository = userRepository;
 	}
 
-//	@PostMapping("/favorites/topster/{tid}")
-//	public void favoriteATopster(@PathVariable long tid){
-//		System.out.println("Post method is firing");
-//		if(!SecurityContextHolder.getContext().getAuthentication().getPrincipal().equals("anonymousUser") && topsterRepository.existsById(tid)) {
-//			User userThatFavorited = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+	@PostMapping("/favorites/topster/{tid}")
+	public void favoriteButton(@PathVariable long tid){
+		System.out.println("Post method is firing");
+		if(!SecurityContextHolder.getContext().getAuthentication().getPrincipal().equals("anonymousUser") && topsterRepository.existsById(tid)) {
+			User principal = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+			User userThatFavoritedOrUnfavorited = userRepository.getById(principal.getId());
 //			System.out.println("User that favorited: "+userThatFavorited.getId() + " id of topster to favorite "+ tid);
-//			Topster TopsterToAddToFavorites = topsterRepository.getById(tid);
-//			userThatFavorited.addToFavorites(TopsterToAddToFavorites);
-//			userRepository.save(userThatFavorited);
-//		}
-////		return "redirect:/discover/topster/" + tid;
-//	}
+			Topster topsterSelectionToFavoriteOrUnfavorite = topsterRepository.getById(tid);
+			if(userThatFavoritedOrUnfavorited.getFavoritedTopsters() == null){
+				userThatFavoritedOrUnfavorited.setFavoritedTopsters(new ArrayList<Topster>());
+			}
 
-	@PostMapping("/favorites/user/{uid}/topster/{tid}")
-	public String favoriteATopster(@PathVariable long uid, @PathVariable long tid){
-		User userThatFavorited = userRepository.getById(uid);
-		Topster TopsterToAddToFavorites = topsterRepository.getById(tid);
-		userThatFavorited.addToFavorites(TopsterToAddToFavorites);
-		userRepository.save(userThatFavorited);
-		return "redirect:/discover/topster/" + tid;
+			if (!userThatFavoritedOrUnfavorited.getFavoritedTopsters().contains(topsterSelectionToFavoriteOrUnfavorite)){
+				userThatFavoritedOrUnfavorited.addToFavorites(topsterSelectionToFavoriteOrUnfavorite);
+				userRepository.save(userThatFavoritedOrUnfavorited);
+			} else{
+				userThatFavoritedOrUnfavorited.removeFromFavorites(topsterSelectionToFavoriteOrUnfavorite);
+				userRepository.save(userThatFavoritedOrUnfavorited);
+			}
+		}
+//		return "redirect:/discover/topster/" + tid;
 	}
+
+//	@PostMapping("/favorites/user/{uid}/topster/{tid}")
+//	public String favoriteATopster(@PathVariable long uid, @PathVariable long tid){
+//		User userThatFavorited = userRepository.getById(uid);
+//		Topster TopsterToAddToFavorites = topsterRepository.getById(tid);
+//		userThatFavorited.addToFavorites(TopsterToAddToFavorites);
+//		userRepository.save(userThatFavorited);
+//		return "redirect:/discover/topster/" + tid;
+//	}
 
 	@PostMapping("/favorites/user/{uid}/topster/{tid}/remove")
 	public String removeAFavoriteTopster(@PathVariable long uid, @PathVariable long tid){
