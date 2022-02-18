@@ -104,7 +104,7 @@
                               th:action="@{'/favorites/user/' + ${user.id} + '/topster/' + ${topster.id} + '/remove'}"
                               id="form1" class="vertical-center">
                             <small class="text-muted text-end">
-                                <i class="fas fa-heart" onclick="clickHeart1()" id="heart1" th:data-topsterid="${topster.id}"></i>
+                                <i class="fas fa-heart" onclick="favoriteClick(event)" id="heart1" th:data-topsterid="${topster.id}"></i>
                             </small>
                             <small class="text-muted"
                                    th:text="'&nbsp;' + ${#lists.size(topster.usersWhoFavorited)}">
@@ -114,7 +114,7 @@
                               th:action="@{'/favorites/user/' + ${user.id} + '/topster/' + ${topster.id}}"
                               id="form2" class="vertical-center">
                             <small class="text-muted text-end">
-                                <i class="far fa-heart" onclick="clickHeart2()" id="heart2" th:data-topsterid="${topster.id}"></i>
+                                <i class="far fa-heart" onclick="favoriteClick(event)" id="heart2" th:data-topsterid="${topster.id}"></i>
                             </small>
                             <small class="text-muted"
                                    th:text="'&nbsp;' + ${#lists.size(topster.usersWhoFavorited)}">
