@@ -1,6 +1,9 @@
 'use strict';
 
 function favoriteClick(e){
+    //https://stackoverflow.com/a/68063240
+    let token = $("meta[name='_csrf']").attr("content");
+    let header = $("meta[name='_csrf_header']").attr("content");
     let data = e.target.dataset.topsterid;
     console.log(e.target.parentNode.nextSibling.nextSibling.outerHTML);
     let currentDisplayedNumberOfFavoritesOnTarget = parseInt((e.target.parentNode.nextSibling.nextSibling.innerText).substring(1));
@@ -8,6 +11,7 @@ function favoriteClick(e){
         method: 'POST',
         credentials: "same-origin",
         headers: {
+        [header]: token,
         'Content-Type': 'text/plain',
         'Content-Length': 0,
         'Accept': '*/*'
