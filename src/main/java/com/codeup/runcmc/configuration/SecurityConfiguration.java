@@ -60,6 +60,6 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
         ;
 //                This line seems to resolve the 403 error issue with making fetch requests to favorites
 //                  It may introduce unwanted vulnerabilities, however.
-        http.csrf().disable();
+//        http.csrf().disable();
     }
 }
