@@ -208,31 +208,31 @@
                                 <!-- ^ END OF COMMENT COUNT -->
 
                                 <!-- FAVORITES BUTTON -->
-                                <div class="col-1 d-flex justify-content-end"
-                                     th:switch="${#authentication} ? ${#authorization.expression('isAuthenticated()')} : ${false}">
-                                    <div th:case="${false}">
+                                <div class="d-flex" th:switch="${#authentication} ? ${#authorization.expression('isAuthenticated()')} : ${false}">
+                                    <div th:case="${false}" class="vertical-center">
                                         <small class="text-muted text-end">
                                             <i class="far fa-heart" id="heart"></i>
-                                        </small>
-                                        <small class="text-muted" th:text="'&nbsp;' + ${#lists.size(topster.usersWhoFavorited)}">
                                         </small>
                                     </div>
                                     <div th:case="${true}">
                                         <form th:if="${#lists.contains(user.favoritedTopsters, topster)}" method="post"
                                               th:action="@{'/favorites/user/' + ${user.id} + '/topster/' + ${topster.id} + '/remove'}"
-                                              id="form1">
+                                              id="form1" class="vertical-center">
                                             <small class="text-muted text-end">
-                                                <i class="fas fa-heart" onclick="clickHeart1(event)" id="heart1"></i>
+                                                <i class="fas fa-heart" onclick="favoriteClick(event)" id="heart1" th:data-topsterid="${topster.id}"></i>
                                             </small>
-                                            <small class="text-muted" th:text="'&nbsp;' + ${#lists.size(topster.usersWhoFavorited)}">
+                                            <small class="text-muted"
+                                                   th:text="'&nbsp;' + ${#lists.size(topster.usersWhoFavorited)}">
                                             </small>
                                         </form>
                                         <form th:if="${!#lists.contains(user.favoritedTopsters, topster)}" method="post"
-                                              th:action="@{'/favorites/user/' + ${user.id} + '/topster/' + ${topster.id}}" id="form2">
+                                              th:action="@{'/favorites/user/' + ${user.id} + '/topster/' + ${topster.id}}"
+                                              id="form2" class="vertical-center">
                                             <small class="text-muted text-end">
-                                                <i class="far fa-heart" onclick="clickHeart2(event)" id="heart2"></i>
+                                                <i class="far fa-heart" onclick="favoriteClick(event)" id="heart2" th:data-topsterid="${topster.id}"></i>
                                             </small>
-                                            <small class="text-muted" th:text="'&nbsp;' + ${#lists.size(topster.usersWhoFavorited)}">
+                                            <small class="text-muted"
+                                                   th:text="'&nbsp;' + ${#lists.size(topster.usersWhoFavorited)}">
                                             </small>
                                         </form>
                                     </div>
@@ -337,7 +337,10 @@
         </div>
     </div>
 </div>
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"
+        integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4=" crossorigin="anonymous"></script>
 <script th:replace="partials/partials.html :: md-js"></script>
+<script src="../js/favorite.js"></script>
 <script src="/keys.js"></script>
 </body>
 </html>
