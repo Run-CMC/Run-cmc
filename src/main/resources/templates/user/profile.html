@@ -26,7 +26,7 @@
                             <h6>Username:</h6>
                             <h4 th:text="*{username}"></h4>
                             <br>
-                            <a th:href="@{'/profile-edit/' + *{id}}"><h6>Edit profile</h6><i
+                            <a th:object="${currentUser}" th:if="${currentUser.id} == *{id}" th:href="@{'/profile-edit/' + *{id}}"><h6>Edit profile</h6><i
                                     class="far fa-edit mb-5 ml-1"></i></a>
                         </div>
 
@@ -216,8 +216,8 @@
                                             </small>
                                         </div>
                                         <div th:case="${true}">
-                                            <form th:if="${#lists.contains(user.favoritedTopsters, topster)}" method="post"
-                                                  th:action="@{'/favorites/user/' + ${user.id} + '/topster/' + ${topster.id} + '/remove'}"
+                                            <form th:if="${#lists.contains(currentUser.favoritedTopsters, topster)}" method="post"
+                                                  th:action="@{'/favorites/user/' + ${currentUser.id} + '/topster/' + ${topster.id} + '/remove'}"
                                                   id="form1" class="vertical-center">
                                                 <small class="text-muted text-end">
                                                     <i class="fas fa-heart" onclick="favoriteClick(event)" id="heart1" th:data-topsterid="${topster.id}"></i>
@@ -226,8 +226,8 @@
                                                        th:text="'&nbsp;' + ${#lists.size(topster.usersWhoFavorited)}">
                                                 </small>
                                             </form>
-                                            <form th:if="${!#lists.contains(user.favoritedTopsters, topster)}" method="post"
-                                                  th:action="@{'/favorites/user/' + ${user.id} + '/topster/' + ${topster.id}}"
+                                            <form th:if="${!#lists.contains(currentUser.favoritedTopsters, topster)}" method="post"
+                                                  th:action="@{'/favorites/user/' + ${currentUser.id} + '/topster/' + ${topster.id}}"
                                                   id="form2" class="vertical-center">
                                                 <small class="text-muted text-end">
                                                     <i class="far fa-heart" onclick="favoriteClick(event)" id="heart2" th:data-topsterid="${topster.id}"></i>

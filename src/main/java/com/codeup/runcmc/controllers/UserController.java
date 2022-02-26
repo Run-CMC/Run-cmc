@@ -15,6 +15,7 @@ import org.springframework.ui.Model;
 import org.springframework.validation.Errors;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 
 import javax.validation.Valid;
@@ -51,6 +52,23 @@ public class UserController {
 			User principal = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
 			User currentUser = userDao.getById(principal.getId());
 			viewModel.addAttribute("user", currentUser);
+			viewModel.addAttribute("currentUser", currentUser);
+			return "user/profile.html";
+		}
+	}
+
+	@GetMapping("/profile/{id}")
+	String showProfileOfOtherUser(@PathVariable long id, Model viewModel){
+		if(SecurityContextHolder.getContext().getAuthentication().getPrincipal().equals("anonymousUser")) {
+			System.out.println("redirecting");
+			return "redirect:/";
+		} else {
+			System.out.println(id);
+			User principal = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+			User currentUser = userDao.getById(principal.getId());
+			User userWhoseProfileWeAreGetting = userDao.getById(id);
+			viewModel.addAttribute("user", userWhoseProfileWeAreGetting);
+			viewModel.addAttribute("currentUser", currentUser);
 			return "user/profile.html";
 		}
 	}
