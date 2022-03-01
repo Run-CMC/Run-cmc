@@ -51,9 +51,11 @@
 
                 <!-- CREATED BY -->
                 <div class="col-8">
-                    <small class="text-muted"
-                           th:text="'Created by: ' + ${topster.user.username}">
-                    </small>
+                    <a th:href="@{'/profile/'+${topster.user.id}}">
+                        <small class="text-muted"
+                               th:text="'Created by: ' + ${topster.user.username}">
+                        </small>
+                    </a>
                 </div>
                 <!-- END OF CREATED BY -->
 
