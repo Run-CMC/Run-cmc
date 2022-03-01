@@ -54,7 +54,9 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
                 .antMatchers(
             "/create-topster", // only authenticated users can create posts (CHANGE THIS TO CREATE TOPSTERS)
                         "/profile-edit",
-                        "/favorites/topster/{tid}"
+                        "/favorites/topster/{tid}",
+                        "/profile/{id}",
+                        "/profile"
                 )
                 .authenticated()
         ;

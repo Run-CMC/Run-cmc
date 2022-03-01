@@ -32,6 +32,10 @@ public class ProfileEditController {
     }
     @GetMapping("/profile-edit/{id}")
     public String profileEdit(Model viewModel, @PathVariable long id) {
+        User principal = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        if(id != principal.getId()){
+            return "redirect:/profile";
+        }
         viewModel.addAttribute("user", userDao.getById(id));
         return "user/profile-edit.html";
     }
