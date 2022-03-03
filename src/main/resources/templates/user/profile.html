@@ -194,7 +194,7 @@
                                     <div sec:authorize="isAuthenticated()">
                                         <div th:if="${#authentication.principal.id == topster.user.id}">
                                             <form th:action="@{'/topster/' + ${topster.id} + '/delete'}" method="post"
-                                                  class="d-flex">
+                                                  class="d-flex clickable">
                                                 <small class="text-muted text-end">
                                                     <i class="fa fa-trash" onclick="deleteConfirm(event)"></i>
                                                 </small>
@@ -236,7 +236,7 @@
                                             <form th:if="${#lists.contains(currentUser.favoritedTopsters, topster)}" method="post"
                                                   th:action="@{'/favorites/user/' + ${currentUser.id} + '/topster/' + ${topster.id} + '/remove'}"
                                                   id="form1" class="vertical-center">
-                                                <small class="text-muted text-end">
+                                                <small class="text-muted text-end clickable">
                                                     <i class="fas fa-heart" onclick="favoriteClick(event)" id="heart1" th:data-topsterid="${topster.id}"></i>
                                                 </small>
                                                 <small class="text-muted"
@@ -246,7 +246,7 @@
                                             <form th:if="${!#lists.contains(currentUser.favoritedTopsters, topster)}" method="post"
                                                   th:action="@{'/favorites/user/' + ${currentUser.id} + '/topster/' + ${topster.id}}"
                                                   id="form2" class="vertical-center">
-                                                <small class="text-muted text-end">
+                                                <small class="text-muted text-end clickable">
                                                     <i class="far fa-heart" onclick="favoriteClick(event)" id="heart2" th:data-topsterid="${topster.id}"></i>
                                                 </small>
                                                 <small class="text-muted"
@@ -337,7 +337,7 @@
                             <div sec:authorize="isAuthenticated()">
                                 <div th:if="${#authentication.principal.id == topster.user.id}">
                                     <form th:action="@{'/topster/' + ${topster.id} + '/delete'}" method="post"
-                                          class="d-flex">
+                                          class="d-flex clickable">
                                         <small class="text-muted text-end">
                                             <i class="fa fa-trash" onclick="deleteConfirm(event)"></i>
                                         </small>
@@ -379,7 +379,7 @@
                                     <form th:if="${#lists.contains(currentUser.favoritedTopsters, topster)}" method="post"
                                           th:action="@{'/favorites/user/' + ${currentUser.id} + '/topster/' + ${topster.id} + '/remove'}"
                                           id="form1" class="vertical-center">
-                                        <small class="text-muted text-end">
+                                        <small class="text-muted text-end clickable">
                                             <i class="fas fa-heart" onclick="favoriteClick(event)" id="heart1" th:data-topsterid="${topster.id}"></i>
                                         </small>
                                         <small class="text-muted"
@@ -389,7 +389,7 @@
                                     <form th:if="${!#lists.contains(currentUser.favoritedTopsters, topster)}" method="post"
                                           th:action="@{'/favorites/user/' + ${currentUser.id} + '/topster/' + ${topster.id}}"
                                           id="form2" class="vertical-center">
-                                        <small class="text-muted text-end">
+                                        <small class="text-muted text-end clickable">
                                             <i class="far fa-heart" onclick="favoriteClick(event)" id="heart2" th:data-topsterid="${topster.id}"></i>
                                         </small>
                                         <small class="text-muted"
