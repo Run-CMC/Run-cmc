@@ -32,6 +32,10 @@ main {
     margin-top: 0;
 }
 
+.clickable{
+    cursor: pointer;
+}
+
 #3x3 {
 }
 
