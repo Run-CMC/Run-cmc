@@ -3,6 +3,11 @@ main {
     margin-right: 100px;
 }
 
+small{
+    /*this rule gets the fontawesome icons to a good size on mobile. Media query??*/
+    /*font-size: 2rem;*/
+}
+
 .fa-play {
     margin-left: 3px;
     margin-right: 3px;
