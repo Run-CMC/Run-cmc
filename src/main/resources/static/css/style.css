@@ -3,11 +3,6 @@ main {
     margin-right: 100px;
 }
 
-small{
-    /*this rule gets the fontawesome icons to a good size on mobile. Media query??*/
-    /*font-size: 2rem;*/
-}
-
 .fa-play {
     margin-left: 3px;
     margin-right: 3px;
@@ -252,4 +247,16 @@ small{
                 rgba(91, 14, 214, 0.7) 100%
         );
     }
+}
+
+@media screen and (max-width:450px) {
+    small{
+        /*this rule gets the fontawesome icons to a good size on mobile. Media query??*/
+        font-size: 1.1rem;
+        margin-top: .5rem;
+    }
+    small i{
+        font-size: 1.25rem;
+    }
+
 }

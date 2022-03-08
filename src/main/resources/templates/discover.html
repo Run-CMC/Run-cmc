@@ -41,16 +41,16 @@
             <!-- TOPSTER TITLE -->
             <div class="d-flex justify-content-between">
                 <a th:href="@{'/discover/topster/' + ${topster.id}}" class="">
-                    <h4 class="mb-0 link-light" th:text="${topster.title}"></h4>
+                    <h2 class="mb-0 link-light" th:text="${topster.title}"></h2>
                 </a>
             </div>
             <!-- ^ END OF TOPSTER TITLE -->
 
 
-            <div class="d-flex justify-content-between">
+            <div class="d-flex flex-wrap justify-content-between align-items-center mt-2 mb-2 mt-sm-0 mb-sm-0">
 
                 <!-- CREATED BY -->
-                <div class="col-8">
+                <div class="col-12 col-sm-8 ">
                     <a th:href="@{'/profile/'+${topster.user.id}}">
                         <small class="text-muted"
                                th:text="'Created by: ' + ${topster.user.username}">
