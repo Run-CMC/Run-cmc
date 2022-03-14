@@ -47,7 +47,7 @@
 			    </span>
 
                 <!-- Edit BUTTON -->
-                <div sec:authorize="isAuthenticated()" class="d-flex more-icon-spacing">
+                <div sec:authorize="isAuthenticated()" class="d-flex">
                     <div th:if="${#authentication.principal.id == topster.user.id}" class="vertical-center">
                         <small class="text-muted text-end">
                             <a th:href="@{'/edit-topster/' + ${topster.id}}">
@@ -59,7 +59,7 @@
                 <!-- ^ END OF Edit BUTTON -->
 
                 <!-- COMMENT COUNT -->
-                <div class="d-flex icon-spacing">
+                <div class="d-flex">
                     <small class="text-muted text-end">
                         <i class="fa fa-comment"></i>
                     </small>

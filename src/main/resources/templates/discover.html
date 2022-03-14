@@ -36,7 +36,9 @@
     <div th:object="${topster}" class="row d-flex justify-content-around">
 
         <!-- TOPSTER  -->
-        <div class="col-xs-12 col-lg-5 p-2 my-4 card bg-dark align-self-center" th:each="topster : ${topster}">
+<!--        https://stackoverflow.com/questions/46443563/thymeleaf-how-to-loop-through-a-list-in-inverse-order
+this solution seems to make the topsters render in reverse order so new stuff is at the top. should research why later -->
+        <div class="col-xs-12 col-lg-5 p-2 my-4 card bg-dark align-self-center" th:each="i : ${#numbers.sequence(topster.size() - 1, 0, -1)}" th:with="topster=${topster[i]}">
 
             <!-- TOPSTER TITLE -->
             <div class="d-flex justify-content-between">
