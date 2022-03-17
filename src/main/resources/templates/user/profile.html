@@ -168,7 +168,8 @@
                     <div th:object="${topster}" class="row d-flex justify-content-around">
 
                         <!-- TOPSTER  -->
-                        <div class="col-xs-12 col-lg-5 p-2 mb-2 card bg-dark align-self-center" th:each="topster : ${user.topsters}">
+                        <div class="col-xs-12 col-lg-5 p-2 mb-2 card bg-dark align-self-center"
+                             th:each="i : ${#numbers.sequence(user.topsters.size() - 1, 0, -1)}" th:with="topster=${user.topsters[i]}">
 
                             <!-- TOPSTER TITLE -->
                             <div class="d-flex justify-content-between">
@@ -297,19 +298,9 @@
                                 </div>
                             </div>
                             <!-- ^ END OF TOPSTER ART -->
-
                         </div>
                         <!-- ^ END OF TOPSTER -->
-
                     </div>
-
-
-
-
-
-
-
-
                 </div>
             </div>
         </div>
@@ -317,7 +308,8 @@
              aria-labelledby="favorite-topsters-tab">
             <div class="row d-flex justify-content-around">
                 <div class="row col-12 col-md-5 p-2 mb-2 mx-3 border border-dark justify-content-around"
-                     th:each="topster : ${user.favoritedTopsters}">
+
+                     th:each="i : ${#numbers.sequence(user.favoritedTopsters.size() - 1, 0, -1)}" th:with="topster=${user.favoritedTopsters[i]}">
                     <div class="d-flex justify-content-between">
                         <h2 class="mb-0" style="color: white;" th:text="${topster.title}"></h2>
                     </div>
