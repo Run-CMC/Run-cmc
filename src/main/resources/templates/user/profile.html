@@ -190,76 +190,79 @@
                                 </div>
                                 <!-- ^ END OF CREATED BY -->
 
+                                <!-- Start Controls -->
+                                <div class="d-flex justify-content-around col-12 col-sm-4">
+                                    <!-- DELETE BUTTON -->
+                                    <div sec:authorize="isAuthenticated()">
+                                        <div th:if="${#authentication.principal.id == topster.user.id}">
+                                            <form th:action="@{'/topster/' + ${topster.id} + '/delete'}" method="post"
+                                                  class="d-flex clickable">
+                                                <small class="text-muted text-end">
+                                                    <i class="fa fa-trash" onclick="deleteConfirm(event)"></i>
+                                                </small>
+                                            </form>
+                                        </div>
+                                    </div>
+                                    <!-- ^ END OF DELETE BUTTON -->
 
-                                <!-- DELETE BUTTON -->
-                                <div sec:authorize="isAuthenticated()">
-                                    <div th:if="${#authentication.principal.id == topster.user.id}">
-                                        <form th:action="@{'/topster/' + ${topster.id} + '/delete'}" method="post"
-                                              class="d-flex clickable">
+                                    <!-- Edit BUTTON -->
+                                    <div sec:authorize="isAuthenticated()">
+                                        <div th:if="${#authentication.principal.id == topster.user.id}" class="vertical-center">
                                             <small class="text-muted text-end">
-                                                <i class="fa fa-trash" onclick="deleteConfirm(event)"></i>
+                                                <a th:href="@{'/edit-topster/' + ${topster.id}}">
+                                                    <i class="fa fa-edit text-muted ml-1"></i>
+                                                </a>
                                             </small>
-                                        </form>
+                                        </div>
                                     </div>
-                                </div>
-                                <!-- ^ END OF DELETE BUTTON -->
+                                    <!-- ^ END OF Edit BUTTON -->
 
-                                <!-- Edit BUTTON -->
-                                <div sec:authorize="isAuthenticated()">
-                                    <div th:if="${#authentication.principal.id == topster.user.id}" class="vertical-center">
+                                    <!-- COMMENT COUNT -->
+                                    <div class="d-flex">
                                         <small class="text-muted text-end">
-                                            <a th:href="@{'/edit-topster/' + ${topster.id}}">
-                                                <i class="fa fa-edit text-muted ml-1"></i>
-                                            </a>
+                                            <i class="fa fa-comment"></i>
+                                        </small>
+                                        <small class="text-muted" th:text="'&nbsp;' + ${#lists.size(topster.comments)}">
                                         </small>
                                     </div>
-                                </div>
-                                <!-- ^ END OF Edit BUTTON -->
+                                    <!-- ^ END OF COMMENT COUNT -->
 
-                                <!-- COMMENT COUNT -->
-                                <div class="d-flex">
-                                    <small class="text-muted text-end">
-                                        <i class="fa fa-comment"></i>
-                                    </small>
-                                    <small class="text-muted" th:text="'&nbsp;' + ${#lists.size(topster.comments)}">
-                                    </small>
+                                    <!-- FAVORITES BUTTON -->
+                                    <div class="d-flex" th:switch="${#authentication} ? ${#authorization.expression('isAuthenticated()')} : ${false}">
+                                        <div th:case="${false}" class="vertical-center">
+                                            <small class="text-muted text-end">
+                                                <i class="far fa-heart" id="heart"></i>
+                                            </small>
+                                        </div>
+                                        <div th:case="${true}">
+                                            <form th:if="${#lists.contains(currentUser.favoritedTopsters, topster)}" method="post"
+                                                  th:action="@{'/favorites/user/' + ${currentUser.id} + '/topster/' + ${topster.id} + '/remove'}"
+                                                  id="form1" class="vertical-center">
+                                                <small class="text-muted text-end clickable">
+                                                    <i class="fas fa-heart" onclick="favoriteClick(event)" id="heart1" th:data-topsterid="${topster.id}"></i>
+                                                </small>
+                                                <small class="text-muted"
+                                                       th:text="'&nbsp;' + ${#lists.size(topster.usersWhoFavorited)}">
+                                                </small>
+                                            </form>
+                                            <form th:if="${!#lists.contains(currentUser.favoritedTopsters, topster)}" method="post"
+                                                  th:action="@{'/favorites/user/' + ${currentUser.id} + '/topster/' + ${topster.id}}"
+                                                  id="form2" class="vertical-center">
+                                                <small class="text-muted text-end clickable">
+                                                    <i class="far fa-heart" onclick="favoriteClick(event)" id="heart2" th:data-topsterid="${topster.id}"></i>
+                                                </small>
+                                                <small class="text-muted"
+                                                       th:text="'&nbsp;' + ${#lists.size(topster.usersWhoFavorited)}">
+                                                </small>
+                                            </form>
+                                        </div>
+                                        <div th:case="*">
+                                            <!-- Should never happen -->
+                                        </div>
+                                    </div>
+                                    <!-- ^ END OF FAVORITE BUTTON -->
                                 </div>
-                                <!-- ^ END OF COMMENT COUNT -->
-
-                                <!-- FAVORITES BUTTON -->
-                                <div class="d-flex" th:switch="${#authentication} ? ${#authorization.expression('isAuthenticated()')} : ${false}">
-                                    <div th:case="${false}" class="vertical-center">
-                                        <small class="text-muted text-end">
-                                            <i class="far fa-heart" id="heart"></i>
-                                        </small>
-                                    </div>
-                                    <div th:case="${true}">
-                                        <form th:if="${#lists.contains(currentUser.favoritedTopsters, topster)}" method="post"
-                                              th:action="@{'/favorites/user/' + ${currentUser.id} + '/topster/' + ${topster.id} + '/remove'}"
-                                              id="form1" class="vertical-center">
-                                            <small class="text-muted text-end clickable">
-                                                <i class="fas fa-heart" onclick="favoriteClick(event)" id="heart1" th:data-topsterid="${topster.id}"></i>
-                                            </small>
-                                            <small class="text-muted"
-                                                   th:text="'&nbsp;' + ${#lists.size(topster.usersWhoFavorited)}">
-                                            </small>
-                                        </form>
-                                        <form th:if="${!#lists.contains(currentUser.favoritedTopsters, topster)}" method="post"
-                                              th:action="@{'/favorites/user/' + ${currentUser.id} + '/topster/' + ${topster.id}}"
-                                              id="form2" class="vertical-center">
-                                            <small class="text-muted text-end clickable">
-                                                <i class="far fa-heart" onclick="favoriteClick(event)" id="heart2" th:data-topsterid="${topster.id}"></i>
-                                            </small>
-                                            <small class="text-muted"
-                                                   th:text="'&nbsp;' + ${#lists.size(topster.usersWhoFavorited)}">
-                                            </small>
-                                        </form>
-                                    </div>
-                                    <div th:case="*">
-                                        <!-- Should never happen -->
-                                    </div>
-                                </div>
-                                <!-- ^ END OF FAVORITE BUTTON -->
+                                <!-- ^ END OF CONTROLS -->
                             </div>
                             <!-- ^ END OF TOPSTER HEADER -->
 
@@ -324,75 +327,79 @@
                         </div>
                         <!-- ^ END OF CREATED BY -->
 
-                        <!-- DELETE BUTTON -->
-                        <div sec:authorize="isAuthenticated()">
-                            <div th:if="${#authentication.principal.id == topster.user.id}">
-                                <form th:action="@{'/topster/' + ${topster.id} + '/delete'}" method="post"
-                                      class="d-flex clickable">
+                        <!-- Start Controls -->
+                        <div class="d-flex justify-content-around col-12 col-sm-4">
+                            <!-- DELETE BUTTON -->
+                            <div sec:authorize="isAuthenticated()">
+                                <div th:if="${#authentication.principal.id == topster.user.id}">
+                                    <form th:action="@{'/topster/' + ${topster.id} + '/delete'}" method="post"
+                                          class="d-flex clickable">
+                                        <small class="text-muted text-end">
+                                            <i class="fa fa-trash" onclick="deleteConfirm(event)"></i>
+                                        </small>
+                                    </form>
+                                </div>
+                            </div>
+                            <!-- ^ END OF DELETE BUTTON -->
+
+                            <!-- Edit BUTTON -->
+                            <div sec:authorize="isAuthenticated()">
+                                <div th:if="${#authentication.principal.id == topster.user.id}" class="vertical-center">
                                     <small class="text-muted text-end">
-                                        <i class="fa fa-trash" onclick="deleteConfirm(event)"></i>
+                                        <a th:href="@{'/edit-topster/' + ${topster.id}}">
+                                            <i class="fa fa-edit text-muted ml-1"></i>
+                                        </a>
                                     </small>
-                                </form>
+                                </div>
                             </div>
-                        </div>
-                        <!-- ^ END OF DELETE BUTTON -->
+                            <!-- ^ END OF Edit BUTTON -->
 
-                        <!-- Edit BUTTON -->
-                        <div sec:authorize="isAuthenticated()">
-                            <div th:if="${#authentication.principal.id == topster.user.id}" class="vertical-center">
+                            <!-- COMMENT COUNT -->
+                            <div class="d-flex">
                                 <small class="text-muted text-end">
-                                    <a th:href="@{'/edit-topster/' + ${topster.id}}">
-                                        <i class="fa fa-edit text-muted ml-1"></i>
-                                    </a>
+                                    <i class="fa fa-comment"></i>
+                                </small>
+                                <small class="text-muted" th:text="'&nbsp;' + ${#lists.size(topster.comments)}">
                                 </small>
                             </div>
-                        </div>
-                        <!-- ^ END OF Edit BUTTON -->
+                            <!-- ^ END OF COMMENT COUNT -->
 
-                        <!-- COMMENT COUNT -->
-                        <div class="d-flex">
-                            <small class="text-muted text-end">
-                                <i class="fa fa-comment"></i>
-                            </small>
-                            <small class="text-muted" th:text="'&nbsp;' + ${#lists.size(topster.comments)}">
-                            </small>
+                            <!-- FAVORITES BUTTON -->
+                            <div class="d-flex" th:switch="${#authentication} ? ${#authorization.expression('isAuthenticated()')} : ${false}">
+                                <div th:case="${false}" class="vertical-center">
+                                    <small class="text-muted text-end">
+                                        <i class="far fa-heart" id="heart"></i>
+                                    </small>
+                                </div>
+                                <div th:case="${true}">
+                                    <form th:if="${#lists.contains(currentUser.favoritedTopsters, topster)}" method="post"
+                                          th:action="@{'/favorites/user/' + ${currentUser.id} + '/topster/' + ${topster.id} + '/remove'}"
+                                          id="form1" class="vertical-center">
+                                        <small class="text-muted text-end clickable">
+                                            <i class="fas fa-heart" onclick="favoriteClick(event)" id="heart1" th:data-topsterid="${topster.id}"></i>
+                                        </small>
+                                        <small class="text-muted"
+                                               th:text="'&nbsp;' + ${#lists.size(topster.usersWhoFavorited)}">
+                                        </small>
+                                    </form>
+                                    <form th:if="${!#lists.contains(currentUser.favoritedTopsters, topster)}" method="post"
+                                          th:action="@{'/favorites/user/' + ${currentUser.id} + '/topster/' + ${topster.id}}"
+                                          id="form2" class="vertical-center">
+                                        <small class="text-muted text-end clickable">
+                                            <i class="far fa-heart" onclick="favoriteClick(event)" id="heart2" th:data-topsterid="${topster.id}"></i>
+                                        </small>
+                                        <small class="text-muted"
+                                               th:text="'&nbsp;' + ${#lists.size(topster.usersWhoFavorited)}">
+                                        </small>
+                                    </form>
+                                </div>
+                                <div th:case="*">
+                                    <!-- Should never happen -->
+                                </div>
+                            </div>
+                            <!-- ^ END OF FAVORITE BUTTON -->
                         </div>
-                        <!-- ^ END OF COMMENT COUNT -->
-
-                        <!-- FAVORITES BUTTON -->
-                        <div class="d-flex" th:switch="${#authentication} ? ${#authorization.expression('isAuthenticated()')} : ${false}">
-                            <div th:case="${false}" class="vertical-center">
-                                <small class="text-muted text-end">
-                                    <i class="far fa-heart" id="heart"></i>
-                                </small>
-                            </div>
-                            <div th:case="${true}">
-                                <form th:if="${#lists.contains(currentUser.favoritedTopsters, topster)}" method="post"
-                                      th:action="@{'/favorites/user/' + ${currentUser.id} + '/topster/' + ${topster.id} + '/remove'}"
-                                      id="form1" class="vertical-center">
-                                    <small class="text-muted text-end clickable">
-                                        <i class="fas fa-heart" onclick="favoriteClick(event)" id="heart1" th:data-topsterid="${topster.id}"></i>
-                                    </small>
-                                    <small class="text-muted"
-                                           th:text="'&nbsp;' + ${#lists.size(topster.usersWhoFavorited)}">
-                                    </small>
-                                </form>
-                                <form th:if="${!#lists.contains(currentUser.favoritedTopsters, topster)}" method="post"
-                                      th:action="@{'/favorites/user/' + ${currentUser.id} + '/topster/' + ${topster.id}}"
-                                      id="form2" class="vertical-center">
-                                    <small class="text-muted text-end clickable">
-                                        <i class="far fa-heart" onclick="favoriteClick(event)" id="heart2" th:data-topsterid="${topster.id}"></i>
-                                    </small>
-                                    <small class="text-muted"
-                                           th:text="'&nbsp;' + ${#lists.size(topster.usersWhoFavorited)}">
-                                    </small>
-                                </form>
-                            </div>
-                            <div th:case="*">
-                                <!-- Should never happen -->
-                            </div>
-                        </div>
-                        <!-- ^ END OF FAVORITE BUTTON -->
+                        <!-- End Controls -->
                     </div>
                     <!-- ^ END OF TOPSTER HEADER -->
                     <div>
