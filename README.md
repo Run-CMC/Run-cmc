@@ -19,7 +19,7 @@ Run-CMC is short for "Run a Curated Music Collage". It is a full-stack applicati
 - Spotify Web API
 - Filestack API
 
-# New Features In Development
+# New Features In Production
 - Ability to edit topsters you created, changing arrangement, size, and contents as desired
 - New fetch-based 'Favorite' solution which will not cause a page reload
 - Minor styling improvements
